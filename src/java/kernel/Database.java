@@ -95,6 +95,7 @@ public class Database {
     //FROM RESULTSET	
     private Adress getAdressFromCurrentRow(ResultSet results){
         return  new Adress(
+                    extractNumber(results,"ID_ADRESS"), //ADD by MDERO
                     extractNumber(results,"Number"),
                     extractString(results, "Street"),
                     extractNumber(results,"ZipCode"),
@@ -122,14 +123,31 @@ public class Database {
                 getCustomer(extractNumber(results, "Id_customers"))
         );
     }
-    private Animals getAnimalsFromCurrentRow(ResultSet results){
-        
+    private Animals getAnimalFromCurrentRow(ResultSet results){
+        return new Animals(
+                getSpecies(extractNumber(results,"Id_species")),
+                extractNumber(results,"NumberBirthday")
+        );
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
-        
+        return new Samples(
+                ""+extractNumber(results,"Id_sample"),
+                extractString(results,"Id_TypeSample") ,//TODO : creer le type TypeSample et ses méthodes ici
+                extractDate(results,"DateSampling"),
+                extractDate(results,"DateStorage"),
+                this.getAnimals(extractNumber(results,"Id_animals"))
+        );
+        //Samples(String Identifier, String Type_sample, Date D_sampling, Date D_storage, Animals anim) {
     }
     private Species getSpeciesFromCurrentRow(ResultSet results){
-        
+        return new Species(
+                getCategoryFromCurrentRow(results),
+                extractString(results,"species")
+        );
+    }
+    private Category getCategoryFromCurrentRow(ResultSet results){
+        //avoid creating a new instance of category with the same id everytime this category is called
+        return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"Name"));
     }
     
     //FROM IDS
@@ -173,52 +191,30 @@ public class Database {
             results.next();
 
             order = this.getOrderFromCurrentRow(results);
-            order = new Orders(
-                    (int) extractNumber(results, "NumberSamples"),
-                    extractDate(results, "DateOrder"),
-                    extractDate(results, "DateDeadline"),
-                    (int) extractNumber(results, "PriorityLevel"),
-                    getCustomer(extractNumber(results, "Id_customers"))
-            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return order;
     }
-
+    public Animals getAnimals(int id){
+        ResultSet results = this.getResultSetFromIdQuery("Animals", id);
+        Animals animal = getAnimalFromCurrentRow(results);
+        return animal;
+    }
+    public Species getSpecies(int id){
+        ResultSet results = this.getResultSetFromIdQuery("Species", id);
+        Species species = getSpeciesFromCurrentRow(results);
+        return species;
+    }
+    public Category getCategory(int id ){
+        ResultSet results = this.getResultSetFromIdQuery("Category", id);
+        Category category = this.getCategoryFromCurrentRow(results);
+        return category;
+    }
+    
     //FROM RESULTSET	
-    private Adress getAdressFromCurrentRow(ResultSet results){
-        return  new Adress(
-                    extractNumber(results,"ID_ADRESS"), //ADD by MDERO
-                    extractNumber(results,"Number"),
-                    extractString(results, "Street"),
-                    extractNumber(results,"ZipCode"),
-                    extractString(results, "City"),
-                    extractString(results, "Country")
-            );
-    }
-    private Customers getCustomerFromCurrentRow(ResultSet results){
-        Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
-        return new Customers(
-                    extractString(results, "FirstName_custo"),
-                    extractString(results, "LastName_custo"),
-                    adress.getNumber(),
-                    adress.getStreet(),
-                    extractString(results, "PhoneNumber_custo"),
-                    extractNumber(results,"Id_Customers")
-            );
-    }
-    private Orders getOrderFromCurrentRow(ResultSet results) {
-        return new Orders(
-                (int) extractNumber(results, "NumberSamples"),
-                extractDate(results, "DateOrder"),
-                extractDate(results, "DateDeadline"),
-                (int) extractNumber(results, "PriorityLevel"),
-                getCustomer(extractNumber(results, "Id_customers"))
-        );
-    }
-
+  
     //LISTS ESTABLISHMENT
     public List<Orders> getOrderList() {
         ArrayList<Orders> orderList = new ArrayList<>();
