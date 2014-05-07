@@ -137,7 +137,6 @@ public class Database {
                 extractDate(results,"DateStorage"),
                 this.getAnimals(extractNumber(results,"Id_animals"))
         );
-        //Samples(String Identifier, String Type_sample, Date D_sampling, Date D_storage, Animals anim) {
     }
     private Species getSpeciesFromCurrentRow(ResultSet results){
         return new Species(
