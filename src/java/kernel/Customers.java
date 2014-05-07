@@ -27,7 +27,11 @@ public class Customers {
   private String email;
 
   private Adress adress;
+  
+  //Mdero
+  private int typeCusto;
 
+// ORIGINAL CONSTRUCTOR
   public Customers(String first, String last, int num, String rue, String phone, int ID) {
     // Bouml preserved body begin 00040A82
 	  Adress ad = new Adress(num, rue);
@@ -36,7 +40,20 @@ public class Customers {
 	  lastName = last;
 	  phoneNumber = phone;
 	  this.ID = ID;
-    // Bouml preserved body end 00040A82
+          //Mdero
+          this.typeCusto = 0;
+     // Bouml preserved body end 00040A82
+  }
+  
+//MDERO
+//Use adress object directly
+    public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
+	  this.adress = adress;
+	  firstName = first;
+	  lastName = last;
+	  phoneNumber = phone;
+	  this.ID = ID;
+          this.typeCusto = typeCusto;
   }
 
   /**
@@ -144,4 +161,14 @@ public class Customers {
     // Bouml preserved body end 00040C02
   }
 
+  
+  //MDero
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public int getTypeCusto() {
+        return typeCusto;
+    }
+  
 }

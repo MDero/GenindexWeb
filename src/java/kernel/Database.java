@@ -227,4 +227,17 @@ public class Database {
         }
 
     }
+    
+    //MDERO
+    public void insertCustomer(Customers c) {
+        try {
+            Statement s = this.connexion.createStatement();
+            s.executeQuery("INSERT INTO Customers values("+
+                    c.getFirstName()+","+
+                    ");");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
