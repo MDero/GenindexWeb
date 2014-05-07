@@ -2,7 +2,7 @@ package genindex;
 
 
  
-
+//classe adresse
 public class Adress {
   /**
    * The number is the number of the street.
