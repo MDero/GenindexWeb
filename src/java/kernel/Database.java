@@ -209,5 +209,13 @@ public class Database {
     }
 
     /* INSERTION METHODS */ 
-    
+    public void insertOrder(Orders order){
+        try {
+            Statement s = this.connexion.createStatement();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
