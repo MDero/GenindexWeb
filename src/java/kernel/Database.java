@@ -144,6 +144,38 @@ public class Database {
 
         return customer;
     }
+    
+    //Adress professional
+    public Adress getAdressPro(int id) {
+        Adress adress = null;
+
+        //request all the orders from the database
+        try {
+            Statement request = this.connexion.createStatement();
+            request.execute("SELECT * FROM ADRESS WHERE Id_adress=" + id);
+
+            ResultSet results = request.getResultSet();
+            results.next();
+
+            adress = new Adress(
+                    Integer.valueOf("" + results.getBigDecimal("Number")),
+                    extractString(results, "Street"),
+                    //(""+results.getObject("Street")).replaceAll("[ ]*$", ""),
+                    Integer.valueOf("" + results.getBigDecimal("ZipCode")),
+                    extractString(results, "City"),
+                    //(""+results.getObject("City")).replaceAll(" ", ""),
+                    extractString(results, "Country")
+            //(""+results.getObject("Country")).replaceAll(" ", "")
+            );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return adress;
+    }
+    
+    
     public Orders getOrders(int id) {
         Orders order = null;
         try {
