@@ -21,7 +21,7 @@ public class Database {
     //Default connection MDERO
     public Database() {
         try {
-            connexion = DriverManager.getConnection("jbdc:oracle:thin:@//192.168.24.3:1521/pfpbs", "gp27", "gp27");
+            connexion = DriverManager.getConnection("jdbc:oracle:thin:@//192.168.24.3:1521/pfpbs", "gp27", "gp27");
             System.out.println("Connection to gphy successful");
         } catch (SQLException ex) {
             Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
@@ -172,7 +172,7 @@ public class Database {
             Statement request = this.connexion.createStatement();
             //request all the orders from the database
             request.execute("SELECT * FROM CUSTOMERS WHERE Id_customers=" + id);
-
+            
             ResultSet results = request.getResultSet();
             results.next();
 
@@ -279,17 +279,21 @@ public class Database {
     public void insertCustomer(Customers c) {
         try {
             Statement s = this.connexion.createStatement();
-            s.executeQuery("INSERT INTO Customers values("+
+            String query = "INSERT INTO Customers (ID_CUSTOMERS, ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
+                    + "values("+
                     c.getID()+","+
                     c.getTypeCusto()+","+
                     c.getAdress().getIdAdress()+","+
-                    "0"+ //ID CORPORATE TODO
-                    c.getFirstName()+","+
-                    c.getLastName()+","+
+                     //ID CORPORATE TODO:
+                    "'"+c.getFirstName()+"',"+
+                    "'"+c.getLastName()+"',"+
                     c.getPhoneNumber()+","+
-                    c.getEmail()+","+
-                    c.getPhone()+","+
-                    ");");
+                    "'"+c.getEmail()+"',"+
+                    // "0999999999,"+
+                    c.getPhone()+
+                    ")";
+            System.out.println(query);
+            s.executeQuery(query);
             
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
