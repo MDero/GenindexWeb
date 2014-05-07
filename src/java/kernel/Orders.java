@@ -63,6 +63,10 @@ public class Orders {
 	  return this.idOrder;
     // Bouml preserved body end 0002FA02
   }
+  
+  public int getCustomerID(){
+      return this.customer.getID();
+  }
 
   public int getPriorityLevel() {
     // Bouml preserved body begin 00042A82
