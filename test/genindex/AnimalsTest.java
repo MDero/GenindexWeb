@@ -2,7 +2,7 @@ package genindex;
 
  
 
-import genindex.Animals;
+import kernel.Animals;
 import genindex.Database;
 import junit.framework.TestCase;
 

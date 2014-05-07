@@ -2,13 +2,13 @@ package genindex;
 
  
 
-import genindex.Analysis;
-import genindex.Animals;
+import kernel.Analysis;
+import kernel.Animals;
 import genindex.Database;
-import genindex.Date;
-import genindex.Orders;
-import genindex.Samples;
-import genindex.Types_analysis;
+import kernel.Date;
+import kernel.Orders;
+import kernel.Samples;
+import kernel.Types_analysis;
 import junit.framework.TestCase;
 
 public class InvoiceTest extends TestCase {

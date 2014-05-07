@@ -2,7 +2,7 @@ package genindex;
 
  
 
-import genindex.Date;
+import kernel.Date;
 import junit.framework.TestCase;
 
 public class DateTest extends TestCase {

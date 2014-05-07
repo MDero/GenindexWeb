@@ -3,8 +3,8 @@ package genindex;
  
 
 import genindex.Database;
-import genindex.Types_analysis;
-import genindex.Users;
+import kernel.Types_analysis;
+import kernel.Users;
 import junit.framework.TestCase;
 
 public class UsersTest extends TestCase {

@@ -3,7 +3,7 @@ package genindex;
  
 
 import genindex.Database;
-import genindex.Types_analysis;
+import kernel.Types_analysis;
 import junit.framework.TestCase;
 
 public class Types_analysisTest extends TestCase {

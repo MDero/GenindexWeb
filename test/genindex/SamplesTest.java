@@ -2,12 +2,12 @@ package genindex;
 
  
 
-import genindex.Analysis;
-import genindex.Animals;
+import kernel.Analysis;
+import kernel.Animals;
 import genindex.Database;
-import genindex.Date;
-import genindex.Samples;
-import genindex.Types_analysis;
+import kernel.Date;
+import kernel.Samples;
+import kernel.Types_analysis;
 import junit.framework.TestCase;
 public class SamplesTest extends TestCase {
 	// For each test, we search a sample on the database and we use this sample to do the tests.

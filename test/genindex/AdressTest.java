@@ -1,7 +1,7 @@
 package genindex; 
 
-import genindex.Adress;
-import genindex.Adress;
+import kernel.Adress;
+import kernel.Adress;
 import junit.framework.TestCase;
 
 public class AdressTest extends TestCase {

@@ -3,8 +3,8 @@ package genindex;
  
 
 import genindex.Database;
-import genindex.Orders;
-import genindex.Samples;
+import kernel.Orders;
+import kernel.Samples;
 import junit.framework.TestCase;
 
 public class OrdersTest extends TestCase {

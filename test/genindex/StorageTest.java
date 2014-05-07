@@ -3,7 +3,7 @@ package genindex;
  
 
 import genindex.Database;
-import genindex.Samples;
+import kernel.Samples;
 import junit.framework.TestCase;
 
 public class StorageTest extends TestCase {

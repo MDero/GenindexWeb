@@ -2,8 +2,8 @@ package genindex;
 
  
 
-import genindex.Adress;
-import genindex.Customers;
+import kernel.Adress;
+import kernel.Customers;
 import genindex.Database;
 import junit.framework.TestCase;
 
