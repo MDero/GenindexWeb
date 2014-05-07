@@ -81,6 +81,46 @@ public class Database {
         return results;
     }
 
+    //FROM RESULTSET	
+    private Adress getAdressFromCurrentRow(ResultSet results){
+        return  new Adress(
+                    extractNumber(results,"Number"),
+                    extractString(results, "Street"),
+                    extractNumber(results,"ZipCode"),
+                    extractString(results, "City"),
+                    extractString(results, "Country")
+            );
+    }
+    private Customers getCustomerFromCurrentRow(ResultSet results){
+        Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
+        return new Customers(
+                    extractString(results, "FirstName_custo"),
+                    extractString(results, "LastName_custo"),
+                    adress.getNumber(),
+                    adress.getStreet(),
+                    extractString(results, "PhoneNumber_custo"),
+                    extractNumber(results,"Id_Customers")
+            );
+    }
+    private Orders getOrderFromCurrentRow(ResultSet results) {
+        return new Orders(
+                (int) extractNumber(results, "NumberSamples"),
+                extractDate(results, "DateOrder"),
+                extractDate(results, "DateDeadline"),
+                (int) extractNumber(results, "PriorityLevel"),
+                getCustomer(extractNumber(results, "Id_customers"))
+        );
+    }
+    private Animals getAnimalsFromCurrentRow(ResultSet results){
+        
+    }
+    private Samples getSampleFromCurrentRow(ResultSet results){
+        
+    }
+    private Species getSpeciesFromCurrentRow(ResultSet results){
+        
+    }
+    
     //FROM IDS
     public Adress getAdress(int id) {
         Adress adress = null;
@@ -134,37 +174,6 @@ public class Database {
         }
 
         return order;
-    }
-
-    //FROM RESULTSET	
-    private Adress getAdressFromCurrentRow(ResultSet results){
-        return  new Adress(
-                    extractNumber(results,"Number"),
-                    extractString(results, "Street"),
-                    extractNumber(results,"ZipCode"),
-                    extractString(results, "City"),
-                    extractString(results, "Country")
-            );
-    }
-    private Customers getCustomerFromCurrentRow(ResultSet results){
-        Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
-        return new Customers(
-                    extractString(results, "FirstName_custo"),
-                    extractString(results, "LastName_custo"),
-                    adress.getNumber(),
-                    adress.getStreet(),
-                    extractString(results, "PhoneNumber_custo"),
-                    extractNumber(results,"Id_Customers")
-            );
-    }
-    private Orders getOrderFromCurrentRow(ResultSet results) {
-        return new Orders(
-                (int) extractNumber(results, "NumberSamples"),
-                extractDate(results, "DateOrder"),
-                extractDate(results, "DateDeadline"),
-                (int) extractNumber(results, "PriorityLevel"),
-                getCustomer(extractNumber(results, "Id_customers"))
-        );
     }
 
     //LISTS ESTABLISHMENT
