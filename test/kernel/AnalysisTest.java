@@ -1,9 +1,8 @@
-package genindex;
+package kernel;
 
  
 
 import kernel.Analysis;
-import genindex.Database;
 import kernel.Types_analysis;
 import kernel.Users;
 import junit.framework.TestCase;

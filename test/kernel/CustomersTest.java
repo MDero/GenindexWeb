@@ -1,10 +1,9 @@
-package genindex;
+package kernel;
 
  
 
 import kernel.Adress;
 import kernel.Customers;
-import genindex.Database;
 import junit.framework.TestCase;
 
 public class CustomersTest extends TestCase {

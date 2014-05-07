@@ -17,7 +17,18 @@ public class Database {
 
     //Constructor
     Connection connexion;
-
+    
+    //Default connection MDERO
+    public Database() {
+        try {
+            connexion = DriverManager.getConnection("jbdc:oracle:thin:@//192.168.24.3:1521/pfpbs", "gp27", "gp27");
+            System.out.println("Connection to gphy successful");
+        } catch (SQLException ex) {
+            Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
+            System.out.println("failed to connect to gphy successfully");
+        }
+    }
+    
     public Database(String url, String user, String password) {
         //DEFINE JDBC objects for connection
         try {
@@ -139,6 +150,7 @@ public class Database {
     //FROM RESULTSET	
     private Adress getAdressFromCurrentRow(ResultSet results){
         return  new Adress(
+                    extractNumber(results,"ID_ADRESS"), //ADD by MDERO
                     extractNumber(results,"Number"),
                     extractString(results, "Street"),
                     extractNumber(results,"ZipCode"),
