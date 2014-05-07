@@ -67,7 +67,15 @@ public class Orders {
   public int getCustomerID(){
       return this.customer.getID();
   }
+  
+  public Date getDeadLine(){
+      return this.dateDeadline;
+  }
 
+  public Date getDateOrder(){
+      return this.dateOrder;
+  }
+  
   public int getPriorityLevel() {
     // Bouml preserved body begin 00042A82
 	  return(this.priorityLevel);
