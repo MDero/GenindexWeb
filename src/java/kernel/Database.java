@@ -17,7 +17,18 @@ public class Database {
 
     //Constructor
     Connection connexion;
-
+    
+    //Default connection MDERO
+    public Database() {
+        try {
+            connexion = DriverManager.getConnection("jbdc:oracle:thin:@//192.168.24.3:1521/pfpbs", "gp27", "gp27");
+            System.out.println("Connection to gphy successful");
+        } catch (SQLException ex) {
+            Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
+            System.out.println("failed to connect to gphy successfully");
+        }
+    }
+    
     public Database(String url, String user, String password) {
         //DEFINE JDBC objects for connection
         try {
@@ -176,6 +187,38 @@ public class Database {
         return order;
     }
 
+    //FROM RESULTSET	
+    private Adress getAdressFromCurrentRow(ResultSet results){
+        return  new Adress(
+                    extractNumber(results,"ID_ADRESS"), //ADD by MDERO
+                    extractNumber(results,"Number"),
+                    extractString(results, "Street"),
+                    extractNumber(results,"ZipCode"),
+                    extractString(results, "City"),
+                    extractString(results, "Country")
+            );
+    }
+    private Customers getCustomerFromCurrentRow(ResultSet results){
+        Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
+        return new Customers(
+                    extractString(results, "FirstName_custo"),
+                    extractString(results, "LastName_custo"),
+                    adress.getNumber(),
+                    adress.getStreet(),
+                    extractString(results, "PhoneNumber_custo"),
+                    extractNumber(results,"Id_Customers")
+            );
+    }
+    private Orders getOrderFromCurrentRow(ResultSet results) {
+        return new Orders(
+                (int) extractNumber(results, "NumberSamples"),
+                extractDate(results, "DateOrder"),
+                extractDate(results, "DateDeadline"),
+                (int) extractNumber(results, "PriorityLevel"),
+                getCustomer(extractNumber(results, "Id_customers"))
+        );
+    }
+
     //LISTS ESTABLISHMENT
     public List<Orders> getOrderList() {
         ArrayList<Orders> orderList = new ArrayList<>();
@@ -242,7 +285,15 @@ public class Database {
         try {
             Statement s = this.connexion.createStatement();
             s.executeQuery("INSERT INTO Customers values("+
+                    c.getID()+","+
+                    c.getTypeCusto()+","+
+                    c.getAdress().getIdAdress()+","+
+                    "0"+ //ID CORPORATE TODO
                     c.getFirstName()+","+
+                    c.getLastName()+","+
+                    c.getPhoneNumber()+","+
+                    c.getEmail()+","+
+                    c.getPhone()+","+
                     ");");
             
         } catch (SQLException ex) {

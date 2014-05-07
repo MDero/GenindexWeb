@@ -1,8 +1,8 @@
-package genindex;
+package kernel;
 
  
 
-import genindex.Database;
+
 import kernel.Types_analysis;
 import junit.framework.TestCase;
 
