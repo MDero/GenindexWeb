@@ -46,7 +46,6 @@ public class Database {
         }
         return field;
     }
-
     private static Integer extractNumber(ResultSet results, String fieldName) {
         Integer field = null;
         try {
@@ -56,7 +55,18 @@ public class Database {
         }
         return field;
     }
-
+    private static kernel.Date extractDate(ResultSet results, String datename){
+        Date date = null;
+        try {
+            //sql date 
+            java.sql.Date odate = results.getDate(datename);
+            //convert the oracle date to kernel.date
+            date=new Date(odate.getDay(),odate.getMonth(),odate.getYear());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
     //PREPARED QUERIES
     private ResultSet getResultSetFromIdQuery(String table, int id) {
         ResultSet results = null;
@@ -101,7 +111,6 @@ public class Database {
 
         return adress;
     }
-
     public Customers getCustomer(int id) {
         Customers customer = null;
         try {
@@ -135,7 +144,6 @@ public class Database {
 
         return customer;
     }
-
     public Orders getOrders(int id) {
         Orders order = null;
         try {
@@ -145,8 +153,8 @@ public class Database {
             //public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
             order = new Orders(
                     (int) extractNumber(results, "NumberSamples"),
-                    results.getDate("DateOrder"),
-                    results.getDate("DateDeadline"),
+                    extractDate(results,"DateOrder"),
+                    extractDate(results,"DateDeadline"),
                     (int) extractNumber(results, "PriorityLevel"),
                     getCustomer(extractNumber(results, "Id_customers"))
             );
@@ -199,4 +207,6 @@ public class Database {
 
         return orderList;
     }
+
+    /* INSERTION METHODS */ 
 }
