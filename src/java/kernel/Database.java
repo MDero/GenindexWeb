@@ -213,7 +213,19 @@ public class Database {
 
     /* INSERTION METHODS */ 
     public void insertAdress(Adress adress){
-        
+          try {
+            Statement s = this.connexion.createStatement();
+            s.executeQuery("INSERT INTO Adress values("+
+                        adress.getNumber()+","+
+                        adress.getStreet()+","+
+                        adress.getZipCode()+","+
+                        adress.getCity()+","+
+                        adress.getCountry()+
+                    ");");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     public void insertOrder(Orders order){
         try {
