@@ -42,6 +42,15 @@ public class Orders {
    * FALSE if the analyse is still in progress. 
    */
   private boolean results_send;
+  private String report="";
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
+    }
 
   public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
     // Bouml preserved body begin 0001F402
