@@ -28,6 +28,10 @@ public class Adress {
    * The country of the adress.
    */
   private String country;
+  
+  //MDero
+  private int idAdress;
+
 
   public Adress(int zip, String city) {
     // Bouml preserved body begin 0001F502
@@ -35,14 +39,15 @@ public class Adress {
 	  this.city = city;
     // Bouml preserved body end 0001F502
   }
-
-  public Adress(int number, String street, int zip, String city, String country) {
+//Mdero add idAdress
+  public Adress(int id, int number, String street, int zip, String city, String country) {
     // Bouml preserved body begin 0002C182
 	  this.number = number;
 	  this.street = street;
 	  this.zipCode = zip;
 	  this.city = city;
 	  this.country = country;
+          this.idAdress = id;
     // Bouml preserved body end 0002C182
   }
 
@@ -105,5 +110,11 @@ public class Adress {
 	  this.country = new_Country;
     // Bouml preserved body end 00022C03
   }
+  
+//MDero
+      public int getIdAdress() {
+        return idAdress;
+    }
 
+  
 }

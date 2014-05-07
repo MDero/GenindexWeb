@@ -253,7 +253,15 @@ public class Database {
         try {
             Statement s = this.connexion.createStatement();
             s.executeQuery("INSERT INTO Customers values("+
+                    c.getID()+","+
+                    c.getTypeCusto()+","+
+                    c.getAdress().getIdAdress()+","+
+                    "0"+ //ID CORPORATE TODO
                     c.getFirstName()+","+
+                    c.getLastName()+","+
+                    c.getPhoneNumber()+","+
+                    c.getEmail()+","+
+                    c.getPhone()+","+
                     ");");
             
         } catch (SQLException ex) {
