@@ -67,6 +67,9 @@ public class Database {
         }
         return date;
     }
+    private static String convertDateToString(kernel.Date date ){
+        return date.getYear()+"-"+date.getMonth()+"-"+date.getDay();
+    }
     //PREPARED QUERIES
     private ResultSet getResultSetFromIdQuery(String table, int id) {
         ResultSet results = null;
@@ -209,9 +212,23 @@ public class Database {
     }
 
     /* INSERTION METHODS */ 
+    public void insertAdress(Adress adress){
+        
+    }
     public void insertOrder(Orders order){
         try {
             Statement s = this.connexion.createStatement();
+            s.executeQuery("INSERT INTO Orders values("+
+                    order.getId()+","+
+                    order.getCustomerID()+","+
+                    order.getPriorityLevel()+", "+
+                    order.getSamples().size()+", "+
+                    convertDateToString(order.getDeadLine())+","+
+                    convertDateToString(order.getDateOrder())+","+
+                    order.getPaid()+","+
+                    order.getResultSend()+","+
+                    order
+                    ");");
             
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
