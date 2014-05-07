@@ -1,265 +1,205 @@
-package genindex;
-
-/**
- * This class manage all the methods of the different classes which interact with the database.
- */
- 
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import oracle.jdbc.OraclePreparedStatement;
+import kernel.Adress;
+import kernel.Customers;
+import kernel.Date;
+import kernel.Orders;
+
 public class Database {
-  private Animals animal;
-  private Samples sample;
-  private Types_analysis typeAna;
-  private Analysis analysis;
-  private Users user;
-  private Date d1;
-  private Date d2;
-  private Customers customer;
-  private Orders order;
-  private Adress adress; // The adress of a customer.
-  public Storage storage;
+	/* *****************************************************************************************/
+	//Constructor
+	 Connection connexion; 
+	public Database(String url, String user, String password){
+		//DEFINE JDBC objects for connection
+		try {
+				connexion = DriverManager.getConnection(url, user, password);
+				System.out.println("Connection to "+url+" successful for "+user);
+		} 
+		catch (SQLException ex){
+				Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
+				System.out.println("failed to connect to "+url+" successful for "+user);
+		}
+	}
+	
+	/* *****************************************************************************************/
+	/* CONVERSION METHODS */ 
+	//FORMAT CONVERTER
+	private static String extractString(ResultSet results, String fieldName){
+		String field ="";
+		try {
+			field=results.getString(fieldName).replaceAll("[ ]*$", "");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return field;
+	}
+	private static Integer extractNumber(ResultSet results, String fieldName){
+		Integer field = null;
+		try {
+			field=Integer.valueOf(results.getString(fieldName).replaceAll("[^0-9]*",""));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return field;
+	}
+	
+	//PREPARED QUERIES
+	private ResultSet getResultSetFromIdQuery(String table,int id){
+		ResultSet results = null;
+		try {
+			OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE Id_:table = :id");
+			ps.setStringAtName("table", table);
+			ps.setIntAtName("id", id);
+			results = ps.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+	
+	//FROM IDS
+	public Adress getAdress(int id){
+		Adress adress = null;
+		
+		//request all the orders from the database
+		try {
+			Statement request = this.connexion.createStatement();
+			request.execute("SELECT * FROM ADRESS WHERE Id_adress="+id);
+		
+			ResultSet results = request.getResultSet();
+			results.next();
+			
+			adress = new Adress(
+					Integer.valueOf(""+results.getBigDecimal("Number")),
+					extractString(results,"Street"),
+					//(""+results.getObject("Street")).replaceAll("[ ]*$", ""),
+					Integer.valueOf(""+results.getBigDecimal("ZipCode")),
+					extractString(results,"City"),
+					//(""+results.getObject("City")).replaceAll(" ", ""),
+					extractString(results,"Country")
+					//(""+results.getObject("Country")).replaceAll(" ", "")
+					);
+		
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return adress;
+	}
+	public Customers getCustomer(int id) {
+		Customers customer = null;
+		try {
+			Statement request = this.connexion.createStatement();
+			//request all the orders from the database
+			request.execute("SELECT * FROM CUSTOMERS WHERE Id_customers="+id);
+			
+			ResultSet results = request.getResultSet();
+			results.next();
+			
+			Adress adress = this.getAdress(Integer.valueOf(""+results.getObject("Id_adress")));
+			System.out.println(adress.getStreet()+" dans la ville de "+adress.getCity());
+			
+			//request all the orders from the database
+			request.execute("SELECT * FROM CUSTOMERS WHERE Id_customers="+id);
+			
+			results = request.getResultSet();
+			results.next();
+			
+			customer =  new Customers(
+					extractString(results,"FirstName_custo"),
+					//(""+results.getObject("FIRSTNAME_CUSTO")).replaceAll(" ", ""),
+					extractString(results,"LastName_custo"),
+					//(""+results.getObject("LASTNAME_CUSTO")).replaceAll(" ", ""),
+					(Integer)adress.getNumber(),
+					adress.getStreet(),
+					extractString(results,"PhoneNumber_custo"),
+					//(""+results.getObject("PHONENUMBER_CUSTO")).replaceAll(" ", ""),
+					id
+					);
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return customer;
+	}
+	public Orders getOrders(int id){
+		Orders order = null;
+		try {
+			ResultSet results = this.getResultSetFromIdQuery("Orders", id);
+			results.next();
+			
+			//public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
+//			order = new Orders(
+//						(int)extractNumber(results,"NumberSamples"),
+//						results.getDate("DateOrder"),
+//						results.getDate("DateDeadline"),
+//						(int)extractNumber(results,"PriorityLevel"),
+//						getCustomer(extractNumber(results,"Id_customers"))
+//					
+//					);
 
-  static final String MYURL = "jdbc:oracle:thin:@//192.168.24.3:1521/pfpbs",
-            MYUSER = "gp27",
-            MYPASSWORD = "gp27";
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return order;
+	}
+	//FROM RESULTSET	
+	public Orders getOrderFromCurrentRow(ResultSet results){
+		Orders order = null ;
+		
+		try {
+			order = new Orders(
+					(Integer)results.getObject("NumberSamples"),
+					(Date)results.getObject("DateOrder"),
+					(Date)results.getObject("DateDeadline"),
+					(Integer)results.getObject("PriorityLevel"),
+					this.getCustomer((int) results.getObject("Id_customers"))
+				);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return order; 
+	}
 
-
-  public Database() {
-        Connection myConnection;
-        Statement myStatement;
-
-        try {
-
-            myConnection = DriverManager.getConnection(MYURL, MYUSER, MYPASSWORD);
-            myStatement = ((Connection) myConnection).createStatement();
-            System.out.println("Connection successful");
-
-//				myStatement.execute("");
-//				System.out.println(myStatement.getResultSet());
-        } catch (SQLException ex) {
-            Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
-            System.out.println("failed");
-        }
-    // Bouml preserved body begin 00043002
-	  d1 = new Date(23,12,10);
-	  d2 = new Date(23,12,11);
-	  customer =  new Customers("jean", "dupont", 86000,"Poitiers", "090909",1);
-	  order =  new Orders(1, d1,d2, 1, customer);
-	  animal = new Animals("cat","2010");
-	  sample = new Samples("1", "blood", d1, d2, animal);
-	  this.typeAna = new Types_analysis("PCR", 40);
-	  this.analysis = new Analysis(1, typeAna, d2);
-	  sample.addAnalysis(analysis);
-	  user = new Users("jean", "dupont", "@");
-	  order.addSample(sample);
-	  storage = new Storage("freezer", 60);
-	  adress = new Adress(86000,"Poitiers");
-    // Bouml preserved body end 00043002
-  }
-
-  /**
-   * This function permits to list all the orders in the database.
-   */
-  public List<Orders> getListOrder() {
-    // Bouml preserved body begin 0003D002
-	  List<Orders> list = new ArrayList<Orders>();
-	  list.add(this.order);
-	  return(list);
-    // Bouml preserved body end 0003D002
-  }
-
-  /**
-   * This function permits to search the order in the database that have the customer in parameter.
-   */
-  public Orders searchOrder(Customers customer) {
-    // Bouml preserved body begin 00042F02
-	  return(this.order);
-    // Bouml preserved body end 00042F02
-  }
-
-  /**
-   * This function permits to search the order in the database that has this id.
-   */
-  public Orders searchOrder(int id) {
-    // Bouml preserved body begin 00042F82
-	  return(this.order);
-    // Bouml preserved body end 00042F82
-  }
-
-  /**
-   * This function permits to save in the database the order in parameter.
-   */
-  public void saveOrder(Orders order) {
-    // Bouml preserved body begin 00043082
-	  this.order =order;
-    // Bouml preserved body end 00043082
-  }
-
-  public Samples searchSample(String id) {
-    // Bouml preserved body begin 00043102
-	  return this.sample;
-    // Bouml preserved body end 00043102
-  }
-
-  public List<Samples> getListSamples() {
-    // Bouml preserved body begin 00043182
-	  List<Samples> listS = new ArrayList<Samples>();
-	  listS.add(this.sample);
-	  return(listS);
-    // Bouml preserved body end 00043182
-  }
-
-  public void saveSample(Samples sample) {
-    // Bouml preserved body begin 00043202
-	  this.sample = sample;
-    // Bouml preserved body end 00043202
-  }
-
-  public Animals searchAnimal(String specie) {
-    // Bouml preserved body begin 00043282
-	  return this.animal;
-    // Bouml preserved body end 00043282
-  }
-
-  /**
-   * This function permits to get the user that use this session.
-   */
-  public Users getUser() {
-    // Bouml preserved body begin 00043502
-	  return user;
-    // Bouml preserved body end 00043502
-  }
-
-  public List<Customers> getListCustomers() {
-    // Bouml preserved body begin 000234C5
-	  List<Customers> listC = new ArrayList<Customers>();
-	  listC.add(this.customer);
-	  return(listC);
-    // Bouml preserved body end 000234C5
-  }
-
-  public Customers searchCustomerName(String name) {
-    // Bouml preserved body begin 00023545
-	  if(name.equals(customer.getLastName()))
-	  {
-		  return customer;
-	  }
-	  else
-	  {
-		  Customers cust = new Customers("jean", "dupond", 86000,"Poitiers", "090909",1);
-		  return cust;
-	  }
-    // Bouml preserved body end 00023545
-  }
-
-  public Customers searchCustomerID(int ID) {
-    // Bouml preserved body begin 000235C5
-	  if(customer.getID()==ID)
-	  {
-		  return customer;
-	  }
-	  else
-	  {
-		  Customers cust = new Customers("jean", "dupond", 86000,"Poitiers", "090909",1);
-		  return cust;
-	  }
-    // Bouml preserved body end 000235C5
-  }
-
-  public void saveCustomer(Customers cust) {
-    // Bouml preserved body begin 00023645
-	  if(cust.getID()==customer.getID())
-	  {
-		  customer=cust;
-	  }
-	  else
-	  {
-		  System.out.println("new data record");
-	  }
-    // Bouml preserved body end 00023645
-  }
-
-  public List<Types_analysis> getListAnalysisType() {
-    // Bouml preserved body begin 000236C5
-	  List<Types_analysis> listTA = new ArrayList<Types_analysis>();
-	  listTA.add(this.typeAna);
-	  return(listTA);
-    // Bouml preserved body end 000236C5
-  }
-
-  public Analysis searchAnalysis(Types_analysis type) {
-    // Bouml preserved body begin 00023745
-	  if(this.analysis.getTypeAnalysis()== type)
-	  {
-		  return this.analysis;
-	  }
-	  else
-	  {
-		  Analysis ana = new Analysis(2, typeAna, d2);
-		  return ana;
-	  }
-    // Bouml preserved body end 00023745
-  }
-
-  public Analysis searchAnalysisID(int ID) {
-    // Bouml preserved body begin 000237C5
-	  if(this.analysis.getID()== ID)
-	  {
-		  return this.analysis;
-	  }
-	  else
-	  {
-		  Analysis ana = new Analysis(2, typeAna, d2);
-		  return ana;
-	  }
-    // Bouml preserved body end 000237C5
-  }
-
-  public void saveAnalysis(Analysis analysis) {
-    // Bouml preserved body begin 00023845
-	  if(analysis.getID()==this.analysis.getID())
-	  {
-		  this.analysis = analysis;
-	  }
-	  else
-	  {
-		  System.out.println("new data record");
-	  }
-    // Bouml preserved body end 00023845
-  }
-
-  public Types_analysis searchTypesAnalysis(String name) {
-    // Bouml preserved body begin 000238C5
-	  if(name.equals(this.typeAna.getType()))
-	  {
-		  return this.typeAna;
-	  }
-	  else
-	  {
-		  Types_analysis tAna = new Types_analysis("PCR", 45);
-		  return tAna;
-	  }
-    // Bouml preserved body end 000238C5
-  }
-
-  public void saveAnalysisType(Types_analysis typeAnalysis) {
-    // Bouml preserved body begin 00023945
-	  if(typeAnalysis.getType().equals(this.typeAna.getType()))
-	  {
-		  this.typeAna = typeAnalysis;
-	  }
-	  else
-	  {
-		  System.out.println("new data record");
-	  }
-    // Bouml preserved body end 00023945
-  }
-
+	//LISTS ESTABLISHMENT
+	public List<Orders> getOrderList(){
+		ArrayList<Orders> orderList = new ArrayList<>();
+		
+		try {
+			Statement request = this.connexion.createStatement();
+			
+			//request all the orders from the database
+			request.execute("SELECT * FROM ORDERS");
+			
+			ResultSet results = request.getResultSet();
+			
+			//put the results in the list
+			for (int i = 0; i < results.getFetchSize();i++){
+				results.getObject("");
+			}
+			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderList;
+	}
 }
