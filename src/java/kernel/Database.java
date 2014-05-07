@@ -239,7 +239,7 @@ public class Database {
                     convertDateToString(order.getDateOrder())+","+
                     order.getPaid()+","+
                     order.getResultSend()+","+
-                    order
+                   // order.
                     ");");
             
         } catch (SQLException ex) {
