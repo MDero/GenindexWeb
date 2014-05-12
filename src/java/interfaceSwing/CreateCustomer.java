@@ -14,10 +14,10 @@ import kernel.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
 
-public class CreateCustomer extends JFrame {
+
+public class CreateCustomer extends JFrame  {
     private final JMenuBar menuBar;
     private final JMenu menu;
     private final JMenuItem exit;
@@ -30,6 +30,7 @@ public class CreateCustomer extends JFrame {
     private String[] item;
     private Database database;
     private ButtonGroup groupe;
+  
     
     
     public CreateCustomer(){
@@ -68,19 +69,19 @@ public class CreateCustomer extends JFrame {
         port = new JLabel ("N° portable: ");
         
         nomT = new JTextField(40);
-        nomT.setEditable(false);
+        //nomT.setEditable(false);
         
         prenomT = new JTextField(40);
-        prenomT.setEditable(false);
+       // prenomT.setEditable(false);
         
         telT = new JTextField(40);
-        telT.setEditable(false);
+        //telT.setEditable(false);
         
         mailT = new JTextField(40);
-        mailT.setEditable(false);
+       // mailT.setEditable(false);
         
         portT = new JTextField(40);
-        portT.setEditable(false);
+       // portT.setEditable(false);
         
         type_individuel1= new JPanel();
         type_individuel1.setLayout(new GridLayout(5,2));
@@ -119,30 +120,40 @@ public class CreateCustomer extends JFrame {
         pays= new JLabel("Pays: " );
         
         nomC= new JTextField(40);
-        nomC.setEditable(false);
+        //nomC.setEditable(false);
         prenomC= new JTextField(40);
-        prenomC.setEditable(false);
+        //prenomC.setEditable(false);
         MailC=new JTextField(40);
-        MailC.setEditable(false);
+        //MailC.setEditable(false);
         FaxeC=new JTextField(40);
-        FaxeC.setEditable(false);
+        //FaxeC.setEditable(false);
         EntreC=new JTextField(40);
-        EntreC.setEditable(false);
+        //EntreC.setEditable(false);
         telC= new JTextField(40);
-        telC.setEditable(false);
+        //telC.setEditable(false);
         adresseC=new JTextField(40);
-        adresseC.setEditable(false);
+        //adresseC.setEditable(false);
         nC=new JTextField(40);
-        nC.setEditable(false);
+        //nC.setEditable(false);
         rueC=new JTextField(40);
-        rueC.setEditable(false);
+        //rueC.setEditable(false);
         
         //création des JComboBox
         
         villeC=new JTextField(40);
-        villeC.setEditable(false);
+        //villeC.setEditable(false);
         paysC=new JComboBox();
-        paysC.setEditable(false);
+        //paysC.setEditable(false);
+        
+        paysC.addItem("Afrique");
+        paysC.addItem("France");
+        paysC.addItem("Angleterre");
+        paysC.addItem("Chine");
+        paysC.addItem("Inde");
+        paysC.addItem("Amérique");
+        paysC.addItem("Suède");
+        paysC.addItem("Norvège");
+        
         CPC=new JTextField(40);
         CPC.setEditable(false);
         
@@ -208,25 +219,26 @@ public class CreateCustomer extends JFrame {
          type_professionel.setVisible(false);
          
          
-        ActionListener affiche_panel = new Actionlistener{
-        @Override
+        ActionListener affiche_panel = new ActionListener()
+        {@Override
         public void actionPerformed(ActionEvent e){
            type_individuel1.setVisible(true);
+           type_professionel.setVisible(false);
            nomT.setEditable(true);
            prenomT.setEditable(true);
            telT.setEditable(true);
            mailT.setEditable(true);
            portT.setEditable(true);
         }
-        }
-      
+        };
         individuel.addActionListener(affiche_panel);
         
         
-        ActionListener affiche_panel2 = new Actionlistener()
+        ActionListener affiche_panel2 = new ActionListener()
         {@Override
         public void actionPerformed(ActionEvent e){
            type_professionel.setVisible(true);
+           type_individuel1.setVisible(false);
            nomC.setEditable(true);
            prenomC.setEditable(true);
            telC.setEditable(true);
@@ -236,21 +248,17 @@ public class CreateCustomer extends JFrame {
            rueC.setEditable(true);
            villeC.setEditable(true);
            CPC.setEditable(true);
+           nC.setEditable(true);
+           paysC.setEditable(true);
         }
-        }
+        };
         professionel.addActionListener(affiche_panel2);
         
         myFrame.add(menuBar, BorderLayout.NORTH);
-        //myFrame.add(type, BorderLayout.CENTER);
-        //myFrame.add(type_individuel1, BorderLayout.CENTER);
-       // myFrame.add(type_professionel1,BorderLayout.CENTER);
-       // myFrame.add(type_professionel2, BorderLayout.CENTER);
-       // myFrame.add(type_professionel, BorderLayout.CENTER);
-        //myFrame.add(IP, BorderLayout.CENTER);
-       // myFrame.add(IPT, BorderLayout.CENTER);
         myFrame.add(total);
         myFrame.pack();
         myFrame.setVisible(true);
+        
                 }
     
     public static void main (String [] args){
