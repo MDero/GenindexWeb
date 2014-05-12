@@ -10,10 +10,8 @@ public class DatabaseTest extends TestCase {
 
 
     Database d = new Database();
-    //public Adress(int id, int number, String street, int zip, String city, String country) {
     Adress aTest = new Adress(99, 3, "rue du petit four", 99999, "Poitiers", "France");
-    //public Customers(String first, String last, Adress adress, String phone, String mail, int typeCusto) {
-    Customers cTest = new Customers("Maxime", "Dero", aTest, "0699644317", "mdero.com", 1);
+    Customers cTest = new Customers("Maxime", "Dero", aTest, "0699644317", 99, 10);
 
 
     //ADDRESS TESTS
@@ -23,6 +21,7 @@ public class DatabaseTest extends TestCase {
         System.out.println("DELETION ADRESS DONE");
     }
     public void testInsertAdress() {
+        //public Adress(int id, int number, String street, int zip, String city, String country) {
         d.insertAdress(aTest);
         System.out.println("INSERT ADRESS DONE");
     }
