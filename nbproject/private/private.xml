@@ -2,6 +2,29 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/interfaceSwing/GenindexMainInterface.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/RootSuite.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Adress.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/CustomersTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Date.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Database.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/DateTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/UsersTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/AnalysisTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/DatabaseTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/InvoiceTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/Types_analysisTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/AdressTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Invoice.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/OrdersTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Orders.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/SamplesTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/AnimalsTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Genindex.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/StorageTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Customers.java</file>
+        </group>
     </open-files>
 </project-private>
