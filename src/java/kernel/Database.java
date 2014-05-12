@@ -326,7 +326,11 @@ public class Database {
             String insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
             
             for (int i = 0; i<values.length;i++)
-                insert+= values[i]+ (i==values.length-1 ? "" : ",");
+                insert+= (values[i] instanceof String ? "'" :"") + 
+                        values[i]
+                        + (i==values.length-1 ? 
+                       values[i] instanceof String ? "'" :""  
+                        : ",");
             
             insert += ")";
             System.out.println(insert);
@@ -417,7 +421,8 @@ public class Database {
         }
     }
     public void insertAnimals(Animals animal){
-        this.insertIntoTableValuesForFields("ANIMALS", "(ID_SPECIES,NUMBERBIRTHDAY,NAME)",
+        this.insertIntoTableValuesForFields("ANIMALS", 
+                "(ID_SPECIES,NUMBERBIRTHDAY,NAME)",
                 //values
                 animal.getSpecies().getId(),
                 animal.getNumberBirthday(),
@@ -425,13 +430,14 @@ public class Database {
         );
     }
     public void insertCategory(Category category){
-        this.insertIntoTableValuesForFields("CATEGORY", "(NAME)",
+        this.insertIntoTableValuesForFields("CATEGORY", 
+                "(NAME)",
                 category.getName()
         );
     }
     public void insertSpecies(Species species){
-        String[] fields = {};
-        this.insertIntoTableValuesForFields("SPECIES", "(ID_CATEGORY,NAME)",
+        this.insertIntoTableValuesForFields("SPECIES", 
+                "(ID_CATEGORY,NAME)",
                 //values
                 species.getCategory().getId(),
                 species.getName()
@@ -439,7 +445,7 @@ public class Database {
     }
     public void insertSample(Samples sample){
         this.insertIntoTableValuesForFields("SAMPLE",
-                "ID_TYPESAMPLE ","ID_ORDERS","ID_ANIMALS","ID_STATUTSAMPLE","ANALYSED","DATESAMPLING","DATESTORAGE",
+                "(ID_TYPESAMPLE ,ID_ORDERS,ID_ANIMALS,ID_STATUTSAMPLE,ANALYSED,DATESAMPLING,DATESTORAGE)",
                 sample.getType().getId(),
                 sample.getOrder().getId(),
                 sample.getAnimal().getId(),
