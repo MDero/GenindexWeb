@@ -39,7 +39,7 @@ public class DatabaseTest extends TestCase {
     public void testInsertCustomer() { //VALIDATED BY MDERO
         //public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
         System.out.println("testInsertCustomer : " + cTest);
-        d.insertCustomerWOID(cTest);
+        d.insertCustomer(cTest);
         System.out.println("INSERT CUSTOMER DONE");
     }
 
@@ -58,7 +58,7 @@ public class DatabaseTest extends TestCase {
         Species s = new Species(456,c,"EspeceDeCategorieTest");
         d.insertSpecies(s);
 //        d.insertAnimals(new Animals(s,9,"Fido"));
-//        System.out.println("test insert DONE");
+        System.out.println("test insert DONE");
     }
 
     @After

@@ -341,8 +341,8 @@ public class Database {
     }
     
     public void insertAdress(Adress adress) {
-        String[] fields = {"NUMBER", "STREET", "ZIPCODE", "CITY", "COUNTRY"};
-        this.insertIntoTableValuesForFields("ADRESS", fields,
+        this.insertIntoTableValuesForFields("ADRESS", 
+                "(NUMBER, STREET, ZIPCODE,CITY, COUNTRY)",
                 //values
                 adress.getNumber(),
                 adress.getStreet(), 
@@ -351,8 +351,9 @@ public class Database {
                 adress.getCountry());
     }
     public void insertOrder(Orders order) {
-        String[] fields = {"ID_CUSTOMERS", "PRIORITYLEVEL", "NUMBERSAMPLES", "DATEDEADLINE", "DATEORDER", "PAID", "RESULTSEND", "REPORT_ORDERS"};
-        this.insertIntoTableValuesForFields("ORDERS", fields,
+        String[] fields = {};
+        this.insertIntoTableValuesForFields("ORDERS", 
+                "(ID_CUSTOMERS, PRIORITYLEVEL,NUMBERSAMPLES, DATEDEADLINE, DATEORDER, PAID, RESULTSEND, REPORT_ORDERS)",
                 //order.getId(),
                 order.getCustomerID(),
                 order.getPriorityLevel(),
@@ -365,8 +366,9 @@ public class Database {
         );
 
     }
-    public void insertCustomer(Customers c) {  String[] fields = {"ID_TYPECUSTOMER", "ID_ADRESS", "FIRSTNAME_CUSTO", "LASTNAME_CUSTO", "PHONENUMBER_CUSTO", "MAIL_CUSTO", "CELLPHONE_CUSTO"};
-    this.insertIntoTableValuesForFields("CUSTOMERS", fields,
+    public void insertCustomer(Customers c) {
+    this.insertIntoTableValuesForFields("CUSTOMERS", 
+            "(ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
             c.getAdress().getIdAdress(),
             c.getFirstName(),
