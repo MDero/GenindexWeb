@@ -181,7 +181,7 @@ public class Database {
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
         return new Samples(
-                ""+extractNumber(results,"Id_sample"),
+                ""+extractString(results,"Id_sample"),
                 extractString(results,"Id_TypeSample") ,//TODO : creer le type TypeSample et ses méthodes ici
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
@@ -423,10 +423,22 @@ public class Database {
         );
     }
     public void insertCategory(Category category){
-        
+        this.insertIntoTableAllValues("CATEGORY", 
+                category.getId(),
+                category.getName()
+                );
     }
     public void insertSpecies(Species species){
-        
+        //if the species is not already inside the database
+        try {
+            Species sp = this.getSpecies(species.getId());
+            System.out.println("Species already inside the database : "+sp.getName()+" id : "+sp.getId());
+        }
+        catch (java.lang.NullPointerException e){
+            this.insertIntoTableAllValues("SPECIES", species.getId(),species.getCategory().getId(),species.getName());
+        }
+        //if (this.getSpecies(species.getId())==null)
+            
     }
     public void insertSample(Samples sample){
         
