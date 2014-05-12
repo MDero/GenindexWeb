@@ -13,7 +13,7 @@ import kernel.*;
  */
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -194,17 +194,51 @@ public class CreateCustomer extends JFrame {
         IPT.add(IP,BorderLayout.SOUTH);
         
         
-        validerp= new JPanel();
-        valider= new JButton("Valider");
+         validerp= new JPanel();
+         valider= new JButton("Valider");
         
-        total=new JPanel();
-        total.setLayout(new GridLayout(2,1));
+         total=new JPanel();
+         total.setLayout(new GridLayout(2,1));
       
-        validerp.add(valider, BorderLayout.CENTER);
+         validerp.add(valider, BorderLayout.CENTER);
         
          total.add(IPT, BorderLayout.NORTH);
          total.add(validerp);
+         type_individuel1.setVisible(false);
+         type_professionel.setVisible(false);
+         
+         
+        ActionListener affiche_panel = new Actionlistener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+           type_individuel1.setVisible(true);
+           nomT.setEditable(true);
+           prenomT.setEditable(true);
+           telT.setEditable(true);
+           mailT.setEditable(true);
+           portT.setEditable(true);
+        }
+        }
+      
+        individuel.addActionListener(affiche_panel);
         
+        
+        ActionListener affiche_panel2 = new Actionlistener()
+        {@Override
+        public void actionPerformed(ActionEvent e){
+           type_professionel.setVisible(true);
+           nomC.setEditable(true);
+           prenomC.setEditable(true);
+           telC.setEditable(true);
+           MailC.setEditable(true);
+           EntreC.setEditable(true);
+           FaxeC.setEditable(true);
+           rueC.setEditable(true);
+           villeC.setEditable(true);
+           CPC.setEditable(true);
+        }
+        }
+        professionel.addActionListener(affiche_panel2);
         
         myFrame.add(menuBar, BorderLayout.NORTH);
         //myFrame.add(type, BorderLayout.CENTER);
