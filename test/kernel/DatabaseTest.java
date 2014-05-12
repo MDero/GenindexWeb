@@ -41,6 +41,8 @@ public class DatabaseTest extends TestCase {
         d.insertCustomer(cTest);
         System.out.println("INSERT CUSTOMER DONE");
     }
+    
+    
     public void testDelCustomer() {
         d.delCustomer(99);
         System.out.println("DELETION CUSTOMER DONE");

@@ -46,7 +46,9 @@ public class Database {
     private static String extractString(ResultSet results, String fieldName) {
         String field = "";
         try {
+            System.out.println(fieldName);
             field = results.getString(fieldName).replaceAll("[ ]*$", "");
+            System.out.println("Field :" + field);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -133,7 +135,7 @@ public class Database {
             Statement statement = this.connexion.createStatement();
             //System.out.println(request);            
             results = statement.executeQuery(request);
-            
+            results.next();
             //results = ps.executeQuery();
         } catch (SQLException e) {
             System.out.println(table+" "+id);
@@ -194,65 +196,48 @@ public class Database {
     private Species getSpeciesFromCurrentRow(ResultSet results){
         return new Species(
                 extractNumber(results,"ID_SPECIES"),
-                getCategoryFromCurrentRow(results),
+                getCategory(extractNumber(results,"ID_Category")),
                 extractString(results,"species")
         );
     }
     private Category getCategoryFromCurrentRow(ResultSet results){
         //avoid creating a new instance of category with the same id everytime this category is called
-        return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"Name"));
+            //return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"NAME"));
+        return new Category (extractNumber(results,"Id_category"), extractString(results,"NAME"));
     }
     
     //FROM IDS
     public Adress getAdress(int id) {
         Adress adress = null;
 
-        //request all the orders from the database
-        try {
-            ResultSet results = getResultSetFromIdQuery("Adress",id);
-            results.next();
-
-            adress = this.getAdressFromCurrentRow(results);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet results = getResultSetFromIdQuery("Adress",id);
+        adress = this.getAdressFromCurrentRow(results);
 
         return adress;
     }
     public Customers getCustomer(int id) {
         Customers customer = null;
-        try {            
-            ResultSet results = getResultSetFromIdQuery("CUSTOMERS",id);
-            results.next();
-
-            customer = this.getCustomerFromCurrentRow(results);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet results = getResultSetFromIdQuery("CUSTOMERS",id);
+        customer = this.getCustomerFromCurrentRow(results);
 
         return customer;
     }
     public Orders getOrders(int id) {
         Orders order = null;
-        try {
-            ResultSet results = this.getResultSetFromIdQuery("Orders", id);
-            results.next();
-
-            order = this.getOrderFromCurrentRow(results);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet results = this.getResultSetFromIdQuery("Orders", id);
+        order = this.getOrderFromCurrentRow(results);
 
         return order;
     }
     public Animals getAnimals(int id){
         ResultSet results = this.getResultSetFromIdQuery("Animals", id);
+        
         Animals animal = getAnimalFromCurrentRow(results);
         return animal;
     }
     public Samples getSamples(int id){
         ResultSet results = this.getResultSetFromIdQuery("Samples", id);
+        
         Samples sample = getSampleFromCurrentRow(results);
         return sample;
     }
@@ -431,7 +416,7 @@ public class Database {
             request.execute("DELETE FROM CUSTOMERS WHERE Id_customers=" + id);
             System.out.println("DEL CUSTOMER : " + request.toString());
             ResultSet results = request.getResultSet();
-            results.next();
+            
 
             customer = this.getCustomerFromCurrentRow(results);
         } catch (SQLException e) {
@@ -448,7 +433,7 @@ public class Database {
             request.execute("DELETE FROM ADRESS WHERE ID_ADRESS=" + id);
             
             ResultSet results = request.getResultSet();
-            results.next();
+            
 
             customer = this.getCustomerFromCurrentRow(results);
         } catch (SQLException e) {
