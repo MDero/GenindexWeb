@@ -341,84 +341,39 @@ public class Database {
     }
     
     public void insertAdress(Adress adress) {
-        try {
-            Statement s = this.connexion.createStatement();
-            s.executeQuery("INSERT INTO Adress values("
-                    + adress.getNumber() + ","
-                    + adress.getStreet() + ","
-                    + adress.getZipCode() + ","
-                    + adress.getCity() + ","
-                    + adress.getCountry()
-                    + ");");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String[] fields = {"NUMBER", "STREET", "ZIPCODE", "CITY", "COUNTRY"};
+        this.insertIntoTableValuesForFields("ADRESS", fields,
+                //values
+                adress.getNumber(),
+                adress.getStreet(), 
+                adress.getZipCode(),
+                adress.getCity(),
+                adress.getCountry());
     }
     public void insertOrder(Orders order) {
-        try {
-            Statement s = this.connexion.createStatement();
-            s.executeQuery("INSERT INTO Orders values("
-                    + order.getId() + ","
-                    + order.getCustomerID() + ","
-                    + order.getPriorityLevel() + ", "
-                    + order.getSamples().size() + ", "
-                    + convertDateToString(order.getDeadLine()) + ","
-                    + convertDateToString(order.getDateOrder()) + ","
-                    + order.getPaid() + ","
-                    + order.getResultSend() + ","
-                    + order.getReport()
-                    + ");");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String[] fields = {"ID_CUSTOMERS", "PRIORITYLEVEL", "NUMBERSAMPLES", "DATEDEADLINE", "DATEORDER", "PAID", "RESULTSEND", "REPORT_ORDERS"};
+        this.insertIntoTableValuesForFields("ORDERS", fields,
+                //order.getId(),
+                order.getCustomerID(),
+                order.getPriorityLevel(),
+                order.getSamples().size(),
+                convertDateToString(order.getDeadLine()),
+                convertDateToString(order.getDateOrder()),
+                order.getPaid(),
+                order.getResultSend(),
+                order.getReport()
+        );
 
     }
-    public void insertCustomer(Customers c) {  //MDERO
-        try {
-            Statement s = this.connexion.createStatement();
-            String query = "INSERT INTO Customers (ID_CUSTOMERS, ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
-                    + "values("+
-                    c.getID()+","+
-                    c.getTypeCusto()+","+
-                    c.getAdress().getIdAdress()+","+
-                     //ID CORPORATE TODO:
-                    "'"+c.getFirstName()+"',"+
-                    "'"+c.getLastName()+"',"+
-                    c.getPhoneNumber()+","+
-                    "'"+c.getEmail()+"',"+
-                    // "0999999999,"+
-                    c.getPhone()+
-                    ")";
-            System.out.println(query);
-            s.executeQuery(query);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void insertCustomerWOID(Customers c) {  //MDERO
-        try {
-            Statement s = this.connexion.createStatement();
-            String query = "INSERT INTO Customers (ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
-                    + "values("+
-                    c.getTypeCusto()+","+
-                    c.getAdress().getIdAdress()+","+
-                     //ID CORPORATE TODO:
-                    "'"+c.getFirstName()+"',"+
-                    "'"+c.getLastName()+"',"+
-                    c.getPhoneNumber()+","+
-                    "'"+c.getEmail()+"',"+
-                    // "0999999999,"+
-                    c.getPhone()+
-                    ")";
-            System.out.println(query);
-            s.executeQuery(query);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void insertCustomer(Customers c) {  String[] fields = {"ID_TYPECUSTOMER", "ID_ADRESS", "FIRSTNAME_CUSTO", "LASTNAME_CUSTO", "PHONENUMBER_CUSTO", "MAIL_CUSTO", "CELLPHONE_CUSTO"};
+    this.insertIntoTableValuesForFields("CUSTOMERS", fields,
+            c.getTypeCusto(),
+            c.getAdress().getIdAdress(),
+            c.getFirstName(),
+            c.getLastName(),
+            c.getPhoneNumber(),
+            c.getEmail(),
+            c.getPhone());
     }
     public void insertAnimals(Animals animal){
         this.insertIntoTableValuesForFields("ANIMALS", 
