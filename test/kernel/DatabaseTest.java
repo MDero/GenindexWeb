@@ -11,7 +11,7 @@ public class DatabaseTest extends TestCase {
 
     Database d = new Database();
     Adress aTest = new Adress(99, 3, "rue du petit four", 99999, "Poitiers", "France");
-    Customers cTest = new Customers("Maxime", "Dero", aTest, "0699644317", 99, 10);
+    Customers cTest = new Customers("Maxime", "Dero", aTest, "0699644317","maxime.dero@gmail.com", 10);
 
 
     //ADDRESS TESTS
