@@ -178,7 +178,8 @@ public class Database {
     private Animals getAnimalFromCurrentRow(ResultSet results){
         return new Animals(
                 getSpecies(extractNumber(results,"Id_species")),
-                extractNumber(results,"NumberBirthday")
+                extractNumber(results,"NumberBirthday"),
+                extractString(results,"Name")
         );
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
@@ -317,21 +318,18 @@ public class Database {
         }
         
     }//OBSOLETE : should not be used (see rules)
-    private void insertIntoTableValuesForFields(String table, String[] fields, Object...values){
+    private void insertIntoTableValuesForFields(String table, String fields, Object...values){
         try {
             Statement s = this.connexion.createStatement();
             
             //create the query
-            String insert = "INSERT INTO "+table.toUpperCase()+" (";
-            for (int i = 0 ; i<fields.length;i++)
-                insert+=fields[i]+(i==fields.length-1 ? ")":",");
-            insert+=" values(";
+            String insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
             
             for (int i = 0; i<values.length;i++)
                 insert+= values[i]+ (i==values.length-1 ? "" : ",");
             
-            insert += ");";
-            
+            insert += ")";
+            System.out.println(insert);
             s.executeQuery(insert);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -419,8 +417,7 @@ public class Database {
         }
     }
     public void insertAnimals(Animals animal){
-        String[] fields = {"ID_SPECIES","NUMBERBIRTHDAY","NAME"};
-        this.insertIntoTableValuesForFields("ANIMALS", fields,
+        this.insertIntoTableValuesForFields("ANIMALS", "(ID_SPECIES,NUMBERBIRTHDAY,NAME)",
                 //values
                 animal.getSpecies().getId(),
                 animal.getNumberBirthday(),
@@ -428,22 +425,21 @@ public class Database {
         );
     }
     public void insertCategory(Category category){
-        String[] fields = {"NAME"};
-        this.insertIntoTableValuesForFields("CATEGORY", fields,
+        this.insertIntoTableValuesForFields("CATEGORY", "(NAME)",
                 category.getName()
         );
     }
     public void insertSpecies(Species species){
-        String[] fields = {"ID_CATEGORY","NAME"};
-        this.insertIntoTableValuesForFields("SPECIES", fields,
+        String[] fields = {};
+        this.insertIntoTableValuesForFields("SPECIES", "(ID_CATEGORY,NAME)",
                 //values
                 species.getCategory().getId(),
                 species.getName()
         );
     }
     public void insertSample(Samples sample){
-        String[] fields = {"ID_TYPESAMPLE ","ID_ORDERS","ID_ANIMALS","ID_STATUTSAMPLE","ANALYSED","DATESAMPLING","DATESTORAGE"};
-        this.insertIntoTableValuesForFields("SAMPLE", fields,
+        this.insertIntoTableValuesForFields("SAMPLE",
+                "ID_TYPESAMPLE ","ID_ORDERS","ID_ANIMALS","ID_STATUTSAMPLE","ANALYSED","DATESAMPLING","DATESTORAGE",
                 sample.getType().getId(),
                 sample.getOrder().getId(),
                 sample.getAnimal().getId(),

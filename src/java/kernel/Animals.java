@@ -16,14 +16,15 @@ public class Animals {
     }
   private int numberBirthday;
 
-  public Animals(Species specie, int numberBirthday) {
+  public Animals(Species specie, int numberBirthday, String name) {
     // Bouml preserved body begin 00020D83
 	  this.species = specie;
 	  this.numberBirthday = numberBirthday;
+                      this.name=name;
     // Bouml preserved body end 00020D83
   }
-  public Animals(int id, Species species, int numberBirthday){
-      this(species,numberBirthday);
+  public Animals(int id, Species species, int numberBirthday, String name){
+      this(species,numberBirthday,name);
       this.id=id;
   }
 

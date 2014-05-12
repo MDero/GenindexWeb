@@ -1,8 +1,5 @@
 package kernel;
 
-
- 
-
 import java.util.ArrayList;
 /**
  * This class "samples" is about the different samples of the analyses.
