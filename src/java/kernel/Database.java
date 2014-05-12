@@ -155,13 +155,15 @@ public class Database {
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
         Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
+        //protected Customers(int ID, String first, String last, Adress adress, String mail, String phone, int typeCusto) {
         return new Customers(
+                    extractNumber(results, "ID_CUSTOMERS"),
                     extractString(results, "FirstName_custo"),
                     extractString(results, "LastName_custo"),
-                    adress.getNumber(),
-                    adress.getStreet(),
+                    adress,
                     extractString(results, "PhoneNumber_custo"),
-                    extractNumber(results,"Id_Customers")
+                    extractString(results, "MAIL_CUSTO"),
+                    extractNumber(results,"ID_TYPECUSTOMER")
             );
     }
     private Orders getOrderFromCurrentRow(ResultSet results) {
