@@ -11,12 +11,12 @@ public class DatabaseTest extends TestCase {
 
     Database d = new Database();
     Adress aTest = new Adress(3, "rue du petit four", 99999, "Poitiers", "France");
-    Customers cTest = new Customers("Maxime", "Dero", aTest, "0699644317","maxime.dero@gmail.com", 10);
+    Customers cTest = new Customers("Maxime", "Dero", aTest, "0699644317","maxime.dero@gmail.com", 1);
+    
 
 
     //ADDRESS TESTS
     //MDERO
-   
     public void testInsertAdress() {
         //public Adress(int id, int number, String street, int zip, String city, String country) {
         d.insertAdress(aTest);
@@ -24,7 +24,7 @@ public class DatabaseTest extends TestCase {
     }
     
      public void testDelAdress() {
-        d.delAdress(99);
+        d.delAdress(2);
         System.out.println("DELETION ADRESS DONE");
     }
     
@@ -36,6 +36,7 @@ public class DatabaseTest extends TestCase {
     //MDERO
     public void testInsertCustomer() { //VALIDATED BY MDERO
         //public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
+        cTest.getAdress().setID(2);
         System.out.println("testInsertCustomer : " + cTest);
         d.insertCustomer(cTest);
         System.out.println("INSERT CUSTOMER DONE");
