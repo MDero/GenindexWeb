@@ -240,6 +240,11 @@ public class Database {
         Animals animal = getAnimalFromCurrentRow(results);
         return animal;
     }
+    public Samples getSamples(int id){
+        ResultSet results = this.getResultSetFromIdQuery("Samples", id);
+        Samples sample = getSampleFromCurrentRow(results);
+        return sample;
+    }
     public Species getSpecies(int id){
         ResultSet results = this.getResultSetFromIdQuery("Species", id);
         Species species = getSpeciesFromCurrentRow(results);
@@ -257,26 +262,27 @@ public class Database {
     public List<Adress> getAdressList(){
         return (List<Adress>) this.generateListOfAll("ADRESS");
     }
-    public List<Samples> getSampleList(){
-        return (List<Samples>) this.generateListOfAll("SAMPLES");
-    }
-    public List<Animals> getAnimalList(){
-        return (List<Animals>) this.generateListOfAll("ANIMALS");
-    }
-    public List<Species> getSpeciesList(){
-        return (List<Species>) this.generateListOfAll("SPECIES");
-    }
-    public List<Category> getCategoryList(){
-        return this.generateListOfAll("CATEGORY");
+    public List<Customers> getCustomerList(){
+         ArrayList<Customers> customerList = (ArrayList<Customers>) this.generateListOfAll("CUSTOMERS");
+        return customerList;
     }
     public List<Orders> getOrderList() {
         ArrayList<Orders> orderList = (ArrayList<Orders>) this.generateListOfAll("ORDERS");
         return orderList;
     }
-    public List<Customers> getCustomerList(){
-         ArrayList<Customers> customerList = (ArrayList<Customers>) this.generateListOfAll("CUSTOMERS");
-        return customerList;
+    public List<Animals> getAnimalList(){
+        return (List<Animals>) this.generateListOfAll("ANIMALS");
     }
+    public List<Samples> getSampleList(){
+        return (List<Samples>) this.generateListOfAll("SAMPLES");
+    }
+    public List<Species> getSpeciesList(){
+        return (List<Species>) this.generateListOfAll("SPECIES");
+    }
+    public List<Category> getCategoryList(){
+        return (List<Category>) this.generateListOfAll("CATEGORY");
+    }
+
     
     /* INSERTION METHODS */
     public void insertAdress(Adress adress) {
