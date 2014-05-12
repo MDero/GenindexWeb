@@ -255,8 +255,7 @@ public class Database {
         Category category = this.getCategoryFromCurrentRow(results);
         return category;
     }
-    
-    //FROM RESULTSET	
+
   
     //LISTS ESTABLISHMENT
     public List<Adress> getAdressList(){
@@ -346,7 +345,7 @@ public class Database {
     public void insertCustomerWOID(Customers c) {  //MDERO
         try {
             Statement s = this.connexion.createStatement();
-            String query = "INSERT INTO Customers (ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
+            String query = "INSERT INTO Customers (ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
                     + "values("+
                     c.getTypeCusto()+","+
                     c.getAdress().getIdAdress()+","+

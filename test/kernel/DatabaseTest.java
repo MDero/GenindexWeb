@@ -15,11 +15,11 @@ public class DatabaseTest extends TestCase {
         
         //CUSTOMERS TESTS
         //MDERO
-        public void testInsertCustomer() {
+        public void InsertCustomer() { //VALIDATED BY MDERO
             //public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
             //  public Adress(int id, int number, String street, int zip, String city, String country) {
            // try {
-            Customers cTest = new Customers("Maxime", "Dero",new Adress (2,3,"rue du petit four",99999,"Poitiers","France"), "0699644317",1);
+            Customers cTest = new Customers("Maxime", "Dero",new Adress (2,3,"rue du petit four",99999,"Poitiers","France"), "0699644317",10);
             d.insertCustomerWOID(cTest);
            // }
            // catch(SQLIntegrityConstraintViolationException e) {
@@ -29,7 +29,7 @@ public class DatabaseTest extends TestCase {
         //MDero
         //TODO:Fix dat
         public void testGetCustomer() {
-            Customers c =  d.getCustomer(99);
+            Customers c =  d.getCustomer(9);
         }
 	
         
