@@ -17,21 +17,21 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class Interface extends JFrame {
+public class CreateCustomer extends JFrame {
     private final JMenuBar menuBar;
     private final JMenu menu;
     private final JMenuItem exit;
     private final JRadioButton individuel, professionel;
     private final JPanel type, type_individuel1, type_professionel1, type_professionel2, type_professionel,IP,IPT, total, validerp;
     private final JLabel type_client, nom, prenom, tel, mail, port, nomCon, PrenomCon,TelCon, mailCon, Faxe, Entre,adresse,n,CP,rue,ville,pays ;
-    private final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC;
-    private final JComboBox paysC, CPC, villeC;
+    private final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC, CPC, villeC;
+    private final JComboBox paysC;
     private final JButton valider;
     private String[] item;
     private Database database;
     
     
-    public Interface(){
+    public CreateCustomer(){
         JFrame myFrame= new JFrame ("créer client");
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         myFrame.setLayout(new BorderLayout());
@@ -114,14 +114,10 @@ public class Interface extends JFrame {
         
         //création des JComboBox
         
-        villeC=new JComboBox();
+        villeC=new JTextField(40);
         paysC=new JComboBox();
-        CPC=new JComboBox();
+        CPC=new JTextField(40);
         
-    ArrayList<String> countries = new ArrayList<>();
-    ArrayList<String> zipCodes = new ArrayList<>();
-    ArrayList<String> cities = new ArrayList<>();
-    
    
         
         type_professionel1= new JPanel();
@@ -196,7 +192,7 @@ public class Interface extends JFrame {
                 }
     
     public static void main (String [] args){
-Interface visuel= new Interface();
+CreateCustomer visuel= new CreateCustomer();
 }
 }
 
