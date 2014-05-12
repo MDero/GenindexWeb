@@ -76,7 +76,46 @@ public class Database {
     private static String convertDateToString(kernel.Date date) {
         return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
     }
+    private ArrayList<?> generateListOfAll(String table){
+         ArrayList<Object> list = new ArrayList<>();
+         table = table.toUpperCase();
+         
+        try {
+            Statement request = this.connexion.createStatement();
 
+            //request all the orders from the database
+            request.execute("SELECT * FROM "+table);
+
+            ResultSet results = request.getResultSet();
+
+            //put the results in the list
+           while(results.next()){
+               list.add(
+                       "ADRESS".equals(table)?
+                               this.getAdressFromCurrentRow(results):
+                       "ORDERS".equals(table) ?
+                               this.getOrderFromCurrentRow(results) : 
+                       "CUSTOMERS".equals(table)?
+                               this.getCustomerFromCurrentRow(results):
+                        "SAMPLES".equals(table)?
+                                this.getSampleFromCurrentRow(results):
+                        "ANIMALS".equals(table)?
+                                this.getAnimalFromCurrentRow(results):
+                        "SPECIES".equals(table)?
+                                this.getSpeciesFromCurrentRow(results):
+                        "CATEGORY".equals(table)?
+                                this.getCategoryFromCurrentRow(results):
+                        null
+               );
+           }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
     //PREPARED QUERIES
     private ResultSet getResultSetFromIdQuery(String table, int id) {
         ResultSet results = null;
@@ -215,29 +254,30 @@ public class Database {
     //FROM RESULTSET	
   
     //LISTS ESTABLISHMENT
+    public List<Adress> getAdressList(){
+        return (List<Adress>) this.generateListOfAll("ADRESS");
+    }
+    public List<Samples> getSampleList(){
+        return (List<Samples>) this.generateListOfAll("SAMPLES");
+    }
+    public List<Animals> getAnimalList(){
+        return (List<Animals>) this.generateListOfAll("ANIMALS");
+    }
+    public List<Species> getSpeciesList(){
+        return (List<Species>) this.generateListOfAll("SPECIES");
+    }
+    public List<Category> getCategoryList(){
+        return this.generateListOfAll("CATEGORY");
+    }
     public List<Orders> getOrderList() {
-        ArrayList<Orders> orderList = new ArrayList<>();
-
-        try {
-            Statement request = this.connexion.createStatement();
-
-            //request all the orders from the database
-            request.execute("SELECT * FROM ORDERS");
-
-            ResultSet results = request.getResultSet();
-
-            //put the results in the list
-           while(results.next()){
-               orderList.add(this.getOrderFromCurrentRow(results));
-           }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        ArrayList<Orders> orderList = (ArrayList<Orders>) this.generateListOfAll("ORDERS");
         return orderList;
     }
-
+    public List<Customers> getCustomerList(){
+         ArrayList<Customers> customerList = (ArrayList<Customers>) this.generateListOfAll("CUSTOMERS");
+        return customerList;
+    }
+    
     /* INSERTION METHODS */
     public void insertAdress(Adress adress) {
         try {
@@ -274,7 +314,9 @@ public class Database {
         }
 
     }
-    public void insertCustomer(Customers c) {  //MDERO
+    
+    //MDERO
+    public void insertCustomer(Customers c) {
         try {
             Statement s = this.connexion.createStatement();
             String query = "INSERT INTO Customers (ID_CUSTOMERS, ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
@@ -296,45 +338,5 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    public void insertCustomerWOID(Customers c) {  //MDERO
-        try {
-            Statement s = this.connexion.createStatement();
-            String query = "INSERT INTO Customers (ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
-                    + "values("+
-                    c.getTypeCusto()+","+
-                    c.getAdress().getIdAdress()+","+
-                     //ID CORPORATE TODO:
-                    "'"+c.getFirstName()+"',"+
-                    "'"+c.getLastName()+"',"+
-                    c.getPhoneNumber()+","+
-                    "'"+c.getEmail()+"',"+
-                    // "0999999999,"+
-                    c.getPhone()+
-                    ")";
-            System.out.println(query);
-            s.executeQuery(query);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /* DELETION METHODS */
-    public Customers delCustomer(int id) {
-        Customers customer = null;
-        try {
-            Statement request = this.connexion.createStatement();
-            request.execute("DELETE * FROM CUSTOMERS WHERE Id_customers=" + id);
-            
-            ResultSet results = request.getResultSet();
-            results.next();
-
-            customer = this.getCustomerFromCurrentRow(results);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return customer;
     }
 }
