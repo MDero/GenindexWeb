@@ -29,7 +29,7 @@ public class DatabaseTest extends TestCase {
         //MDero
         //TODO:Fix dat
         public void testGetCustomer() {
-            Customers c =  d.getCustomer(9);
+            Customers c =  d.getCustomer(0);
         }
 	
         

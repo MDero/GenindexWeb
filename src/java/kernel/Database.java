@@ -25,7 +25,7 @@ public class Database {
             System.out.println("Connection to gphy successful");
         } catch (SQLException ex) {
             Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
-            System.out.println("failed to connect to gphy successfully");
+            System.out.println("failed to connect to gphy");
         }
     }
     
@@ -36,7 +36,7 @@ public class Database {
             System.out.println("Connection to " + url + " successful for " + user);
         } catch (SQLException ex) {
             Logger.getLogger("ConnectBDD").log(Level.SEVERE, null, ex);
-            System.out.println("failed to connect to " + url + " successful for " + user);
+            System.out.println("failed to connect to " + url + "  for " + user);
         }
     }
 
@@ -119,13 +119,24 @@ public class Database {
     //PREPARED QUERIES
     private ResultSet getResultSetFromIdQuery(String table, int id) {
         ResultSet results = null;
+        table = table.toUpperCase();
         try {
-            OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE ID_:table = :id");
-            ps.setStringAtName("table", table);
-            ps.setIntAtName("id", id);
-            results = ps.executeQuery();
-
+            //OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE ID_:table = :id");
+            //ps.setStringAtName("table", table);
+            //ps.setIntAtName("id", id);
+            
+            String request = "SELECT * FROM table WHERE field = id";
+            request=request.replace("table", table);
+            request= request.replace("field", "ID_"+table);
+            request=request.replace("id", ""+id);
+            
+            Statement statement = this.connexion.createStatement();
+            System.out.println(request);            
+            results = statement.executeQuery(request);
+            
+            //results = ps.executeQuery();
         } catch (SQLException e) {
+            System.out.println(table+" "+id);
             e.printStackTrace();
         }
         return results;
@@ -208,7 +219,7 @@ public class Database {
     public Customers getCustomer(int id) {
         Customers customer = null;
         try {            
-            ResultSet results = getResultSetFromIdQuery("Customers",id);
+            ResultSet results = getResultSetFromIdQuery("CUSTOMERS",id);
             results.next();
 
             customer = this.getCustomerFromCurrentRow(results);
