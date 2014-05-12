@@ -61,6 +61,14 @@ public class SexingTest extends JFrame {
              System.exit(0);
             }
         } );
+        species.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+
+            }
+        } );
         myFrame.pack();
         myFrame.setVisible(true);
     }

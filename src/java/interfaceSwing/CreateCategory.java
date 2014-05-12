@@ -1,7 +1,6 @@
 package interfaceSwing;
 
 import kernel.*;
-
 import java.awt.*; 
 import javax.swing.*;
 import java.awt.event.*;
@@ -12,11 +11,14 @@ import java.awt.event.*;
  * @author Caro
  */
 public class CreateCategory extends JFrame {
-
+        
+        //database
+        static Database database = new Database();
 
         // Déclaration des variables
         private JMenuBar menuBar;
         private JMenuItem Exit;
+        private Category category;
 
         private JButton valider=new JButton("Valider ");
         // le label explicatif
@@ -67,6 +69,7 @@ public class CreateCategory extends JFrame {
         
         bouton = new JPanel();
         bouton.add(valider);
+        database.insertCategory(category);
         
         
   

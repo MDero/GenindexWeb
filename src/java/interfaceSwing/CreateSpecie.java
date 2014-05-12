@@ -1,9 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaceSwing;
-import kernel.*;
 /**
  *
  * @author Caro
@@ -12,18 +7,13 @@ import kernel.*;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import kernel.*;
 
 import java.awt.*; 
+
 import javax.swing.*;
 import java.awt.event.*;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
-//import java.util.ArrayList;
-
-/**
- *
- * @author Caro
- */
 
 public class CreateSpecie extends JFrame {
         //database
@@ -37,6 +27,7 @@ public class CreateSpecie extends JFrame {
         private JComboBox boxCategory;
         private String[] items;
         private JFrame myFrame;
+        private Species specie;
         
         // le label explicatif
         private JLabel nom, caracteristiques, categorie;
@@ -106,16 +97,24 @@ public class CreateSpecie extends JFrame {
         zone3.add(categorie);
         zone3.add(boxCategory);
         zone3.add(newCategorie);
-            newCategorie.addActionListener(new ActionListener(){
+            
+        newCategorie.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-                new CreateCategory();
-            }
+                new CreateCategory();   
+                if (!CreateSpecie.this.Ccategorie.getText().equals("")){
+                    database.insertSpecies(specie);  
+                }  
+                
+                 if (!CreateSpecie.this.Cnom.getText().equals("")){
+                    database.insertSpecies(specie);     
+                }
             
-            });
-        
-        
+            }
+        });
+            
+           
         champs = new JPanel(); 
         champs.setLayout(new GridLayout(3,1));
         champs.add(zone1);
@@ -125,32 +124,11 @@ public class CreateSpecie extends JFrame {
         bouton = new JPanel();
         bouton.add(valider);
         
-       // PreparedStatement pstmt = con.prepareStatement("insert into Category (nom,categorie) values (1,2)");
-        //pstmt.setString(1,nom);
-        //pstmt.setInt(2, categorie);
-        //int result = pstmt.executeUpdate();
-        
-       // database.insertCategory(Category category);
-       /**valider.addActionListener(new ActionListener(){
-         @Override
-         public void actionPerformed(ActionEvent ae) {
-         
-             
-         
-         }
-            
-          //  });
-            
-        //}
-        **/
         myFrame.setLayout(new BorderLayout());
         myFrame.add(menuBar, BorderLayout.NORTH);
         myFrame.add(champs, BorderLayout.CENTER);
         myFrame.add(bouton, BorderLayout.SOUTH);
-        
-       
 
-        
         myFrame.pack();
         myFrame.setVisible(true);
     }
