@@ -1,8 +1,5 @@
 package kernel;
 
- 
-
-
 import java.sql.SQLIntegrityConstraintViolationException;
 import junit.framework.TestCase;
 
