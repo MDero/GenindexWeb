@@ -337,8 +337,8 @@ public class Database {
             System.out.println(insert);
             s.executeQuery(insert);
         } catch (SQLException ex) {
-            System.out.println(insert);
-            ex.printStackTrace();
+            System.out.println("ERROR ON : " + insert);
+            System.out.println(ex);
         }
     }
     
