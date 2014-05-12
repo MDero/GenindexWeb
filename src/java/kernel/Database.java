@@ -377,13 +377,31 @@ public class Database {
         Customers customer = null;
         try {
             Statement request = this.connexion.createStatement();
-            request.execute("DELETE * FROM CUSTOMERS WHERE Id_customers=" + id);
+            request.execute("DELETE FROM CUSTOMERS WHERE Id_customers=" + id);
+            System.out.println("DEL CUSTOMER : " + request.toString());
+            ResultSet results = request.getResultSet();
+            results.next();
+
+            customer = this.getCustomerFromCurrentRow(results);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customer;
+    }
+    
+    public Customers delAdress(int id) {
+        Customers customer = null;
+        try {
+            Statement request = this.connexion.createStatement();
+            request.execute("DELETE FROM ADRESS WHERE ID_ADRESS=" + id);
             
             ResultSet results = request.getResultSet();
             results.next();
 
             customer = this.getCustomerFromCurrentRow(results);
         } catch (SQLException e) {
+            System.out.println("delAdress");
             e.printStackTrace();
         }
 
