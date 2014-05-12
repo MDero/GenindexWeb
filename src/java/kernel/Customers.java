@@ -55,6 +55,14 @@ public class Customers {
 	  this.ID = ID;
           this.typeCusto = typeCusto;
   }
+  //AUTO_ID
+    public Customers(String first, String last, Adress adress, String phone, int typeCusto) {
+	  this.adress = adress;
+	  firstName = first;
+	  lastName = last;
+	  phoneNumber = phone;
+          this.typeCusto = typeCusto;
+  }
 
   /**
    * to modify attribute name

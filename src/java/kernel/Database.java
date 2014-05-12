@@ -274,9 +274,7 @@ public class Database {
         }
 
     }
-    
-    //MDERO
-    public void insertCustomer(Customers c) {
+    public void insertCustomer(Customers c) {  //MDERO
         try {
             Statement s = this.connexion.createStatement();
             String query = "INSERT INTO Customers (ID_CUSTOMERS, ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
@@ -298,5 +296,45 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void insertCustomerWOID(Customers c) {  //MDERO
+        try {
+            Statement s = this.connexion.createStatement();
+            String query = "INSERT INTO Customers (ID_TYPECUSTOMERS, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO) "
+                    + "values("+
+                    c.getTypeCusto()+","+
+                    c.getAdress().getIdAdress()+","+
+                     //ID CORPORATE TODO:
+                    "'"+c.getFirstName()+"',"+
+                    "'"+c.getLastName()+"',"+
+                    c.getPhoneNumber()+","+
+                    "'"+c.getEmail()+"',"+
+                    // "0999999999,"+
+                    c.getPhone()+
+                    ")";
+            System.out.println(query);
+            s.executeQuery(query);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /* DELETION METHODS */
+    public Customers delCustomer(int id) {
+        Customers customer = null;
+        try {
+            Statement request = this.connexion.createStatement();
+            request.execute("DELETE * FROM CUSTOMERS WHERE Id_customers=" + id);
+            
+            ResultSet results = request.getResultSet();
+            results.next();
+
+            customer = this.getCustomerFromCurrentRow(results);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customer;
     }
 }
