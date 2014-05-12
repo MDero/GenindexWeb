@@ -76,7 +76,7 @@ public class Database {
     private static String convertDateToString(kernel.Date date) {
         return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
     }
-    private ArrayList<?> generateListOfAll(String table){
+    private ArrayList<?> generateListOfAll(String table,String ... clauses){
          ArrayList<Object> list = new ArrayList<>();
          table = table.toUpperCase();
          
@@ -84,7 +84,7 @@ public class Database {
             Statement request = this.connexion.createStatement();
 
             //request all the orders from the database
-            request.execute("SELECT * FROM "+table);
+            request.execute("SELECT * FROM "+table+" "+(clauses.length>0 ? clauses[0] : ""));
 
             ResultSet results = request.getResultSet();
 
@@ -266,7 +266,6 @@ public class Database {
         Category category = this.getCategoryFromCurrentRow(results);
         return category;
     }
-
   
     //LISTS ESTABLISHMENT
     public List<Adress> getAdressList(){
@@ -299,6 +298,15 @@ public class Database {
         return  (List<TypeAnalysis>) this.generateListOfAll("TYPEANAL");
     } 
     
+    //QUERIES
+    //TODO : move to the correct class in the end
+    public List<Orders> getOrdersForCustomer(Customers customer){
+        return (List<Orders>) this.generateListOfAll("ORDERS", "WHERE ID_CUSTOMERS="+customer.getID());
+    }
+    public List<Orders> getOrdersForCustomer(int id){
+        return (List<Orders>) this.generateListOfAll("ORDERS", "WHERE ID_CUSTOMERS="+id);
+    }
+    
     /* INSERTION METHODS */
     private void insertIntoTableAllValues(String table, Object... values){
         try {
@@ -319,24 +327,26 @@ public class Database {
         
     }//OBSOLETE : should not be used (see rules)
     private void insertIntoTableValuesForFields(String table, String fields, Object...values){
+        String insert = "";
         try {
             Statement s = this.connexion.createStatement();
             
             //create the query
-            String insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
+            insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
             
             for (int i = 0; i<values.length;i++)
                 insert+= (values[i] instanceof String ? "'" :"") + 
                         values[i]
-                        + (i==values.length-1 ? 
-                       values[i] instanceof String ? "'" :""  
-                        : ",");
+                        + (i==values.length-1 ? ""
+                        : ",") + 
+                        values[i] instanceof String ? "'" :""  ;
             
             insert += ")";
             System.out.println(insert);
             s.executeQuery(insert);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("ERROR ON : " + insert);
+            System.out.println(ex);
         }
     }
     
