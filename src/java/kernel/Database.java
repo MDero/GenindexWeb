@@ -120,7 +120,7 @@ public class Database {
     private ResultSet getResultSetFromIdQuery(String table, int id) {
         ResultSet results = null;
         try {
-            OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE Id_:table = :id");
+            OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE ID_:table = :id");
             ps.setStringAtName("table", table);
             ps.setIntAtName("id", id);
             results = ps.executeQuery();
