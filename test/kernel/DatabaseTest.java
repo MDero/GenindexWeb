@@ -1,7 +1,6 @@
 package kernel;
 
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
@@ -39,6 +38,7 @@ public class DatabaseTest extends TestCase {
     //MDERO
     public void testInsertCustomer() { //VALIDATED BY MDERO
         //public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
+        System.out.println("testInsertCustomer : " + cTest);
         d.insertCustomerWOID(cTest);
         System.out.println("INSERT CUSTOMER DONE");
     }

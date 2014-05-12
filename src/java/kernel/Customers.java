@@ -30,39 +30,36 @@ public class Customers {
   
   //Mdero
   private int typeCusto;
-
-// ORIGINAL CONSTRUCTOR
-  public Customers(String first, String last, int num, String rue, String phone, int ID) {
-    // Bouml preserved body begin 00040A82
-	  Adress ad = new Adress(num, rue);
-	  this.adress = ad;
+  
+  //MUST USE THIS ONE IN INTERFACE
+  //AUTO_ID
+    public Customers(String first, String last, Adress adress, String phone, String mail, int typeCusto) {
+	  this.adress = adress;
 	  firstName = first;
 	  lastName = last;
 	  phoneNumber = phone;
+          this.email = mail;
+          this.typeCusto = typeCusto;
+  }
+    
+  //MDERO
+  //TO GET FROM DATABASE
+    protected Customers(int ID, String first, String last, Adress adress, String mail, String phone, int typeCusto) {
+    // Bouml preserved body begin 00040A82
+	  this.adress = adress;
+	  this.firstName = first;
+	  this.lastName = last;
+	  this.phoneNumber = phone;
+          this.email = mail;
 	  this.ID = ID;
           //Mdero
-          this.typeCusto = 0;
+          this.typeCusto = typeCusto;
      // Bouml preserved body end 00040A82
   }
   
-//MDERO
-//Use adress object directly
-    public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
-	  this.adress = adress;
-	  firstName = first;
-	  lastName = last;
-	  phoneNumber = phone;
-	  this.ID = ID;
-          this.typeCusto = typeCusto;
-  }
-  //AUTO_ID
-    public Customers(String first, String last, Adress adress, String phone, int typeCusto) {
-	  this.adress = adress;
-	  firstName = first;
-	  lastName = last;
-	  phoneNumber = phone;
-          this.typeCusto = typeCusto;
-  }
+
+  
+
 
   /**
    * to modify attribute name
