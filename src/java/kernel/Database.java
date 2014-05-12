@@ -131,7 +131,7 @@ public class Database {
             request=request.replace("id", ""+id);
             
             Statement statement = this.connexion.createStatement();
-            System.out.println(request);            
+            //System.out.println(request);            
             results = statement.executeQuery(request);
             
             //results = ps.executeQuery();
