@@ -327,11 +327,12 @@ public class Database {
         
     }//OBSOLETE : should not be used (see rules)
     private void insertIntoTableValuesForFields(String table, String fields, Object...values){
+        String insert = "";
         try {
             Statement s = this.connexion.createStatement();
             
             //create the query
-            String insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
+            insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
             
             for (int i = 0; i<values.length;i++)
                 insert+= (values[i] instanceof String ? "'" :"") + 
@@ -344,7 +345,8 @@ public class Database {
             System.out.println(insert);
             s.executeQuery(insert);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println("ERROR ON : " + insert);
+            System.out.println(ex);
         }
     }
     
