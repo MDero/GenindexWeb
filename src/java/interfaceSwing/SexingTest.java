@@ -28,8 +28,8 @@ public class SexingTest extends JFrame {
         this.valider = new JButton("Valider");
         this.annuler = new JButton("Annuler");
         ArrayList<String> espece = new ArrayList<>();
-        for (Species species : database.getSpeciesList()){
-        espece.add(species.name);
+        for (Species specie : database.getSpeciesList()){
+        espece.add(specie.getName());
         }
         items = new String[espece.size()];
         for (int i =0; i<items.length;i++)
