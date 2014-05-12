@@ -115,7 +115,7 @@ public class CreateOrder extends JFrame {
 
         // Liste déroulante Analysis
         ArrayList<String> analyse = new ArrayList<>();
-        for (Types_analysis analysis : database.getTypeAnalysisList()) {
+        for (TypeAnalysis analysis : database.getTypeAnalysisList()) {
             analyse.add(String.valueOf(analysis.getType()));
         }
         items = new String[analyse.size()];
