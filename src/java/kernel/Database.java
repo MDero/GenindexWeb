@@ -340,6 +340,7 @@ public class Database {
         }
     }
     
+    //MDERO
     public void insertAdress(Adress adress) {
         String[] fields = {"NUMBER", "STREET", "ZIPCODE", "CITY", "COUNTRY"};
         this.insertIntoTableValuesForFields("ADRESS", fields,
