@@ -336,9 +336,9 @@ public class Database {
             for (int i = 0; i<values.length;i++)
                 insert+= (values[i] instanceof String ? "'" :"") + 
                         values[i]
-                        + (i==values.length-1 ? 
-                       values[i] instanceof String ? "'" :""  
-                        : ",");
+                        + (i==values.length-1 ? ""
+                        : ",") + 
+                        values[i] instanceof String ? "'" :""  ;
             
             insert += ")";
             System.out.println(insert);
