@@ -2,8 +2,8 @@ package interfaceSwing;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
-
-
+import kernel.*;
+import java.util.ArrayList;
 /**
  *
  * @author Nathan
@@ -16,6 +16,8 @@ public class SexingTest extends JFrame {
     private JComboBox species;
     private JLabel presentation,info1, info2 ;
     private JTextField specificite;
+    static Database database = new Database();
+    private String[] items;
     
     public SexingTest () {
         myFrame = new JFrame("Créer un test sur le sexe");
@@ -25,7 +27,15 @@ public class SexingTest extends JFrame {
         this.info2 = new JLabel ("Entrer les informations du gène",JLabel.CENTER);
         this.valider = new JButton("Valider");
         this.annuler = new JButton("Annuler");
-        this.species = new JComboBox();
+        ArrayList<String> espece = new ArrayList<>();
+        for (Species species : database.getSpeciesList()){
+        espece.add(species.name);
+        }
+        items = new String[espece.size()];
+        for (int i =0; i<items.length;i++)
+        items[i]=espece.get(i);
+        //JComboBox Customers = new JComboBox(items);
+        this.species = new JComboBox(items);
         this.specificite = new JTextField();
         topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(1,1));
@@ -39,13 +49,10 @@ public class SexingTest extends JFrame {
         midPanel.add(info2);
         midPanel.add(specificite);
         botPanel.add(valider);
-        botPanel.add(annuler);
-        
-        
+        botPanel.add(annuler);  
         myFrame.add(topPanel, BorderLayout.NORTH);
         myFrame.add(midPanel, BorderLayout.CENTER);
         myFrame.add(botPanel, BorderLayout.SOUTH);
-        
         annuler.addActionListener (new ActionListener () 
         {
             @Override
