@@ -29,6 +29,7 @@ public class CreateCustomer extends JFrame {
     private final JButton valider;
     private String[] item;
     private Database database;
+    private ButtonGroup groupe;
     
     
     public CreateCustomer(){
@@ -55,16 +56,31 @@ public class CreateCustomer extends JFrame {
         individuel= new JRadioButton("Individuel");
         professionel = new JRadioButton("Professionel");
         
+        ButtonGroup groupe = new ButtonGroup();
+        
+        groupe.add(individuel);
+        groupe.add(professionel);
+        
         nom=new JLabel("Nom*: ");
         prenom= new JLabel("Prenom*: ");
         tel= new JLabel ("N° téléphone*: ");
         mail= new JLabel ("e-mail*: ");
         port = new JLabel ("N° portable: ");
+        
         nomT = new JTextField(40);
+        nomT.setEditable(false);
+        
         prenomT = new JTextField(40);
+        prenomT.setEditable(false);
+        
         telT = new JTextField(40);
+        telT.setEditable(false);
+        
         mailT = new JTextField(40);
+        mailT.setEditable(false);
+        
         portT = new JTextField(40);
+        portT.setEditable(false);
         
         type_individuel1= new JPanel();
         type_individuel1.setLayout(new GridLayout(5,2));
@@ -103,20 +119,32 @@ public class CreateCustomer extends JFrame {
         pays= new JLabel("Pays: " );
         
         nomC= new JTextField(40);
+        nomC.setEditable(false);
         prenomC= new JTextField(40);
+        prenomC.setEditable(false);
         MailC=new JTextField(40);
+        MailC.setEditable(false);
         FaxeC=new JTextField(40);
+        FaxeC.setEditable(false);
         EntreC=new JTextField(40);
+        EntreC.setEditable(false);
         telC= new JTextField(40);
+        telC.setEditable(false);
         adresseC=new JTextField(40);
+        adresseC.setEditable(false);
         nC=new JTextField(40);
+        nC.setEditable(false);
         rueC=new JTextField(40);
+        rueC.setEditable(false);
         
         //création des JComboBox
         
         villeC=new JTextField(40);
+        villeC.setEditable(false);
         paysC=new JComboBox();
+        paysC.setEditable(false);
         CPC=new JTextField(40);
+        CPC.setEditable(false);
         
    
         
