@@ -207,12 +207,8 @@ public class Database {
     }
     public Customers getCustomer(int id) {
         Customers customer = null;
-        try {
-            Statement request = this.connexion.createStatement();
-            //request all the orders from the database
-            request.execute("SELECT * FROM CUSTOMERS WHERE Id_customers=" + id);
-            
-            ResultSet results = request.getResultSet();
+        try {            
+            ResultSet results = getResultSetFromIdQuery("Customers",id);
             results.next();
 
             customer = this.getCustomerFromCurrentRow(results);
