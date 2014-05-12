@@ -71,7 +71,7 @@ public class SamplesTest extends TestCase {
 			Date d = new Date(12,12,2010);
 			Types_analysis typana = new Types_analysis("PCR", 123);
 			Analysis ana2 = new Analysis(1, typana, d);
-			assertTrue(s.getAnalysis().getID()==1);
+			assertTrue(s.getAnalyses().getID()==1);
 		}
 	// The method returns the good analysis for the sample: the test is successful.
 
@@ -142,7 +142,7 @@ public class SamplesTest extends TestCase {
 		Analysis ana3 = new Analysis(9, typana2, d2);
 		
 		s.addAnalysis(ana3);
-		assertTrue(s.getAnalysis().getID()==9);
+		assertTrue(s.getAnalyses().getID()==9);
 	}	
 	//The test is successfull, the new identifier of the analysis is 9.
 }

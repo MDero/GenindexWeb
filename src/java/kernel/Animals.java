@@ -7,7 +7,7 @@ public class Animals {
   /**
    * The animal belongs to a specie.
    */
-
+  private int id;
   private Species species;
   private String name;
 
@@ -22,7 +22,14 @@ public class Animals {
 	  this.numberBirthday = numberBirthday;
     // Bouml preserved body end 00020D83
   }
+  public Animals(int id, Species species, int numberBirthday){
+      this(species,numberBirthday);
+      this.id=id;
+  }
 
+    public int getId() {
+        return id;
+    }
   public Species getSpecies() {
     // Bouml preserved body begin 00022C83
 	  return this.species;

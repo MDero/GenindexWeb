@@ -182,7 +182,7 @@ public class Database {
     private Samples getSampleFromCurrentRow(ResultSet results){
         return new Samples(
                 ""+extractString(results,"Id_sample"),
-                extractString(results,"Id_TypeSample") ,//TODO : creer le type TypeSample et ses méthodes ici
+                new TypeSample(extractString(results,"Id_TypeSample")),
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
                 this.getAnimals(extractNumber(results,"Id_animals"))
@@ -292,6 +292,9 @@ public class Database {
     public List<Invoice> getInvoiceList(){
         return (List<Invoice>) this.generateListOfAll("INVOICE");
     }
+    public List<TypeAnalysis> getTypeAnalysisList(){
+        return  (List<TypeAnalysis>) this.generateListOfAll("TYPEANAL");
+    } 
     
     /* INSERTION METHODS */
     private void insertIntoTableAllValues(String table, Object... values){
@@ -311,7 +314,7 @@ public class Database {
             ex.printStackTrace();
         }
         
-    }
+    }//OBSOLETE : should not be used (see rules)
     private void insertIntoTableValuesForFields(String table, String[] fields, Object...values){
         try {
             Statement s = this.connexion.createStatement();
@@ -423,25 +426,30 @@ public class Database {
         );
     }
     public void insertCategory(Category category){
-        this.insertIntoTableAllValues("CATEGORY", 
-                category.getId(),
+        String[] fields = {"NAME"};
+        this.insertIntoTableValuesForFields("CATEGORY", fields,
                 category.getName()
-                );
+        );
     }
     public void insertSpecies(Species species){
-        //if the species is not already inside the database
-        try {
-            Species sp = this.getSpecies(species.getId());
-            System.out.println("Species already inside the database : "+sp.getName()+" id : "+sp.getId());
-        }
-        catch (java.lang.NullPointerException e){
-            this.insertIntoTableAllValues("SPECIES", species.getId(),species.getCategory().getId(),species.getName());
-        }
-        //if (this.getSpecies(species.getId())==null)
-            
+        String[] fields = {"ID_CATEGORY","NAME"};
+        this.insertIntoTableValuesForFields("SPECIES", fields,
+                //values
+                species.getCategory().getId(),
+                species.getName()
+        );
     }
     public void insertSample(Samples sample){
-        
+        String[] fields = {"ID_TYPESAMPLE ","ID_ORDERS","ID_ANIMALS","ID_STATUTSAMPLE","ANALYSED","DATESAMPLING","DATESTORAGE"};
+        this.insertIntoTableValuesForFields("SAMPLE", fields,
+                sample.getType().getId(),
+                sample.getOrder().getId(),
+                sample.getAnimal().getId(),
+                sample.getStatusId(),
+                sample.analyzed,
+                convertDateToString(sample.getDateSampling()),
+                convertDateToString(sample.getDateStorage())
+        );
     }
     
     /* DELETION METHODS */

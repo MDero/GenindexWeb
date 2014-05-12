@@ -5,7 +5,7 @@ package kernel;
 
 import java.util.ArrayList;
 /**
- * This class "samples" is about the different samples of the analysis.
+ * This class "samples" is about the different samples of the analyses.
  * We can manage the samples with the methods: modifySample(), printSample().
  * We have different accessors and we can return many informations with the methods "get...".
  */
@@ -15,14 +15,14 @@ public class Samples {
    * This identifiant is unique.
    */
   private String id;
-
+  private int statusId = 0 ;//TODO : default value;
   /**
    * It is the type of the sample (blood, DNA...)
    */
-  private String type;
+  private TypeSample type;
 
   /**
-   * number of analysis for this sample
+   * number of analyses for this sample
    */
   private int analysisCount = 0;
 
@@ -32,10 +32,58 @@ public class Samples {
   protected boolean analyzed;
 
   private Animals animal;
+  private Orders order ;
 
+    public int getAnalysisCount() {
+        return analysisCount;
+    }
+
+    public void setAnalysisCount(int analysisCount) {
+        this.analysisCount = analysisCount;
+    }
+
+    public boolean isAnalyzed() {
+        return analyzed;
+    }
+
+    public void setAnalyzed(boolean analyzed) {
+        this.analyzed = analyzed;
+    }
+
+    public Orders getOrder() {
+        return order;
+    }
+
+    public void setOrder(Orders order) {
+        this.order = order;
+    }
+
+    public Date getDateSampling() {
+        return dateSampling;
+    }
+
+    public void setDateSampling(Date dateSampling) {
+        this.dateSampling = dateSampling;
+    }
+
+    public ArrayList<Analysis> getAnalyses() {
+        return analyses;
+    }
+
+    public void setAnalyses(ArrayList<Analysis> analyses) {
+        this.analyses = analyses;
+    }
+
+    public Date getDateStorage() {
+        return dateStorage;
+    }
+
+    public void setDateStorage(Date dateStorage) {
+        this.dateStorage = dateStorage;
+    }
   private Date dateSampling;
 
-  private ArrayList<Analysis> analysis;
+  private ArrayList<Analysis> analyses;
 
   private Date dateStorage;
 
@@ -47,7 +95,7 @@ public class Samples {
    * - the date of creation of this sample (date).
    * - the date of the storage of this sample (date).
    */
-  Samples(String Identifier, String Type_sample, Date D_sampling, Date D_storage, Animals anim) {
+  Samples(String Identifier, TypeSample Type_sample, Date D_sampling, Date D_storage, Animals anim) {
     // Bouml preserved body begin 0002A282
 	  this.id = Identifier;
 	  this.type = Type_sample;
@@ -55,7 +103,7 @@ public class Samples {
 	  this.dateStorage = D_storage;
 	  this.animal = anim;
 	  this.analyzed = false; // default: the sample is not analyzed
-	  this.analysis = new ArrayList<Analysis>();
+	  this.analyses = new ArrayList<Analysis>();
     // Bouml preserved body end 0002A282
   }
 
@@ -75,7 +123,7 @@ public class Samples {
   /**
    * This method has been created to modify the type of the sample.
    */
-  public void setType(String type) {
+  public void setType(TypeSample type) {
     // Bouml preserved body begin 0002A402
 	  this.type = type;
     // Bouml preserved body end 0002A402
@@ -120,7 +168,7 @@ public class Samples {
   /**
    * This method return the type of the sample.
    */
-  public String getType() {
+  public TypeSample getType() {
     // Bouml preserved body begin 0002A682
 	  return this.type;
     // Bouml preserved body end 0002A682
@@ -159,15 +207,15 @@ public class Samples {
 
   public Analysis getAnalysis() {
     // Bouml preserved body begin 00037982
-		  for(int i=0; i<analysis.size(); i++)
+		  for(int i=0; i<analyses.size(); i++)
 		  {
-			  if(i==(analysis.size()-1))
+			  if(i==(analyses.size()-1))
 			  {
-				  return analysis.get(i);
+				  return analyses.get(i);
 			  }
 			  else
 			  {
-				  analysis.get(i).generateReport();
+				  analyses.get(i).generateReport();
 			  }
 		  }
 	  return null;
@@ -181,7 +229,7 @@ public class Samples {
   }
 
   /**
-   * add an analysis to the sample, 1 to 3 if the analysis is not validate
+   * add an analyses to the sample, 1 to 3 if the analyses is not validate
    */
   public void addAnalysis(Analysis ana) {
     // Bouml preserved body begin 000233C5
@@ -191,14 +239,14 @@ public class Samples {
 	  }
 	  else
 	  {
-		  analysis.add(analysisCount, ana);
+		  analyses.add(analysisCount, ana);
 		  analysisCount=analysisCount+1;
 	  }
     // Bouml preserved body end 000233C5
   }
 
   /**
-   * get the number of analysis for this sample
+   * get the number of analyses for this sample
    */
   public int getCount() {
     // Bouml preserved body begin 00023445
@@ -206,4 +254,7 @@ public class Samples {
     // Bouml preserved body end 00023445
   }
 
+  public int getStatusId(){
+      return this.statusId;
+  }
 }

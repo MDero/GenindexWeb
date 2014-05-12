@@ -48,7 +48,7 @@ public class Invoice {
 	  System.out.println("Details of analysis : ");
 	  Orders o = d.getOrders(this.idOrder);
 	  for (int i=0; i< o.getSamples().size(); i++) {
-		  if(o.getSamples().get(i).getAnalysis()!= null){
+		  if(o.getSamples().get(i).getAnalyses()!= null){
 		  System.out.print(o.getSamples().get(i).getAnalysis().getTypeAnalysis().getType());
 		  System.out.print(" : ");
 		  System.out.print(o.getSamples().get(i).getAnalysis().getTypeAnalysis().getPrice());
