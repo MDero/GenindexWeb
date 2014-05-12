@@ -190,6 +190,7 @@ public class Database {
     }
     private Species getSpeciesFromCurrentRow(ResultSet results){
         return new Species(
+                extractNumber(results,"ID_SPECIES"),
                 getCategoryFromCurrentRow(results),
                 extractString(results,"species")
         );
@@ -288,9 +289,50 @@ public class Database {
     public List<Category> getCategoryList(){
         return (List<Category>) this.generateListOfAll("CATEGORY");
     }
-
+    public List<Invoice> getInvoiceList(){
+        return (List<Invoice>) this.generateListOfAll("INVOICE");
+    }
     
     /* INSERTION METHODS */
+    private void insertIntoTableAllValues(String table, Object... values){
+        try {
+            Statement s = this.connexion.createStatement();
+            
+            //create the query
+            String insert = "INSERT INTO "+table.toUpperCase()+" values(";
+            
+            for (int i = 0; i<values.length;i++)
+                insert+= values[i]+ (i==values.length-1 ? "" : ",");
+            
+            insert += ");";
+            
+            s.executeQuery(insert);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    private void insertIntoTableValuesForFields(String table, String[] fields, Object...values){
+        try {
+            Statement s = this.connexion.createStatement();
+            
+            //create the query
+            String insert = "INSERT INTO "+table.toUpperCase()+" (";
+            for (int i = 0 ; i<fields.length;i++)
+                insert+=fields[i]+(i==fields.length-1 ? ")":",");
+            insert+=" values(";
+            
+            for (int i = 0; i<values.length;i++)
+                insert+= values[i]+ (i==values.length-1 ? "" : ",");
+            
+            insert += ");";
+            
+            s.executeQuery(insert);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public void insertAdress(Adress adress) {
         try {
             Statement s = this.connexion.createStatement();
@@ -370,6 +412,24 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void insertAnimals(Animals animal){
+        String[] fields = {"ID_SPECIES","NUMBERBIRTHDAY","NAME"};
+        this.insertIntoTableValuesForFields("ANIMALS", fields,
+                //values
+                animal.getSpecies().getId(),
+                animal.getNumberBirthday(),
+                animal.getName()
+        );
+    }
+    public void insertCategory(Category category){
+        
+    }
+    public void insertSpecies(Species species){
+        
+    }
+    public void insertSample(Samples sample){
+        
     }
     
     /* DELETION METHODS */

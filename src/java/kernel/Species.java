@@ -11,11 +11,25 @@ package kernel;
  * @author MrCake
  */
 public class Species {
-    public Category category;
-    public String name;
+    private int id; 
+    private Category category;
+    private String name;
     
-    public Species(Category category, String name){
+    public Species(int id,Category category, String name){
+        this.id=id;
         this.category=category;
         this.name=name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public String getName() {
+        return name;
     }
 }

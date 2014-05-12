@@ -9,7 +9,15 @@ package kernel;
  * This class manages the different fields of an invoice.
  */
 public class Invoice {
-  private int id;
+  private int idOrder;
+
+    public int getIdOrder() {
+        return idOrder;
+    }
+
+    public int getNumberAnalysis() {
+        return numberAnalysis;
+    }
 
   private double price;
 
@@ -20,7 +28,7 @@ public class Invoice {
 
   public  Invoice(double price, int numberA, int id) {
     // Bouml preserved body begin 00021A45
-	  this.id=id;
+	  this.idOrder=id;
 	  this.price=price;
 	  this.numberAnalysis=numberA;
     // Bouml preserved body end 00021A45
@@ -32,13 +40,13 @@ public class Invoice {
   public void printInvoice(Database d) {
     // Bouml preserved body begin 00043382
 	  System.out.print("Invoice for the order n ?");
-	  System.out.println(id);
+	  System.out.println(idOrder);
 	  System.out.print("Number of analysis : ");
 	  System.out.println(numberAnalysis);
 	  
 	  
 	  System.out.println("Details of analysis : ");
-	  Orders o = d.searchOrder(this.id);
+	  Orders o = d.getOrders(this.idOrder);
 	  for (int i=0; i< o.getSamples().size(); i++) {
 		  if(o.getSamples().get(i).getAnalysis()!= null){
 		  System.out.print(o.getSamples().get(i).getAnalysis().getTypeAnalysis().getType());

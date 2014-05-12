@@ -7,20 +7,25 @@ public class Animals {
   /**
    * The animal belongs to a specie.
    */
-  private Species specie;
 
+  private Species species;
+  private String name;
+
+    public String getName() {
+        return name;
+    }
   private int numberBirthday;
 
   public Animals(Species specie, int numberBirthday) {
     // Bouml preserved body begin 00020D83
-	  this.specie = specie;
+	  this.species = specie;
 	  this.numberBirthday = numberBirthday;
     // Bouml preserved body end 00020D83
   }
 
   public Species getSpecies() {
     // Bouml preserved body begin 00022C83
-	  return this.specie;
+	  return this.species;
     // Bouml preserved body end 00022C83
   }
 
@@ -32,7 +37,7 @@ public class Animals {
 
   public void setSpecies(Species new_species) {
     // Bouml preserved body begin 00022D83
-	  this.specie = new_species;
+	  this.species = new_species;
     // Bouml preserved body end 00022D83
   }
 
