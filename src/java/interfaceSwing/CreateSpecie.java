@@ -103,14 +103,11 @@ public class CreateSpecie extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 new CreateCategory();   
-                if (!CreateSpecie.this.Ccategorie.getText().equals("")){
+                if (!CreateSpecie.this.Ccategorie.getText().equals("")
+                       && !CreateSpecie.this.Cnom.getText().equals("")
+                        ){
                     database.insertSpecies(specie);  
-                }  
-                
-                 if (!CreateSpecie.this.Cnom.getText().equals("")){
-                    database.insertSpecies(specie);     
-                }
-            
+                }              
             }
         });
             
