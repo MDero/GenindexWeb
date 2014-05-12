@@ -126,5 +126,9 @@ public class Adress {
         return idAdress;
     }
 
+    public void setID(int i) {
+        this.idAdress = i;
+    }
+
   
 }
