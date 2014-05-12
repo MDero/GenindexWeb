@@ -20,12 +20,12 @@ import javax.swing.*;
 public class CreateCustomer extends JFrame  {
     private final JMenuBar menuBar;
     private final JMenu menu;
-    private final JMenuItem exit;
-    private final JRadioButton individuel, professionel;
-    private final JPanel type, type_individuel1, type_professionel1, type_professionel2, type_professionel,IP,IPT, total, validerp;
-    private final JLabel type_client, nom, prenom, tel, mail, port, nomCon, PrenomCon,TelCon, mailCon, Faxe, Entre,adresse,n,CP,rue,ville,pays ;
-    private final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC, CPC, villeC;
-    private final JComboBox paysC;
+    public final JMenuItem exit;
+    public final JRadioButton individuel, professionel;
+    public final JPanel type, type_individuel1, type_professionel1, type_professionel2, type_professionel,IP,IPT, total, validerp;
+    public final JLabel type_client, nom, prenom, tel, mail, port, nomCon, PrenomCon,TelCon, mailCon, Faxe, Entre,adresse,n,CP,rue,ville,pays ;
+    public final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC, CPC, villeC;
+    public final JComboBox paysC;
     private final JButton valider;
     private String[] item;
     private Database database;
@@ -207,6 +207,36 @@ public class CreateCustomer extends JFrame  {
         
          validerp= new JPanel();
          valider= new JButton("Valider");
+            valider.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //action du bouton valider
+                CreateCustomer cc = CreateCustomer.this;
+                Customers new_customer =null;
+                
+                //créer l'adresse, et l'insérer
+                Adress adress = new Adress();
+                
+                //individuel
+                if (!cc.professionel.isEnabled()){
+                     new_customer = new Customers(
+                            cc.prenomT.getText(),
+                            cc.nomT.getText(),
+                            adress,
+                            cc.telT.getText(),
+                            cc.mailT.getText(),
+                            0//TODO : change type customer
+                    );
+                }
+                else{
+
+                }
+                
+                database.insertCustomer(new_customer);
+            }
+                
+            });
         
          total=new JPanel();
          total.setLayout(new GridLayout(2,1));
@@ -262,8 +292,8 @@ public class CreateCustomer extends JFrame  {
                 }
     
     public static void main (String [] args){
-CreateCustomer visuel= new CreateCustomer();
-}
+        CreateCustomer visuel= new CreateCustomer();
+    }
 }
 
 

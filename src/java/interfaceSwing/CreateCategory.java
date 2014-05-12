@@ -1,5 +1,6 @@
 package interfaceSwing;
 
+import static interfaceSwing.CreateSpecie.database;
 import kernel.*;
 import java.awt.*; 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class CreateCategory extends JFrame {
         private JPanel zone1, zone2, champs, bouton;
     
     public CreateCategory (){
-        JFrame myFrame = new JFrame("Specie");
+        JFrame myFrame = new JFrame("Category");
         //Création de la barre de menu
         menuBar = new JMenuBar();
         
@@ -69,7 +70,18 @@ public class CreateCategory extends JFrame {
         
         bouton = new JPanel();
         bouton.add(valider);
-        database.insertCategory(category);
+        
+        valider.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                new CreateCategory();   
+                if (!CreateCategory.this.Cnom.getText().equals("")
+                        ){
+                    database.insertCategory(category);  
+                }              
+            }
+        });
         
         
   
