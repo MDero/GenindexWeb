@@ -35,7 +35,7 @@ public class Users {
    * 	- level 3:  if the user has the right to perform, validate and interpret an analysis
    * --> for a type of analysis;
    */
-  private HashMap<Types_analysis,Integer> technicalAuthorizations;
+  private HashMap<TypeAnalysis,Integer> technicalAuthorizations;
 
   /**
    * If the user wants to access to Internet services, he must have an login (and a password).
@@ -61,7 +61,7 @@ public class Users {
 	  this.login = this.createLogin();
 	  this.password = this.login;
 	  this.administrativeAuthorizations=false;
-	  this.technicalAuthorizations = new HashMap();
+	  this.technicalAuthorizations = new HashMap<>();
     // Bouml preserved body end 0001F403
   }
 
@@ -75,7 +75,7 @@ public class Users {
 	  this.login = this.createLogin();
 	  this.password = this.login;
 	  this.administrativeAuthorizations=false;
-	  this.technicalAuthorizations = new HashMap();
+	  this.technicalAuthorizations = new HashMap<>();
     // Bouml preserved body end 0002DB82
   }
 
@@ -103,7 +103,7 @@ public class Users {
     // Bouml preserved body end 0002DE02
   }
 
-  public HashMap<Types_analysis, Integer> getTechnicalAuth() {
+  public HashMap<TypeAnalysis, Integer> getTechnicalAuth() {
     // Bouml preserved body begin 00042D82
 	  return this.technicalAuthorizations;
     // Bouml preserved body end 00042D82
@@ -151,7 +151,7 @@ public class Users {
     // Bouml preserved body end 0002DD02
   }
 
-  public void setTechnicalAuth(int level, Types_analysis analysis) {
+  public void setTechnicalAuth(int level, TypeAnalysis analysis) {
     // Bouml preserved body begin 0002DD82
 	  this.removeTechnicalAuth(analysis);
 	  this.addTechnicalAuth(level, analysis);
@@ -178,7 +178,7 @@ public class Users {
   /**
    * This function permits to add a technical authorization to an user.
    */
-  public void addTechnicalAuth(int level, Types_analysis type) {
+  public void addTechnicalAuth(int level, TypeAnalysis type) {
     // Bouml preserved body begin 00042D02
 	  this.technicalAuthorizations.put(type,level);
     // Bouml preserved body end 00042D02
@@ -187,7 +187,7 @@ public class Users {
   /**
    * This function permits to remove a technical autorization to an user.
    */
-  public void removeTechnicalAuth(Types_analysis type) {
+  public void removeTechnicalAuth(TypeAnalysis type) {
     // Bouml preserved body begin 0002DE82
 	  this.technicalAuthorizations.remove(type);
     // Bouml preserved body end 0002DE82
@@ -198,10 +198,10 @@ public class Users {
    */
   public void listTechnicalAuth() {
     // Bouml preserved body begin 00042E02
-	  Iterator iterator = this.technicalAuthorizations.keySet().iterator();
+       Iterator iterator = this.technicalAuthorizations.keySet().iterator();
       while( iterator. hasNext() )
       {
-      	 System.out.println(((Types_analysis)iterator.next()).getType());
+      	 System.out.println(((TypeAnalysis)iterator.next()).getType());
       }
     // Bouml preserved body end 00042E02
   }

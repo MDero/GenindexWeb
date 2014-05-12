@@ -352,7 +352,6 @@ public class Database {
                 adress.getCountry());
     }
     public void insertOrder(Orders order) {
-        String[] fields = {};
         this.insertIntoTableValuesForFields("ORDERS", 
                 "(ID_CUSTOMERS, PRIORITYLEVEL,NUMBERSAMPLES, DATEDEADLINE, DATEORDER, PAID, RESULTSEND, REPORT_ORDERS)",
                 //order.getId(),
@@ -380,7 +379,7 @@ public class Database {
     }
     public void insertAnimals(Animals animal){
         this.insertIntoTableValuesForFields("ANIMALS", 
-                "(ID_SPECIES,NUMBERBIRTHDAY,NAME)",
+                "(ID_SPECIES,NUMBERBIRTHDAY,\"NAME\")",
                 //values
                 animal.getSpecies().getId(),
                 animal.getNumberBirthday(),
@@ -389,13 +388,13 @@ public class Database {
     }
     public void insertCategory(Category category){
         this.insertIntoTableValuesForFields("CATEGORY", 
-                "(NAME)",
+                "(\"NAME\")",
                 category.getName()
         );
     }
     public void insertSpecies(Species species){
         this.insertIntoTableValuesForFields("SPECIES", 
-                "(ID_CATEGORY,NAME)",
+                "(ID_CATEGORY,SPECIES)",
                 //values
                 species.getCategory().getId(),
                 species.getName()

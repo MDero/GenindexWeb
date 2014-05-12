@@ -26,7 +26,6 @@ public class DatabaseTest extends TestCase {
         System.out.println("INSERT ADRESS DONE");
     }
     
-    
     //CUSTOMERS TESTS
     
     //MDERO

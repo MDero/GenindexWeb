@@ -6,7 +6,7 @@ package kernel;
 import kernel.Types_analysis;
 import junit.framework.TestCase;
 
-public class Types_analysisTest extends TestCase {
+public class TypeAnalysisTest extends TestCase {
 
 	/*
 	 * first we created an instance of analysis by using the method of database, like that we test 

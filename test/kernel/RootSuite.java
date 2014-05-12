@@ -19,7 +19,7 @@ import org.junit.runners.Suite;
  * @author Allan
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({UsersTest.class, InvoiceTest.class, AdressTest.class, CustomersTest.class, AnimalsTest.class, SamplesTest.class, Types_analysisTest.class, DateTest.class, OrdersTest.class, StorageTest.class, DatabaseTest.class, AnalysisTest.class})
+@Suite.SuiteClasses({UsersTest.class, InvoiceTest.class, AdressTest.class, CustomersTest.class, AnimalsTest.class, SamplesTest.class, TypeAnalysisTest.class, DateTest.class, OrdersTest.class, StorageTest.class, DatabaseTest.class, AnalysisTest.class})
 public class RootSuite {
 
     @BeforeClass

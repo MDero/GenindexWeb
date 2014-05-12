@@ -22,12 +22,12 @@ public class Analysis {
 
   private Date dateAnalysis;
 
-  private Types_analysis typeAnalysis;
+  private TypeAnalysis typeAnalysis;
 
   /**
    * constructor of analysis
    */
-  public Analysis(int ID, Types_analysis ta, Date date) {
+  public Analysis(int ID, TypeAnalysis ta, Date date) {
     // Bouml preserved body begin 00040602
 	  this.ID=ID;
 	  typeAnalysis=ta;
@@ -123,7 +123,7 @@ public class Analysis {
     // Bouml preserved body end 00040702
   }
 
-  public Types_analysis getTypeAnalysis() {
+  public TypeAnalysis getTypeAnalysis() {
     // Bouml preserved body begin 00043302
 	  return this.typeAnalysis;
     // Bouml preserved body end 00043302
