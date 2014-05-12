@@ -29,6 +29,7 @@ public class CreateCustomer extends JFrame {
     private final JButton valider;
     private String[] item;
     private Database database;
+    private ButtonGroup groupe;
     
     
     public CreateCustomer(){
@@ -54,6 +55,11 @@ public class CreateCustomer extends JFrame {
         type_client= new JLabel("Type : ");
         individuel= new JRadioButton("Individuel");
         professionel = new JRadioButton("Professionel");
+        
+        ButtonGroup groupe = new ButtonGroup();
+        
+        groupe.add(individuel);
+        groupe.add(professionel);
         
         nom=new JLabel("Nom*: ");
         prenom= new JLabel("Prenom*: ");
