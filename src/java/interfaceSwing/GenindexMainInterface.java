@@ -78,7 +78,7 @@ public class GenindexMainInterface extends JFrame {
     public void actionPerformed(ActionEvent ae) {
     CreateOrder createOrder = new CreateOrder();
    }});
-    
+
     bou3.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {

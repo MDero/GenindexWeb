@@ -233,7 +233,7 @@ public class Database {
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
         return new Samples(
-                ""+extractString(results,"Id_sample"),
+                extractNumber(results,"Id_sample"),
                 new TypeSample(extractString(results,"Id_TypeSample")),
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
@@ -364,11 +364,12 @@ public class Database {
         }
         
     }//OBSOLETE : should not be used (see rules)
-    private void insertIntoTableValuesForFields(String table, String fields, Object...values){
+    private int insertIntoTableValuesForFields(String table, String fields, Object...values){
         String insert = "";
         PreparedStatement statement = null;
         Statement getIDGenerated = null;
         ResultSet generatedID = null;
+        
         int idGene = -1;
         try {
             //Statement s = this.connexion.createStatement();
@@ -395,11 +396,14 @@ public class Database {
             }
             
             //GET THE LAST ID GENERERATED
-//            getIDGenerated = this.connexion.createStatement();
-//            insert = "SELECT MAX(ID_"+) FROM "+table.toUpperCase()+"";
-//            
-//            generatedID = getIDGenerated.executeQuery(insert);
-//            System.out.println(generatedID);
+            getIDGenerated = this.connexion.createStatement();
+            insert = "SELECT MAX(ID_" + table.toUpperCase() + ") FROM "+table.toUpperCase()+"";
+            
+            generatedID = getIDGenerated.executeQuery(insert);
+            while(generatedID.next()) {
+                idGene = generatedID.getInt(1);
+            }
+            return idGene;
             
             //TODO: Find a better way to get back the generated ID...
 //            System.out.println("UpdateCount : " + statement.getUpdateCount());
@@ -417,24 +421,24 @@ public class Database {
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);
+            return -1;
         }
     }
     
     //MDERO
     public void insertAdress(Adress adress) {
-        this.insertIntoTableValuesForFields("ADRESS", 
-                "(ID_ADRESS,ADRESS_NUMBER,STREET, ZIPCODE,CITY, COUNTRY)",
+        int id = this.insertIntoTableValuesForFields("ADRESS", 
+                "(ADRESS_NUMBER,STREET, ZIPCODE,CITY, COUNTRY)",
                 //values
-                adress.getIdAdress(),
                 adress.getNumber(),
                 adress.getStreet(), 
                 adress.getZipCode(),
                 adress.getCity(),
                 adress.getCountry());
-        //adress.setID();
+        adress.setID(id);//adress.setID();
     }
     public void insertOrder(Orders order) {
-        this.insertIntoTableValuesForFields("ORDERS", 
+        int id = this.insertIntoTableValuesForFields("ORDERS", 
                 "(ID_CUSTOMERS, PRIORITYLEVEL,NUMBERSAMPLES, DATEDEADLINE, DATEORDER, PAID, RESULTSEND, REPORT_ORDERS)",
                 //order.getId(),
                 order.getCustomerID(),
@@ -446,10 +450,11 @@ public class Database {
                 order.getResultSend(),
                 order.getReport()
         );
+        order.setIdOrder(id);
 
     }
     public void insertCustomer(Customers c) {
-    this.insertIntoTableValuesForFields("CUSTOMERS", 
+        int id = this.insertIntoTableValuesForFields("CUSTOMERS", 
             "(ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
             c.getAdress()!=null ? 
@@ -459,32 +464,36 @@ public class Database {
             c.getPhoneNumber(),
             c.getEmail(),
             c.getPhone());
+        c.setID(id);
     }
     public void insertAnimals(Animals animal){
-        this.insertIntoTableValuesForFields("ANIMALS", 
+        int id = this.insertIntoTableValuesForFields("ANIMALS", 
                 "(ID_SPECIES,NUMBERBIRTHDAY,ANIMALS_NAME)",
                 //values
                 animal.getSpecies().getId(),
                 animal.getNumberBirthday(),
                 animal.getName()
         );
+        animal.setId(id);
     }
     public void insertCategory(Category category){
-        this.insertIntoTableValuesForFields("CATEANIMALS", 
+        int id = this.insertIntoTableValuesForFields("CATEANIMALS", 
                 "(CATE_NAME)",
                 category.getName()
         );
+        category.setId(id);
     }
     public void insertSpecies(Species species){
-        this.insertIntoTableValuesForFields("SPECIES", 
+        int id = this.insertIntoTableValuesForFields("SPECIES", 
                 "(ID_CATEANIMALS,SPECIES_NAME)",
                 //values
                 species.getCategory().getId(),
                 species.getName()
         );
+        species.setId(id);
     }
     public void insertSample(Samples sample){
-        this.insertIntoTableValuesForFields("SAMPLE",
+        int id = this.insertIntoTableValuesForFields("SAMPLE",
                 "(ID_TYPESAMPLE ,ID_ORDERS,ID_ANIMALS,ID_STATUTSAMPLE,ANALYSED,DATESAMPLING,DATESTORAGE)",
                 sample.getType().getId(),
                 sample.getOrder().getId(),
@@ -494,6 +503,7 @@ public class Database {
                 convertDateToString(sample.getDateSampling()),
                 convertDateToString(sample.getDateStorage())
         );
+        sample.setId(id);
     }
     
     /* DELETION METHODS */

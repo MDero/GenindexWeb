@@ -21,33 +21,39 @@ public class DatabaseTest extends TestCase {
         //public Adress(int id, int number, String street, int zip, String city, String country) {
         d.insertAdress(aTest);
         System.out.println("INSERT ADRESS DONE");
+        System.out.println();
     }
     
      public void testDelAdress() {
-        d.delAdress(2);
-        System.out.println("DELETION ADRESS DONE");
+        d.insertAdress(aTest);
+        d.delAdress(aTest.getIdAdress());
+        System.out.println("DELETION ADRESS DONE : " + aTest.getIdAdress());
+        System.out.println();
     }
     
     //CUSTOMERS TESTS
     //MDERO
     public void testInsertCustomer() { //VALIDATED BY MDERO
-        //public Customers(String first, String last, Adress adress, String phone, int ID, int typeCusto) {
-        System.out.println("testInsertCustomer : " + cTest);
         d.insertCustomer(cTest);
         System.out.println("INSERT CUSTOMER DONE");
+        System.out.println();
     }
     
     
     public void testDelCustomer() {
-        d.delCustomer(99);
-        System.out.println("DELETION CUSTOMER DONE");
+        d.insertCustomer(cTest);
+        d.delCustomer(cTest.getID());
+        System.out.println("DELETION CUSTOMER DONE : " + cTest.getID());
+        System.out.println();
     }
     
 
     //MDero
     public void testGetCustomer() {
-        Customers c = d.getCustomer(0);
+        d.insertCustomer(cTest);
+        Customers c = d.getCustomer(cTest.getID());
         System.out.println("GET CUSTOMER DONE");
+        System.out.println();
     }
     
     //Vincent
@@ -63,7 +69,8 @@ public class DatabaseTest extends TestCase {
     }
 
 
-    public void testClose() {
+
+    public void TestTearDown(){
         try {
             d.connexion.close();
             System.out.println("CONNEXION CLOSED");
@@ -72,4 +79,5 @@ public class DatabaseTest extends TestCase {
         }
         
     }
+    
 }
