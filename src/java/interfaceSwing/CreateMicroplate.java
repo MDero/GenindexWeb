@@ -39,6 +39,7 @@ public class CreateMicroplate extends JFrame {
         private JList listEch;
         private ListSelectionModel listEchSelectionModel;
         private Vector imageList;
+        private JPanel zone1;
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
@@ -84,8 +85,8 @@ public class CreateMicroplate extends JFrame {
         ArrayList<String> sampleNames = new ArrayList<>();
 
                 //parcours de toutes les catégories de la base données
-        for (Samples typesample: database.getSampleList())
-            sampleNames.add(typesample.getId());
+        for (Samples sample: database.getSampleList())
+            sampleNames.add(String.valueOf(sample.getId()) + String.valueOf(sample.getStatusId()));
 
                 //initialisation du tableau utilisable par JComboBox
         ech = new String[sampleNames.size()];
@@ -95,8 +96,11 @@ public class CreateMicroplate extends JFrame {
             ech[i]=sampleNames.get(i);
         
                 //création effective 
-        this.boxCategory = new JComboBox(ech);
-        
+        imageList=new Vector();
+        listEch = new JList(ech);
+    
+        zone1 = new JPanel();
+        zone1.add(listEch);
 		
         myFrame.pack();
         myFrame.setVisible(true);
