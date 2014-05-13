@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+ 
 package interfaceSwing;
 
 import static interfaceSwing.CreateSpecie.database;
@@ -15,6 +16,7 @@ import kernel.Database;
 import kernel.TypeAnalysis;
 import kernel.TypeSample;
 import java.util.Vector;
+import kernel.Samples;
 
 /*
  *
@@ -63,7 +65,7 @@ public class CreateMicroplate extends JFrame {
 
                 //parcours de toutes les type d'analyses de la base de données
         for (TypeAnalysis typeanal: database.getTypeAnalysisList())
-            typeAnalNames.add(typeanal.getName());
+            typeAnalNames.add(typeanal.getType());
 
                 //initialisation du tableau utilisable par JComboBox
         items = new String[typeAnalNames.size()]; 
@@ -81,9 +83,9 @@ public class CreateMicroplate extends JFrame {
         String[] ech;
         ArrayList<String> sampleNames = new ArrayList<>();
 
-                //parcours de toutes les catégories de la base de données
-        for (TypeSample typesample: database.getTypeSampleList())
-            sampleNames.add(typesample.getTypeName());
+                //parcours de toutes les catégories de la base données
+        for (Samples typesample: database.getSampleList())
+            sampleNames.add(typesample.getId());
 
                 //initialisation du tableau utilisable par JComboBox
         ech = new String[sampleNames.size()];
@@ -95,8 +97,7 @@ public class CreateMicroplate extends JFrame {
                 //création effective 
         this.boxCategory = new JComboBox(ech);
         
-        
-        
+		
         myFrame.pack();
         myFrame.setVisible(true);
 }
