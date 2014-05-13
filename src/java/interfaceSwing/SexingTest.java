@@ -66,7 +66,7 @@ public class SexingTest extends JFrame {
             @Override
             public void actionPerformed (ActionEvent e) 
             {
-
+                species = species;
             }
         } );
         myFrame.pack();
