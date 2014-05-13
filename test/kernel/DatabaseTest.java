@@ -20,7 +20,7 @@ public class DatabaseTest extends TestCase {
     public void testInsertAdress() {
         //public Adress(int id, int number, String street, int zip, String city, String country) {
         d.insertAdress(aTest);
-        System.out.println("INSERT ADRESS DONE");
+        System.out.println("INSERT ADRESS DONE : " + aTest.getID());
         System.out.println();
     }
     
@@ -35,7 +35,7 @@ public class DatabaseTest extends TestCase {
     //MDERO
     public void testInsertCustomer() { //VALIDATED BY MDERO
         d.insertCustomer(cTest);
-        System.out.println("INSERT CUSTOMER DONE");
+        System.out.println("INSERT CUSTOMER DONE : " + cTest.getID());
         System.out.println();
     }
     
