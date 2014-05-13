@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import kernel.Customers;
 import kernel.Database;
 import kernel.Orders;
@@ -18,6 +19,7 @@ public class Order_Explorer extends JFrame implements ActionListener{
 	private Integer[] items2;
 	private JPanel panelCenter;
 	private JTable table;
+            private int lastEmptyRow=0;
 	private JScrollPane scrollPane;
 
 public Order_Explorer(){
@@ -63,17 +65,24 @@ public Order_Explorer(){
 
 // création du tableau
         
-	JPanel panelCenter=new JPanel();
+	panelCenter=new JPanel();
 
 
-	JTable table = new JTable(new MyTableModel());
+	//TABLE D ORDERS
+        table = new JTable(new DefaultTableModel(new Object[]{"id","Statut","Payé/Non Payé","Nombre d'analyses"},10));
+        lastEmptyRow=10;//de base on a 10 lignes pour le swag
+        
         panelCenter.add(table);
         
+	JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(800,100));
+	scrollPane.setColumnHeaderView(table.getTableHeader());
+	panelCenter.add(scrollPane);
 
-	//JScrollPane scrollPane = new JScrollPane(table);
-	//scrollPane.setColumnHeaderView(table.getTableHeader());
-	//panelCenter.add(scrollPane);
-
+        //TABLE DE SAMPLES CORRESPONDANT A L ORDER
+        
+        
+        
  // On met les différents panel a chaque endroit de la frame.
 	general.setLayout(new BorderLayout());
 	general.add(panelNorth,BorderLayout.NORTH);
@@ -93,16 +102,18 @@ public Order_Explorer(){
 
 				JComboBox cb = (JComboBox)e.getSource();
 
-				if (cb.getSelectedIndex() == 4){
-				ArrayList<Integer> names2 = new ArrayList<>();
-				for (Orders order : database.getOrdersForCustomer(1)){
-					names2.add(order.getId());
-					System.out.println(order.getId());
-				}
-				items2 = new Integer[names2.size()];
-				for (int i =0; i<items2.length;i++)
-				items2[i]=names2.get(i);
-				}
+                                ArrayList<Orders> orders = (ArrayList<Orders>) database.getOrdersForCustomer(cb.getSelectedIndex());
+                                //clear screen
+                                for (int i = 0 ; i<Order_Explorer.this.lastEmptyRow;i++)
+                                     ((DefaultTableModel)Order_Explorer.this.table.getModel()).removeRow(0);
+                                Order_Explorer.this.lastEmptyRow=0;
+                                //add new rows
+                                if (orders.size()>0){
+                                    for (Orders order : orders){
+                                        ((DefaultTableModel)Order_Explorer.this.table.getModel()).addRow(new Object[]{order.getId(),order.getResultSend(),order.getPaid(),order.getNumberSamples()});                                    
+                                        Order_Explorer.this.lastEmptyRow++;
+                                    }
+                                }
 	}
 class MyTableModel extends AbstractTableModel {
     private String[] columnNames = {"Num commande",
@@ -137,7 +148,7 @@ class MyTableModel extends AbstractTableModel {
     }
 }
 	public static void main(String[] args) {
-		Order_Explorer window = new Order_Explorer ();
+		new Order_Explorer ();
 	}	
 }
 

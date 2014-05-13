@@ -268,7 +268,7 @@ public class Database {
     private Category getCategoryFromCurrentRow(ResultSet results){
         //avoid creating a new instance of category with the same id everytime this category is called
             //return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"NAME"));
-        return new Category (extractNumber(results,"Id_CateAnimals"), extractString(results,"NAME_Cate"));
+        return new Category (extractNumber(results,"Id_CateAnimals"), extractString(results,"CATE_NAME"));
     }
     private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
         return new TypeAnalysis(extractString(results,"TYPEANAL"));
