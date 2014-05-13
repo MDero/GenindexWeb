@@ -56,7 +56,7 @@ public class DatabaseTest extends TestCase {
     }
     
     //Vincent
-    public void testInsertIntoTableFromParticularFields(){
+    public void OLDtestInsertIntoTableFromParticularFields(){
         System.out.println("test insert ");
         int idtest = 789;
         Category c = Category.getOrCreateCategory(idtest, "CategorieTest");

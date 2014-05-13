@@ -2,6 +2,7 @@ package kernel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -360,8 +361,11 @@ public class Database {
     }//OBSOLETE : should not be used (see rules)
     private void insertIntoTableValuesForFields(String table, String fields, Object...values){
         String insert = "";
+        PreparedStatement statement = null;
+        ResultSet generatedKeys = null;
+        int idGenerated = -1;
         try {
-            Statement s = this.connexion.createStatement();
+            //Statement s = this.connexion.createStatement();
             
             //create the query
             insert = "INSERT INTO "+table.toUpperCase()+fields+" values(";
@@ -375,7 +379,19 @@ public class Database {
             
             insert += ")";
             System.out.println(insert);
-            s.executeQuery(insert);
+            statement = this.connexion.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+            //s.executeQuery(insert);
+            statement.executeUpdate();
+            System.out.println("UpdateCount : " + statement.getUpdateCount());
+            generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                System.out.println("GENERATED : " + generatedKeys.getString(1));
+                idGenerated = (int)generatedKeys.getLong(1);
+                System.out.println("ID GENERATED : " + idGenerated);
+            }
+            else {
+                System.out.println("ERROR : NO ID GENERATED");
+            }
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);
