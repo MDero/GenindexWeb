@@ -77,4 +77,8 @@ public class Date {
       return this.year;
   }
 
+  @Override
+  public String toString(){
+      return this.day+"/"+this.month+"/"+this.year;
+  }
 }

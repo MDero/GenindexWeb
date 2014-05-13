@@ -252,7 +252,8 @@ public class Database {
     private Samples getSampleFromCurrentRow(ResultSet results){
         return new Samples(
                 extractNumber(results,"Id_sample"),
-                new TypeSample(extractString(results,"Id_TypeSample")),
+                getOrders(extractNumber(results,"ID_ORDERS")),
+                getTypeSample(extractNumber(results,"Id_Typesample")),
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
                 this.getAnimals(extractNumber(results,"Id_animals"))
@@ -268,10 +269,16 @@ public class Database {
     private Category getCategoryFromCurrentRow(ResultSet results){
         //avoid creating a new instance of category with the same id everytime this category is called
             //return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"NAME"));
-        return new Category (extractNumber(results,"Id_CateAnimals"), extractString(results,"CATE_NAME"));
+        return new Category (extractNumber(results,"Id_CateAnimals"), extractString(results,"NAME_CATE"));
     }
     private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
         return new TypeAnalysis(extractString(results,"TYPEANAL"));
+    }
+    private TypeSample getTypeSampleFromCurrentRow(ResultSet results){
+        return new TypeSample(
+                extractNumber(results,"ID_TYPESAMPLE"),
+                extractString(results,"TYPESAMPLE")
+        );
     }
     
     //FROM IDS
@@ -321,6 +328,10 @@ public class Database {
         ResultSet results = this.getResultSetFromIdQuery("TYPEANAL", id);
         TypeAnalysis ta = this.getTypeAnalysisFromCurrentRow(results);
         return ta;
+    }
+    public TypeSample getTypeSample(int id){
+        ResultSet results = this.getResultSetFromIdQuery("TYPESAMPLE", id);
+        return this.getTypeSampleFromCurrentRow(results);
     }
     
     //LISTS ESTABLISHMENT
