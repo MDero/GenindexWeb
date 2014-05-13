@@ -91,31 +91,26 @@ public class Database {
             ResultSet results = request.getResultSet();
 
             //put the results in the list
-            try{
-                while(results.next()){
-                    list.add(
-                            "ADRESS".equals(table)?
-                                    this.getAdressFromCurrentRow(results):
-                            "ORDERS".equals(table) ?
-                                    this.getOrderFromCurrentRow(results) : 
-                            "CUSTOMERS".equals(table)?
-                                    this.getCustomerFromCurrentRow(results):
-                             "SAMPLES".equals(table)?
-                                     this.getSampleFromCurrentRow(results):
-                             "ANIMALS".equals(table)?
-                                     this.getAnimalFromCurrentRow(results):
-                             "SPECIES".equals(table)?
-                                     this.getSpeciesFromCurrentRow(results):
-                             "CATEGORY".equals(table)?
-                                     this.getCategoryFromCurrentRow(results):
-                             "TYPEANAL".equals(table)?
-                                     this.getTypeAnalysisFromCurrentRow(results):
-                             null
-                    );
-                }
-            }
-            catch (SQLException ex){
-                System.out.println("NO RESULTS FOR : SELECT * FROM "+table);
+            while(results.next()){
+                list.add(
+                        "ADRESS".equals(table)?
+                                this.getAdressFromCurrentRow(results):
+                        "ORDERS".equals(table) ?
+                                this.getOrderFromCurrentRow(results) : 
+                        "CUSTOMERS".equals(table)?
+                                this.getCustomerFromCurrentRow(results):
+                         "SAMPLES".equals(table)?
+                                 this.getSampleFromCurrentRow(results):
+                         "ANIMALS".equals(table)?
+                                 this.getAnimalFromCurrentRow(results):
+                         "SPECIES".equals(table)?
+                                 this.getSpeciesFromCurrentRow(results):
+                         "CATEGORY".equals(table)?
+                                 this.getCategoryFromCurrentRow(results):
+                         "TYPEANAL".equals(table)?
+                                 this.getTypeAnalysisFromCurrentRow(results):
+                         null
+                );
             }
 
         } catch (SQLException e) {
@@ -136,31 +131,26 @@ public class Database {
             ResultSet results = request.getResultSet();
             
             //put the results in the list
-            try{
-                while(results.next()){
-                    list.add(
-                            "ADRESS".equals(table)?
-                                    this.getAdressFromCurrentRow(results):
-                            "ORDERS".equals(table) ?
-                                    this.getOrderFromCurrentRow(results) : 
-                            "CUSTOMERS".equals(table)?
-                                    this.getCustomerFromCurrentRow(results):
-                             "SAMPLES".equals(table)?
-                                     this.getSampleFromCurrentRow(results):
-                             "ANIMALS".equals(table)?
-                                     this.getAnimalFromCurrentRow(results):
-                             "SPECIES".equals(table)?
-                                     this.getSpeciesFromCurrentRow(results):
-                             "CATEGORY".equals(table)?
-                                     this.getCategoryFromCurrentRow(results):
-                             "TYPEANAL".equals(table)?
-                                     this.getTypeAnalysisFromCurrentRow(results):
-                             null
-                    );
-                }
-            }
-            catch (SQLException ex){
-                System.out.println("NO RESULTS FOR : SELECT * FROM "+table);
+            while(results.next()){
+                list.add(
+                        "ADRESS".equals(table)?
+                                this.getAdressFromCurrentRow(results):
+                        "ORDERS".equals(table) ?
+                                this.getOrderFromCurrentRow(results) : 
+                        "CUSTOMERS".equals(table)?
+                                this.getCustomerFromCurrentRow(results):
+                         "SAMPLES".equals(table)?
+                                 this.getSampleFromCurrentRow(results):
+                         "ANIMALS".equals(table)?
+                                 this.getAnimalFromCurrentRow(results):
+                         "SPECIES".equals(table)?
+                                 this.getSpeciesFromCurrentRow(results):
+                         "CATEGORY".equals(table)?
+                                 this.getCategoryFromCurrentRow(results):
+                         "TYPEANAL".equals(table)?
+                                 this.getTypeAnalysisFromCurrentRow(results):
+                         null
+                );
             }
 
         } catch (SQLException e) {
@@ -437,6 +427,7 @@ public class Database {
                 adress.getZipCode(),
                 adress.getCity(),
                 adress.getCountry());
+        //adress.setID();
     }
     public void insertOrder(Orders order) {
         this.insertIntoTableValuesForFields("ORDERS", 
