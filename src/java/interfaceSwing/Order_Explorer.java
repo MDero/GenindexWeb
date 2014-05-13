@@ -82,6 +82,7 @@ public Order_Explorer(){
         //TABLE DE SAMPLES CORRESPONDANT A L ORDER
         
         
+        
  // On met les différents panel a chaque endroit de la frame.
 	general.setLayout(new BorderLayout());
 	general.add(panelNorth,BorderLayout.NORTH);
