@@ -190,7 +190,7 @@ public class Database {
     private Adress getAdressFromCurrentRow(ResultSet results){
         return  new Adress(
                     extractNumber(results,"ID_ADRESS"), //ADD by MDERO
-                    extractNumber(results,"Number"),
+                    extractNumber(results,"Adress_Number"),
                     extractString(results, "Street"),
                     extractNumber(results,"ZipCode"),
                     extractString(results, "City"),
@@ -223,7 +223,7 @@ public class Database {
         return new Animals(
                 getSpecies(extractNumber(results,"Id_species")),
                 extractNumber(results,"NumberBirthday"),
-                extractString(results,"Name")
+                extractString(results,"Animals_Name")
         );
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
@@ -245,7 +245,7 @@ public class Database {
     private Category getCategoryFromCurrentRow(ResultSet results){
         //avoid creating a new instance of category with the same id everytime this category is called
             //return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"NAME"));
-        return new Category (extractNumber(results,"Id_category"), extractString(results,"NAME"));
+        return new Category (extractNumber(results,"Id_CateAnimals"), extractString(results,"NAME_Cate"));
     }
     private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
         return new TypeAnalysis(extractString(results,"TYPEANAL"));
@@ -446,7 +446,8 @@ public class Database {
     this.insertIntoTableValuesForFields("CUSTOMERS", 
             "(ID_TYPECUSTOMER, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
-            //c.getAdress().getIdAdress(),
+            c.getAdress()!=null ? 
+            c.getAdress().getIdAdress() : null,
             c.getFirstName(),
             c.getLastName(),
             c.getPhoneNumber(),
