@@ -68,6 +68,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         tsample = new JLabel ("Liste d'échantillon:");
         
          /* creation de menu déroulant */
+        
         String[] items;
         ArrayList<String> typeAnalNames = new ArrayList<>();
 
@@ -88,6 +89,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         
         
         /* creation de la liste d'échantillon */
+        /*
         String[] ech;
         ArrayList<String> sampleNames = new ArrayList<>();
 
@@ -105,7 +107,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                 //création effective 
         imageList=new Vector();
         listEch = new JList(ech);
-        
+        */
         //TABLE D ORDERS
         table = new JTable(new DefaultTableModel(new Object[]{"Numéro","Client","Priorité"},10));
         lastEmptyRow=10;//de base on a 10 lignes pour le swag
@@ -142,7 +144,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 
 				JComboBox cb = (JComboBox)e.getSource();
-                                String[] items;
+                                //String[] items;
                                 
                                 ArrayList<Samples> samples = (ArrayList<Samples>) database.getSampleList();
                                 ArrayList<Samples> samplesToAnalyze = new ArrayList<>();
@@ -151,9 +153,11 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                     //0 is analysed 1 is to analyse 2 is analysed but need to re analyse 
                                     if(sample.getStatusId()==2){
                                         samplesPriority.add(sample);
+                                        
                                     }
                                     else if(sample.getStatusId()==1){
                                         samplesToAnalyze.add(sample);
+                                        
                                     }
                                 }
                                 
@@ -169,7 +173,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                         Customers customer = order.getCustomer();
                                         
                                         ((DefaultTableModel)CreateMicroplate.this.table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
-                                        lastEmptyRow++;
+                                        CreateMicroplate.this.lastEmptyRow++;
                                     }
                                 }
                                 if (samplesToAnalyze.size()>0){
