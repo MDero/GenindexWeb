@@ -20,12 +20,12 @@ import javax.swing.*;
 public class CreateCustomer extends JFrame  {
     private final JMenuBar menuBar;
     private final JMenu menu;
-    public final JMenuItem exit;
-    public final JRadioButton individuel, professionel;
-    public final JPanel type, type_individuel1, type_professionel1, type_professionel2, type_professionel,IP,IPT, total, validerp;
-    public final JLabel type_client, nom, prenom, tel, mail, port, nomCon, PrenomCon,TelCon, mailCon, Faxe, Entre,adresse,n,CP,rue,ville,pays ;
-    public final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC, CPC, villeC;
-    public final JComboBox paysC;
+    private final JMenuItem exit;
+    private final JRadioButton individuel, professionel;
+    private  JPanel type, type_individuel1, type_professionel1, type_professionel2, type_professionel,IP,IPT, total, validerp, adresseInd, individuel2;
+    private  JLabel type_client, nom, prenom, tel, mail, port, nomCon, PrenomCon,TelCon, mailCon, Faxe, Entre,adresse,n,CP,rue,ville,pays,AdresseI ;
+    private final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC, CPC, villeC;
+    private final JComboBox paysC;
     private final JButton valider;
     private String[] item;
     private Database database;
@@ -194,9 +194,23 @@ public class CreateCustomer extends JFrame  {
         type_professionel.add(type_professionel1,BorderLayout.NORTH);
         type_professionel.add(type_professionel2, BorderLayout.SOUTH);
         
+         AdresseI = new JLabel("Adresse: ");
+         adresseInd= new JPanel();
+         adresseInd.setLayout(new GridLayout(2,1));
+         adresseInd.add(AdresseI, BorderLayout.SOUTH);
+         adresseInd.add(type_professionel2, BorderLayout.NORTH);
+         
+         individuel2= new JPanel();
+         individuel2.setLayout(new GridLayout(2,1));
+         individuel2.add(type_individuel1,BorderLayout.NORTH);
+         individuel2.add(adresseInd, BorderLayout.SOUTH);
+         
+         individuel2.setVisible(false);
+         
+         
         IP= new JPanel();
         IP.setLayout(new GridLayout(1,2));
-        IP.add(type_individuel1, BorderLayout.WEST);
+        IP.add(individuel2, BorderLayout.WEST);
         IP.add(type_professionel, BorderLayout.EAST);
         
         IPT= new JPanel();
@@ -207,7 +221,7 @@ public class CreateCustomer extends JFrame  {
         
          validerp= new JPanel();
          valider= new JButton("Valider");
-            valider.addActionListener(new ActionListener(){
+         valider.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -215,24 +229,29 @@ public class CreateCustomer extends JFrame  {
                 CreateCustomer cc = CreateCustomer.this;
                 Customers new_customer =null;
                 
+                Adress adress = null;
                 //créer l'adresse, et l'insérer
-                Adress adress = new Adress();
+                if (nC.getText().length()>0 && rueC.getText().length()>0 && CPC.getText().length()>0 && villeC.getText().length()>0){
+                    adress = new Adress(97,Integer.valueOf(nC.getText()),rueC.getText(),Integer.valueOf(CPC.getText()),villeC.getText(),paysC.getSelectedItem().toString());
+                    database.insertAdress(adress);
+                }
                 
-                //individuel
-                if (!cc.professionel.isEnabled()){
-                     new_customer = new Customers(
+                new_customer = new Customers(
                             cc.prenomT.getText(),
                             cc.nomT.getText(),
                             adress,
                             cc.telT.getText(),
                             cc.mailT.getText(),
-                            0//TODO : change type customer
-                    );
+                            0//TODO : change default type customer
+                );
+                
+                //individuel
+                if (!cc.professionel.isEnabled()){
                 }
                 else{
-
+                    //professional customer 
+                    //TODO : adapt fields
                 }
-                
                 database.insertCustomer(new_customer);
             }
                 
@@ -249,11 +268,13 @@ public class CreateCustomer extends JFrame  {
          type_professionel.setVisible(false);
          
          
+
         ActionListener affiche_panel = new ActionListener()
         {@Override
         public void actionPerformed(ActionEvent e){
            type_individuel1.setVisible(true);
            type_professionel.setVisible(false);
+           individuel2.setVisible(true);
            nomT.setEditable(true);
            prenomT.setEditable(true);
            telT.setEditable(true);
@@ -269,6 +290,7 @@ public class CreateCustomer extends JFrame  {
         public void actionPerformed(ActionEvent e){
            type_professionel.setVisible(true);
            type_individuel1.setVisible(false);
+           individuel2.setVisible(false);
            nomC.setEditable(true);
            prenomC.setEditable(true);
            telC.setEditable(true);
@@ -292,8 +314,8 @@ public class CreateCustomer extends JFrame  {
                 }
     
     public static void main (String [] args){
-        CreateCustomer visuel= new CreateCustomer();
-    }
+CreateCustomer visuel= new CreateCustomer();
+}
 }
 
 

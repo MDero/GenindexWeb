@@ -29,12 +29,11 @@ public class Customers {
   private Adress adress;
   
   //Mdero
-  private int typeCusto;
+  private int typeCusto = 0;
   
   //MUST USE THIS ONE IN INTERFACE
   //AUTO_ID
-    public Customers(String first, String last, Adress adress, String phone, String mail, int typeCusto) {
-	  this.adress = adress;
+    public Customers(String first, String last, String phone, String mail, int typeCusto) {
 	  firstName = first;
 	  lastName = last;
 	  phoneNumber = phone;

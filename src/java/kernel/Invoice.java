@@ -51,7 +51,7 @@ public class Invoice {
 		  if(o.getSamples().get(i).getAnalyses()!= null){
 		  System.out.print(o.getSamples().get(i).getAnalysis().getTypeAnalysis().getType());
 		  System.out.print(" : ");
-		  System.out.print(o.getSamples().get(i).getAnalysis().getTypeAnalysis().getPrice());
+		  System.out.print(o.getSamples().get(i).getAnalysis().getTypeAnalysis().getPriceFor(o.getSamples().get(i).getType()));
 		  System.out.println(" ? ");
 	  }
 	  }
