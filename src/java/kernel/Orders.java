@@ -11,6 +11,34 @@ public class Orders {
 
     private Customers customer;
 
+    public static int getCountId() {
+        return countId;
+    }
+
+    public int getIdOrder() {
+        return idOrder;
+    }
+
+    public Customers getCustomer() {
+        return customer;
+    }
+
+    public int getNumberSamples() {
+        return numberSamples;
+    }
+
+    public Date getDateDeadline() {
+        return dateDeadline;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public boolean isResults_send() {
+        return results_send;
+    }
+
     /**
      * The priority level is expressed in days.
      */

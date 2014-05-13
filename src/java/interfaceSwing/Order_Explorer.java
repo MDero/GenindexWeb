@@ -19,6 +19,7 @@ public class Order_Explorer extends JFrame implements ActionListener{
 	private Integer[] items2;
 	private JPanel panelCenter;
 	private JTable table;
+            private int lastEmptyRow=0;
 	private JScrollPane scrollPane;
 
 public Order_Explorer(){
@@ -67,17 +68,20 @@ public Order_Explorer(){
 	panelCenter=new JPanel();
 
 
-	//JTable table = new JTable(new MyTableModel());
-        
+	//TABLE D ORDERS
         table = new JTable(new DefaultTableModel(new Object[]{"id","Statut","Payé/Non Payé","Nombre d'analyses"},10));
-        //de base on a 10 lignes pour le swag
+        lastEmptyRow=10;//de base on a 10 lignes pour le swag
+        
         panelCenter.add(table);
         
+	JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(800,100));
+	scrollPane.setColumnHeaderView(table.getTableHeader());
+	panelCenter.add(scrollPane);
 
-	//JScrollPane scrollPane = new JScrollPane(table);
-	//scrollPane.setColumnHeaderView(table.getTableHeader());
-	//panelCenter.add(scrollPane);
-
+        //TABLE DE SAMPLES CORRESPONDANT A L ORDER
+        
+        
  // On met les différents panel a chaque endroit de la frame.
 	general.setLayout(new BorderLayout());
 	general.add(panelNorth,BorderLayout.NORTH);
@@ -97,25 +101,17 @@ public Order_Explorer(){
 
 				JComboBox cb = (JComboBox)e.getSource();
 
-                                ArrayList<Integer> ids = new ArrayList<>();
-//                                    for (Orders order : database.getOrdersForCustomer(1)){
-//                                            ids.add(order.getId());
-//                                            System.out.println(order.getId());
-//                                    }
-//
-//                                    items2 = new Integer[ids.size()];
-//                                    for (int i =0; i<items2.length;i++){
-//                                        items2[i]=ids.get(i);
-//                                    }
                                 ArrayList<Orders> orders = (ArrayList<Orders>) database.getOrdersForCustomer(cb.getSelectedIndex());
+                                //clear screen
+                                for (int i = 0 ; i<Order_Explorer.this.lastEmptyRow;i++)
+                                     ((DefaultTableModel)Order_Explorer.this.table.getModel()).removeRow(0);
+                                Order_Explorer.this.lastEmptyRow=0;
+                                //add new rows
                                 if (orders.size()>0){
-                                    Order_Explorer.this.panelCenter.remove(Order_Explorer.this.table );
-                                    Order_Explorer.this.table = new JTable(new DefaultTableModel(new Object[]{"id","Statut","Payé/Non Payé","Nombre d'analyses"},orders.size()));
-                                    Order_Explorer.this.panelCenter.add(Order_Explorer.this.table );
-                                    Order_Explorer.this.panelCenter.repaint();
-
-                                    
-
+                                    for (Orders order : orders){
+                                        ((DefaultTableModel)Order_Explorer.this.table.getModel()).addRow(new Object[]{order.getId(),order.getResultSend(),order.getPaid(),order.getNumberSamples()});                                    
+                                        Order_Explorer.this.lastEmptyRow++;
+                                    }
                                 }
 	}
 class MyTableModel extends AbstractTableModel {
