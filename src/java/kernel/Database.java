@@ -229,7 +229,7 @@ public class Database {
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
         return new Samples(
-                ""+extractString(results,"Id_sample"),
+                extractNumber(results,"Id_sample"),
                 new TypeSample(extractString(results,"Id_TypeSample")),
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
