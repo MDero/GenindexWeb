@@ -42,4 +42,10 @@ public class Category {
         else
             return new Category(id,name);
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 }

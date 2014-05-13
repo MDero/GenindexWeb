@@ -209,4 +209,8 @@ public class Orders {
     // Bouml preserved body end 00042C02
   }
 
+    public void setIdOrder(int idOrder) {
+        this.idOrder = idOrder;
+    }
+ 
 }
