@@ -32,14 +32,14 @@ public class CreateMicroplate extends JFrame {
         private JMenuBar menuBar;
         private JFrame myFrame;
         private JMenuItem exit;
-        private JLabel nom;
+        private JLabel tanal, tsample;
         private JComboBox boxCategory;
         private String[] items;
         private String[] ech;
         private JList listEch;
         private ListSelectionModel listEchSelectionModel;
         private Vector imageList;
-        private JPanel zone1, zone2, ensemble, panelWest, panelSud;
+        private JPanel zone1, zone2,zone3;
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
@@ -58,7 +58,8 @@ public class CreateMicroplate extends JFrame {
         menu.add(exit);
         
         // creation des widgets
-        nom = new JLabel("Type d'échantillon:");
+        tanal = new JLabel("Type d'analyse:");
+        tsample = new JLabel ("Liste d'échantillon:");
         
          /* creation de menu déroulant */
         String[] items;
@@ -86,7 +87,7 @@ public class CreateMicroplate extends JFrame {
 
                 //parcours de toutes les catégories de la base données
         for (Samples sample: database.getSampleList())
-            sampleNames.add(String.valueOf(sample.getId()) + String.valueOf(sample.getStatusId()));
+            sampleNames.add("Numero : "+sample.getId()+" Statut : "+sample.getStatusId());
 
                 //initialisation du tableau utilisable par JComboBox
         ech = new String[sampleNames.size()];
@@ -99,22 +100,21 @@ public class CreateMicroplate extends JFrame {
         imageList=new Vector();
         listEch = new JList(ech);
         
-        
-        myFrame.setLayout(new GridLayout(3,1));
 
- 
         zone1= new JPanel();
+        zone1.setLayout(new GridLayout (1,2));
+        zone1.add(tanal);
         zone1.add(boxCategory);
         
         zone2 = new JPanel();
+        zone2.setLayout(new GridLayout (1,2));
+        zone2.add(tsample);
         zone2.add(listEch);
-        
-        ensemble = new JPanel();
-        ensemble.add(zone1);
-        ensemble.add(zone2);
-        
-        myFrame.add(menuBar);
-        myFrame.add(ensemble);
+
+
+        myFrame.add(menuBar, BorderLayout.NORTH);
+        myFrame.add(zone1, BorderLayout.WEST);
+        myFrame.add(zone2, BorderLayout. SOUTH);
 
         myFrame.pack();
         myFrame.setVisible(true);
