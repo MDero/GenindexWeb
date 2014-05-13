@@ -4,24 +4,29 @@
  */
 package interfaceSwing;
 
-import kernel.*;
 /**
  *
  * @author Marion
  */
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import kernel.Database;
+import kernel.*;
 
-public class CreateOrder extends JFrame {
+
+public class CreateOrder extends JFrame implements ActionListener{
     // instance variables - replace the example below with your own
 
     private JButton buttonValidate;
     private JPanel panelInfo, panelCSAS, panelValidate;
     private JLabel category, species, analysis, samples;
     private JLabel date, customer;
-    private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxDate, boxCustomer;
+    private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxCustomer;
+    private JTextField dateText;
     private JFrame myFrame;
     private String[] items;
     static Database database = new Database();
@@ -31,24 +36,25 @@ public class CreateOrder extends JFrame {
      */
     public CreateOrder() {
         // initialise instance variables
-        this.myFrame = new JFrame("Create an order");
+        this.myFrame = new JFrame("CREATE AN ORDER");
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         this.panelInfo = new JPanel();
         panelInfo.setLayout(new GridLayout(2, 2));
-        this.date = new JLabel("Enter date : ", JLabel.CENTER);
+        this.dateText = new JTextField();
+        this.date = new JLabel("Enter date dd/mm/yy : ", JLabel.CENTER);
         this.customer = new JLabel("Choose Customer : ", JLabel.CENTER);
 
 
         this.panelCSAS = new JPanel();
-        panelCSAS.setLayout(new GridLayout(4, 4));
+        panelCSAS.setLayout(new GridLayout(4, 2));
         this.category = new JLabel("Category : ", JLabel.CENTER);
         this.species = new JLabel("Species : ", JLabel.CENTER);
         this.analysis = new JLabel("Analysis : ", JLabel.CENTER);
         this.samples = new JLabel("Samples : ", JLabel.CENTER);
 
-        this.boxDate = new JComboBox();
+        
         this.boxCustomer = new JComboBox();
         this.boxCategory = new JComboBox();
         this.boxSpecies = new JComboBox();
@@ -58,38 +64,25 @@ public class CreateOrder extends JFrame {
         this.panelValidate = new JPanel();
         panelValidate.setLayout(new GridLayout(1, 1));
         buttonValidate = new JButton("Validate");
-        panelValidate.add(buttonValidate);
+        buttonValidate.addActionListener(this);
+        
 
-        panelInfo.add(date);
-        panelInfo.add(boxDate);
-        panelInfo.add(customer);
-        panelInfo.add(boxCustomer);
-
-
-        panelCSAS.add(category);
-        panelCSAS.add(boxCategory);
-        panelCSAS.add(species);
-        panelCSAS.add(boxSpecies);
-        panelCSAS.add(analysis);
-        panelCSAS.add(boxAnalysis);
-        panelCSAS.add(samples);
-        panelCSAS.add(boxSamples);
-
-
-        myFrame.add(panelInfo, BorderLayout.NORTH);
-        myFrame.add(panelCSAS, BorderLayout.CENTER);
-        myFrame.add(panelValidate, BorderLayout.SOUTH);
-
+        
+        
+              
+        
         // Liste déroulante Customers
         ArrayList<String> names = new ArrayList<>();
         for (Customers customer : database.getCustomerList()) {
-            names.add(customer.getFirstName() + " " + customer.getLastName());
+            names.add(customer.getFirstName()+ " "+ customer.getLastName());
         }
         items = new String[names.size()];
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < items.length; i++) 
             items[i] = names.get(i);
-        }
-        JComboBox customer = new JComboBox(items);
+        
+        JComboBox Customers = new JComboBox(items);
+        
+        
 
         //Liste déroulante Category
         ArrayList<String> categorie = new ArrayList<>();
@@ -100,7 +93,9 @@ public class CreateOrder extends JFrame {
         for (int i = 0; i < items.length; i++) {
             items[i] = categorie.get(i);
         }
-        JComboBox category = new JComboBox(items);        
+        JComboBox category = new JComboBox(items);   
+        
+        
         
         // Liste déroulante Species
         ArrayList<String> espece = new ArrayList<>();
@@ -112,18 +107,22 @@ public class CreateOrder extends JFrame {
             items[i] = espece.get(i);
         }
         JComboBox species = new JComboBox(items);
+        
+        
 
         // Liste déroulante Analysis
         ArrayList<String> analyse = new ArrayList<>();
         for (TypeAnalysis analysis : database.getTypeAnalysisList()) {
-            analyse.add(String.valueOf(analysis.getType()));
+            analyse.add(analysis.getType());
         }
         items = new String[analyse.size()];
         for (int i = 0; i < items.length; i++) {
             items[i] = analyse.get(i);
         }
         JComboBox analysis = new JComboBox(items);
-
+        
+        
+        
         // Liste déroulante Sample
         ArrayList<String> echantillon = new ArrayList<>();
         for (Samples sample : database.getSampleList()) {
@@ -134,20 +133,46 @@ public class CreateOrder extends JFrame {
             items[i] = echantillon.get(i);
         }
         JComboBox sample = new JComboBox(items);
+        
 
-
+        
+        panelInfo.add(date);
+        panelInfo.add(Customers);
+        panelInfo.add(boxCustomer);
+        
+        panelCSAS.add(category);
+        panelCSAS.add(boxCategory);
+        panelCSAS.add(analysis);
+        panelCSAS.add(boxAnalysis);
+        panelCSAS.add(species);
+        panelCSAS.add(boxSpecies);
+        panelCSAS.add(samples);
+        panelCSAS.add(boxSamples);
+        
+        panelValidate.add(buttonValidate);
+        
+        myFrame.add(panelInfo, BorderLayout.NORTH);
+        myFrame.add(panelCSAS, BorderLayout.CENTER);
+        myFrame.add(panelValidate, BorderLayout.SOUTH);
+        
         myFrame.pack();
         myFrame.setVisible(true);
     }
-
+@Override
+    public void actionPerformed(ActionEvent ae) {
+    if (ae.getSource()==buttonValidate){
+        database.insertOrder(null);
+    }
+}
     /**
      * An example of a method - replace this comment with your own
      *
-     * @param sample parameter for a method
      * @return the sum of x and y
      */
     public static void main(String[] args) {
         // put your code here
-        CreateOrder x = new CreateOrder();
+        CreateOrder windows = new CreateOrder();
     }
+
+    
 }
