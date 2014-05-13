@@ -46,9 +46,8 @@ public class Database {
     private static String extractString(ResultSet results, String fieldName) {
         String field = "";
         try {
-            System.out.println(fieldName);
-            field = results.getString(fieldName).replaceAll("[ ]*$", "");
-            System.out.println("Field :" + field);
+            if (results.getString(fieldName)!=null)
+                field = results.getString(fieldName).replaceAll("[ ]*$", "");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +56,8 @@ public class Database {
     private static Integer extractNumber(ResultSet results, String fieldName) {
         Integer field = null;
         try {
-            field = Integer.valueOf(results.getString(fieldName).replaceAll("[^0-9]*", ""));
+            if (results.getString(fieldName)!=null)
+                field = Integer.valueOf(results.getString(fieldName).replaceAll("[^0-9]*", ""));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,6 +78,39 @@ public class Database {
     private static String convertDateToString(kernel.Date date) {
         return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
     }
+    
+    //GLOBAL CODE 
+    private ResultSet getResultsOfQuery(String query, boolean callNext){
+        ResultSet results = null;
+        try {
+            Statement request = this.connexion.createStatement();
+
+            //request all the objects from the database
+            results = request.executeQuery(query);
+            
+            //count the results if any
+            int rowCount = 0;
+            while(results.next())
+                rowCount++;
+            
+            //if any : reexecute and return
+            if (rowCount>0){
+                System.out.println(rowCount+" RESULTS FOUND FOR "+query);
+                results=request.executeQuery(query);
+                if (callNext)
+                    results.next();
+            }
+            else 
+                System.out.println("NO RESULTS FOUND FOR "+query);
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return results;
+    }
+    private ResultSet getResultsOfQuery(String query){
+        return getResultsOfQuery(query,false);
+    }
     private ArrayList<?> generateListOfAll(String table){
          ArrayList<Object> list = new ArrayList<>();
          table = table.toUpperCase();
@@ -86,11 +119,10 @@ public class Database {
             Statement request = this.connexion.createStatement();
 
             //request all the objects from the database
-            request.execute("SELECT * FROM "+table);
-            ResultSet results = request.getResultSet();
-
+            ResultSet results = this.getResultsOfQuery("SELECT * FROM "+table);
+            
             //put the results in the list
-            while(results.next()){
+            while(results!=null && results.next()){
                 list.add(
                         "ADRESS".equals(table)?
                                 this.getAdressFromCurrentRow(results):
@@ -126,11 +158,10 @@ public class Database {
             Statement request = this.connexion.createStatement();
 
             //request all the objects from the database
-            request.execute("SELECT * FROM "+table+" WHERE "+where_field+" = "+where_value);
-            ResultSet results = request.getResultSet();
+            ResultSet results = this.getResultsOfQuery("SELECT * FROM "+table+" WHERE "+where_field+" = "+where_value);
             
             //put the results in the list
-            while(results.next()){
+            while(results!=null&&results.next()){
                 list.add(
                         "ADRESS".equals(table)?
                                 this.getAdressFromCurrentRow(results):
@@ -161,45 +192,32 @@ public class Database {
     
     //PREPARED QUERIES
     private ResultSet getResultSetFromIdQuery(String table, int id) {
-        ResultSet results = null;
+        ResultSet results;
         table = table.toUpperCase();
-        try {
-            //OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE ID_:table = :id");
-            //ps.setStringAtName("table", table);
-            //ps.setIntAtName("id", id);
-            
-            String request = "SELECT * FROM table WHERE field = id";
-            request=request.replace("table", table);
-            request= request.replace("field", "ID_"+table);
-            request=request.replace("id", ""+id);
-            
-            Statement statement = this.connexion.createStatement();
-            //System.out.println(request);            
-            results = statement.executeQuery(request);
-            double rowCount = ((ResultSetImpl)results).getUpdateCount();
-
-            //results.next();
-            //results = ps.executeQuery();
-        } catch (SQLException e) {
-            System.out.println(table+" "+id);
-            e.printStackTrace();
-        }
+        String request = "SELECT * FROM table WHERE field = id";
+        request=request.replace("table", table);
+        request= request.replace("field", "ID_"+table);
+        request=request.replace("id", ""+id);
+        results = this.getResultsOfQuery(request,true);
         return results;
     }
 
     //FROM RESULTSET	
     private Adress getAdressFromCurrentRow(ResultSet results){
-        return  new Adress(
-                    extractNumber(results,"ID_ADRESS"), //ADD by MDERO
-                    extractNumber(results,"Adress_Number"),
-                    extractString(results, "Street"),
-                    extractNumber(results,"ZipCode"),
-                    extractString(results, "City"),
-                    extractString(results, "Country")
-            );
+        if (results!=null){
+            return  new Adress(
+                        extractNumber(results,"ID_ADRESS"), //ADD by MDERO
+                        extractNumber(results,"Adress_Number"),
+                        extractString(results, "Street"),
+                        extractNumber(results,"ZipCode"),
+                        extractString(results, "City"),
+                        extractString(results, "Country")
+                );
+        }
+        else 
+            return null;
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
-        //get the customers'adress if it exists
         Integer idAdress = extractNumber(results,"ID_adress");
         Adress adress = null;
         if (idAdress!=null)
@@ -259,10 +277,10 @@ public class Database {
     //FROM IDS
     public Adress getAdress(int id) {
         Adress adress;
+        System.out.println("id adresse:"+id);
 
         ResultSet results = getResultSetFromIdQuery("Adress",id);
         adress = this.getAdressFromCurrentRow(results);
-
         return adress;
     }
     public Customers getCustomer(int id) {
