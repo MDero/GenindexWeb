@@ -21,15 +21,15 @@ import kernel.*;
 public class CreateOrder extends JFrame implements ActionListener{
     // instance variables - replace the example below with your own
 
-    private JButton buttonValidate;
+    private JButton buttonValidate, buttonCancel;
     private JPanel panelInfo, panelCSAS, panelValidate;
-    private JLabel category, species, analysis, samples;
-    private JLabel date, customer;
+    private JLabel category, species, analysis, samples, date, customer;
     private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxCustomer;
     private JTextField dateText;
     private JFrame myFrame;
     private String[] items;
     static Database database = new Database();
+
 
     /**
      * Constructor for objects of class CreateOrder
@@ -37,39 +37,29 @@ public class CreateOrder extends JFrame implements ActionListener{
     public CreateOrder() {
         // initialise instance variables
         this.myFrame = new JFrame("CREATE AN ORDER");
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         this.panelInfo = new JPanel();
         panelInfo.setLayout(new GridLayout(2, 2));
+        
+        this.date = new JLabel("Enter date dd/mm/yy : ");
         this.dateText = new JTextField();
-        this.date = new JLabel("Enter date dd/mm/yy : ", JLabel.CENTER);
-        this.customer = new JLabel("Choose Customer : ", JLabel.CENTER);
-
+        this.customer = new JLabel("Choose Customer : ");
 
         this.panelCSAS = new JPanel();
         panelCSAS.setLayout(new GridLayout(4, 2));
-        this.category = new JLabel("Category : ", JLabel.CENTER);
-        this.species = new JLabel("Species : ", JLabel.CENTER);
-        this.analysis = new JLabel("Analysis : ", JLabel.CENTER);
-        this.samples = new JLabel("Samples : ", JLabel.CENTER);
+        this.category = new JLabel("Category : ");
+        this.species = new JLabel("Species : ");
+        this.analysis = new JLabel("Analysis : ");
+        this.samples = new JLabel("Samples : ");
 
-        
-        this.boxCustomer = new JComboBox();
-        this.boxCategory = new JComboBox();
-        this.boxSpecies = new JComboBox();
-        this.boxAnalysis = new JComboBox();
-        this.boxSamples = new JComboBox();
 
         this.panelValidate = new JPanel();
-        panelValidate.setLayout(new GridLayout(1, 1));
+        panelValidate.setLayout(new GridLayout(1, 2));
         buttonValidate = new JButton("Validate");
         buttonValidate.addActionListener(this);
-        
-
-        
-        
-              
+            
         
         // Liste déroulante Customers
         ArrayList<String> names = new ArrayList<>();
@@ -80,8 +70,7 @@ public class CreateOrder extends JFrame implements ActionListener{
         for (int i = 0; i < items.length; i++) 
             items[i] = names.get(i);
         
-        JComboBox Customers = new JComboBox(items);
-        
+        this.boxCustomer = new JComboBox(items);
         
 
         //Liste déroulante Category
@@ -93,8 +82,7 @@ public class CreateOrder extends JFrame implements ActionListener{
         for (int i = 0; i < items.length; i++) {
             items[i] = categorie.get(i);
         }
-        JComboBox category = new JComboBox(items);   
-        
+        this.boxCategory = new JComboBox(items);   
         
         
         // Liste déroulante Species
@@ -106,10 +94,9 @@ public class CreateOrder extends JFrame implements ActionListener{
         for (int i = 0; i < items.length; i++) {
             items[i] = espece.get(i);
         }
-        JComboBox species = new JComboBox(items);
+        this.boxSpecies = new JComboBox(items);
         
-        
-
+       
         // Liste déroulante Analysis
         ArrayList<String> analyse = new ArrayList<>();
         for (TypeAnalysis analysis : database.getTypeAnalysisList()) {
@@ -119,8 +106,7 @@ public class CreateOrder extends JFrame implements ActionListener{
         for (int i = 0; i < items.length; i++) {
             items[i] = analyse.get(i);
         }
-        JComboBox analysis = new JComboBox(items);
-        
+        this.boxAnalysis = new JComboBox(items);
         
         
         // Liste déroulante Sample
@@ -132,12 +118,23 @@ public class CreateOrder extends JFrame implements ActionListener{
         for (int i = 0; i < items.length; i++) {
             items[i] = echantillon.get(i);
         }
-        JComboBox sample = new JComboBox(items);
+        this.boxSamples = new JComboBox(items);
+       
         
-
+        this.buttonCancel = new JButton("Cancel");
+        buttonCancel.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+             myFrame.dispose();
+            }
+        } );
+        
         
         panelInfo.add(date);
-        panelInfo.add(Customers);
+        panelInfo.add(dateText);
+        panelInfo.add(customer);
         panelInfo.add(boxCustomer);
         
         panelCSAS.add(category);
@@ -149,7 +146,9 @@ public class CreateOrder extends JFrame implements ActionListener{
         panelCSAS.add(samples);
         panelCSAS.add(boxSamples);
         
+        panelValidate.add(buttonCancel);
         panelValidate.add(buttonValidate);
+        
         
         myFrame.add(panelInfo, BorderLayout.NORTH);
         myFrame.add(panelCSAS, BorderLayout.CENTER);
@@ -158,11 +157,14 @@ public class CreateOrder extends JFrame implements ActionListener{
         myFrame.pack();
         myFrame.setVisible(true);
     }
-@Override
-    public void actionPerformed(ActionEvent ae) {
-    if (ae.getSource()==buttonValidate){
-        database.insertOrder(null);
-    }
+    
+ 
+    
+        @Override
+         public void actionPerformed(ActionEvent ae) {
+         if (ae.getSource()==buttonValidate){
+             database.insertOrder(null);
+           }
 }
     /**
      * An example of a method - replace this comment with your own
@@ -176,3 +178,5 @@ public class CreateOrder extends JFrame implements ActionListener{
 
     
 }
+
+
