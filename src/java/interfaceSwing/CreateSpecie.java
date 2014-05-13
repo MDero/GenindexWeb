@@ -31,16 +31,19 @@ public class CreateSpecie extends JFrame {
         
         // le label explicatif
         private JLabel nom, caracteristiques, categorie;
+         JLabel label = new JLabel("Vous avez saisie: ");
         // le label permettant l'écho
         private JLabel echo;
         // zone de saisie
         private JTextField Cnom, Ccaracteristiques, Ccategorie;
+        JTextField textField = new JTextField("");
         // zone de placement?
         private JPanel zone1, zone2, zone3, bouton, champs;
         
     
     public CreateSpecie (){
-        JFrame myFrame = new JFrame("Species");
+        myFrame = new JFrame("Species");
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
         
@@ -103,10 +106,15 @@ public class CreateSpecie extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 new CreateCategory();   
-                if (!CreateSpecie.this.Ccategorie.getText().equals("")
-                       && !CreateSpecie.this.Cnom.getText().equals("")
+                if (!(CreateSpecie.this.Ccategorie.getText().equals("")
+                       && CreateSpecie.this.Cnom.getText().equals(""))
                         ){
-                    database.insertSpecies(specie);  
+                    database.insertSpecies(specie);
+                /**label.setText("Vous avez saisie: " + textField.getText());
+                // reinitialise le champs de texte
+                textField.setText("");
+                // on redonne le foscus au textField
+                textField.setFocusable(true);**/
                 }              
             }
         });

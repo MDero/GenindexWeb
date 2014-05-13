@@ -27,6 +27,7 @@ public class GenindexMainInterface extends JFrame {
     titrePage = new JLabel("Menu principale", JLabel.CENTER);
     titre.add(nomLogi);
     titre.add(titrePage);
+    titre.setSize(new Dimension(500, 500));
     myFrame.add(titre);
     /////////////////////////////////////////////////////////////
     boutons = new JPanel(); 
@@ -69,17 +70,20 @@ public class GenindexMainInterface extends JFrame {
     bou1.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
-    new CreateCustomer();   }});
+    CreateCustomer createCustomer = new CreateCustomer();
+   }});
     
     bou2.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
-    new CreateOrder();   }});
+    CreateOrder createOrder = new CreateOrder();
+   }});
     
     bou3.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
-    new Order_Explorer();   }});
+    Order_Explorer order_Explorer = new Order_Explorer();
+   }});
    
     //bou4.addActionListener(new ActionListener(){
     //@Override
@@ -89,17 +93,20 @@ public class GenindexMainInterface extends JFrame {
     bou5.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
-    new CreateSpecie();   }});
+    CreateSpecie createSpecie = new CreateSpecie();
+   }});
    
     bou6.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
-    new CreateCategory();   }});
+    CreateCategory createCategory = new CreateCategory();
+   }});
     
     bou7.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
-    new SexingTest();   }});
+    SexingTest sexingTest = new SexingTest();
+   }});
        
     myFrame.pack();
     myFrame.setVisible(true);
