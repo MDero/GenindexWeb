@@ -111,8 +111,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         lastEmptyRow=10;//de base on a 10 lignes pour le swag
         
         zone2 = new JPanel();
-        zone2.setLayout(new GridLayout (1,2));
-        zone2.add(tsample);
+        zone2.setLayout(new BorderLayout());
         zone2.add(table);
         
         JScrollPane scrollPane = new JScrollPane(table);
@@ -185,12 +184,6 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                 }
                                 
                                 
-//                                if (typeAnalNames.size()>0){
-//                                    for (TypeAnalysis typeanal : typeAnalNames){
-//                                        ((DefaultTableModel)CreateMicroplate.this.table.getModel()).addRow(new Object[]{typeanal.getType(),order.getResultSend(),order.getPaid(),order.getNumberSamples()});                                    
-//                                        CreateMicroplate.this.lastEmptyRow++;
-//                                    }
-//                                }
 	}
            public static void main (String [] args){
 CreateMicroplate visuel= new CreateMicroplate();
