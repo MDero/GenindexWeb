@@ -20,15 +20,18 @@ public class GenindexMainInterface extends JFrame {
     
     myFrame = new JFrame("Genindex");
     myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    /////////////////////////////////////////////////////////////
     titre = new JPanel();    
     titre.setLayout(new GridLayout(2,1)); 
     nomLogi = new JLabel("GENINDEX", JLabel.CENTER);
     titrePage = new JLabel("Menu principale", JLabel.CENTER);
     titre.add(nomLogi);
     titre.add(titrePage);
-    myFrame.add(titre, BorderLayout.NORTH);
-    boutons = new JPanel();    
-    boutons.setLayout(new GridLayout(6,2));
+    myFrame.add(titre);
+    /////////////////////////////////////////////////////////////
+    boutons = new JPanel(); 
+    // ajouter une ligne pour chaque item à ajouter
+    boutons.setLayout(new GridLayout(7,2));
     info1 = new JLabel("Créer un utilisateur", JLabel.CENTER);
     info2 = new JLabel("Créer une commande", JLabel.CENTER);
     info3 = new JLabel("Visionner les commandes", JLabel.CENTER);
@@ -37,6 +40,7 @@ public class GenindexMainInterface extends JFrame {
     info5 = new JLabel("Créer une espèce", JLabel.CENTER);
     info6 = new JLabel("Créer une catégorie", JLabel.CENTER);
     info7 = new JLabel("Créer un test de sexe", JLabel.CENTER);
+    /////////////////////////////////////////////////////////////
     bou1 = new JButton("Créer");
     bou2 = new JButton("Créer");
     bou3 = new JButton("Visionner");
@@ -44,6 +48,7 @@ public class GenindexMainInterface extends JFrame {
     bou5 = new JButton("Créer");
     bou6 = new JButton("Créer");
     bou7 = new JButton("Créer");
+    /////////////////////////////////////////////////////////////
     boutons.add(info1);
     boutons.add(bou1);
     boutons.add(info2);
@@ -59,11 +64,42 @@ public class GenindexMainInterface extends JFrame {
     boutons.add(info7);
     boutons.add(bou7);
     myFrame.add(boutons,BorderLayout.SOUTH);
-    //newCategorie.addActionListener(new ActionListener(){
+    /////////////////////////////////////////////////////////////
+    
+    bou1.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    new CreateCustomer();   }});
+    
+    bou2.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    new CreateOrder();   }});
+    
+    bou3.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    new Order_Explorer();   }});
+   
+    //bou4.addActionListener(new ActionListener(){
     //@Override
     //public void actionPerformed(ActionEvent ae) {
-    //new CreateCategory();   }});
+    //new CreateMicroplate();   }});
+   
+    bou5.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    new CreateSpecie();   }});
+   
+    bou6.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    new CreateCategory();   }});
     
+    bou7.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    new SexingTest();   }});
        
     myFrame.pack();
     myFrame.setVisible(true);
