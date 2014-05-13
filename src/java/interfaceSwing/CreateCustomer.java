@@ -28,7 +28,7 @@ public class CreateCustomer extends JFrame  {
     private final JComboBox paysC;
     private final JButton valider, annuler;
     private String[] item;
-    private Database database;
+    private final Database database=new Database();
     private ButtonGroup groupe;
     private JFrame myFrame;
     
@@ -36,8 +36,6 @@ public class CreateCustomer extends JFrame  {
     public CreateCustomer(){
         myFrame= new JFrame ("créer client");
         myFrame.setLayout(new BorderLayout());
-        
-        Database database = new Database();
         // Création du menu et du bouton quitter du menu
         
         menuBar= new JMenuBar();
@@ -144,12 +142,12 @@ public class CreateCustomer extends JFrame  {
         paysC=new JComboBox();
         //paysC.setEditable(false);
         
-        paysC.addItem("Afrique");
+        paysC.addItem("Sénégal");
         paysC.addItem("France");
         paysC.addItem("Angleterre");
         paysC.addItem("Chine");
         paysC.addItem("Inde");
-        paysC.addItem("Amérique");
+        paysC.addItem("Etats Unis");
         paysC.addItem("Suède");
         paysC.addItem("Norvège");
         
@@ -252,6 +250,8 @@ public class CreateCustomer extends JFrame  {
                }
 
                database.insertCustomer(new_customer);
+               PopUp popUp = new PopUp();
+               myFrame.dispose();
            }
 
            });
