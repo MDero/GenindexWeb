@@ -67,9 +67,12 @@ public Order_Explorer(){
 
 
 	JTable table = new JTable(new MyTableModel());
-	JScrollPane scrollPane = new JScrollPane(table);
-	scrollPane.setColumnHeaderView(table.getTableHeader());
-	panelCenter.add(scrollPane);
+        panelCenter.add(table);
+        
+
+	//JScrollPane scrollPane = new JScrollPane(table);
+	//scrollPane.setColumnHeaderView(table.getTableHeader());
+	//panelCenter.add(scrollPane);
 
  // On met les différents panel a chaque endroit de la frame.
 	general.setLayout(new BorderLayout());

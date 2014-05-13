@@ -261,8 +261,8 @@ public class Database {
     private Species getSpeciesFromCurrentRow(ResultSet results){
         return new Species(
                 extractNumber(results,"ID_SPECIES"),
-                getCategory(extractNumber(results,"ID_Category")),
-                extractString(results,"species")
+                getCategory(extractNumber(results,"ID_CateName")),
+                extractString(results,"species_name")
         );
     }
     private Category getCategoryFromCurrentRow(ResultSet results){
