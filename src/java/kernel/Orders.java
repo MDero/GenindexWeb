@@ -188,7 +188,7 @@ public class Orders {
 	  
 	 double totalPrice=0;
 	 for (int i=0; i<samples.size(); i++){
-		 totalPrice = totalPrice + samples.get(i).getAnalysis().getTypeAnalysis().getPrice();
+		 totalPrice = totalPrice + samples.get(i).getAnalysis().getTypeAnalysis().getPriceFor(samples.get(i).getType());
 	 }
 	 
 	 this.invoice = new Invoice(totalPrice, this.numberSamples, this.idOrder);

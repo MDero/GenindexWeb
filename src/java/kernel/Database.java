@@ -91,27 +91,32 @@ public class Database {
             ResultSet results = request.getResultSet();
 
             //put the results in the list
-           while(results.next()){
-               list.add(
-                       "ADRESS".equals(table)?
-                               this.getAdressFromCurrentRow(results):
-                       "ORDERS".equals(table) ?
-                               this.getOrderFromCurrentRow(results) : 
-                       "CUSTOMERS".equals(table)?
-                               this.getCustomerFromCurrentRow(results):
-                        "SAMPLES".equals(table)?
-                                this.getSampleFromCurrentRow(results):
-                        "ANIMALS".equals(table)?
-                                this.getAnimalFromCurrentRow(results):
-                        "SPECIES".equals(table)?
-                                this.getSpeciesFromCurrentRow(results):
-                        "CATEGORY".equals(table)?
-                                this.getCategoryFromCurrentRow(results):
-                        "TYPEANAL".equals(table)?
-                                this.getTypeAnalysisFromCurrentRow(results):
-                        null
-               );
-           }
+            try{
+                while(results.next()){
+                    list.add(
+                            "ADRESS".equals(table)?
+                                    this.getAdressFromCurrentRow(results):
+                            "ORDERS".equals(table) ?
+                                    this.getOrderFromCurrentRow(results) : 
+                            "CUSTOMERS".equals(table)?
+                                    this.getCustomerFromCurrentRow(results):
+                             "SAMPLES".equals(table)?
+                                     this.getSampleFromCurrentRow(results):
+                             "ANIMALS".equals(table)?
+                                     this.getAnimalFromCurrentRow(results):
+                             "SPECIES".equals(table)?
+                                     this.getSpeciesFromCurrentRow(results):
+                             "CATEGORY".equals(table)?
+                                     this.getCategoryFromCurrentRow(results):
+                             "TYPEANAL".equals(table)?
+                                     this.getTypeAnalysisFromCurrentRow(results):
+                             null
+                    );
+                }
+            }
+            catch (SQLException ex){
+                System.out.println("NO RESULTS FOR : SELECT * FROM "+table);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,29 +134,34 @@ public class Database {
             //request all the objects from the database
             request.execute("SELECT * FROM "+table+" WHERE "+where_field+" = "+where_value);
             ResultSet results = request.getResultSet();
-
+            
             //put the results in the list
-           while(results.next()){
-               list.add(
-                       "ADRESS".equals(table)?
-                               this.getAdressFromCurrentRow(results):
-                       "ORDERS".equals(table) ?
-                               this.getOrderFromCurrentRow(results) : 
-                       "CUSTOMERS".equals(table)?
-                               this.getCustomerFromCurrentRow(results):
-                        "SAMPLES".equals(table)?
-                                this.getSampleFromCurrentRow(results):
-                        "ANIMALS".equals(table)?
-                                this.getAnimalFromCurrentRow(results):
-                        "SPECIES".equals(table)?
-                                this.getSpeciesFromCurrentRow(results):
-                        "CATEGORY".equals(table)?
-                                this.getCategoryFromCurrentRow(results):
-                        "TYPEANAL".equals(table)?
-                                this.getTypeAnalysisFromCurrentRow(results):
-                        null
-               );
-           }
+            try{
+                while(results.next()){
+                    list.add(
+                            "ADRESS".equals(table)?
+                                    this.getAdressFromCurrentRow(results):
+                            "ORDERS".equals(table) ?
+                                    this.getOrderFromCurrentRow(results) : 
+                            "CUSTOMERS".equals(table)?
+                                    this.getCustomerFromCurrentRow(results):
+                             "SAMPLES".equals(table)?
+                                     this.getSampleFromCurrentRow(results):
+                             "ANIMALS".equals(table)?
+                                     this.getAnimalFromCurrentRow(results):
+                             "SPECIES".equals(table)?
+                                     this.getSpeciesFromCurrentRow(results):
+                             "CATEGORY".equals(table)?
+                                     this.getCategoryFromCurrentRow(results):
+                             "TYPEANAL".equals(table)?
+                                     this.getTypeAnalysisFromCurrentRow(results):
+                             null
+                    );
+                }
+            }
+            catch (SQLException ex){
+                System.out.println("NO RESULTS FOR : SELECT * FROM "+table);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -199,7 +209,7 @@ public class Database {
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
         Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
-        //protected Customers(int ID, String first, String last, Adress adress, String mail, String phone, int typeCusto) {
+
         return new Customers(
                     extractNumber(results, "ID_CUSTOMERS"),
                     extractString(results, "FirstName_custo"),
@@ -209,6 +219,7 @@ public class Database {
                     extractString(results, "MAIL_CUSTO"),
                     extractNumber(results,"ID_TYPECUSTOMER")
             );
+        
     }
     private Orders getOrderFromCurrentRow(ResultSet results) {
         return new Orders(
@@ -418,7 +429,7 @@ public class Database {
     //MDERO
     public void insertAdress(Adress adress) {
         this.insertIntoTableValuesForFields("ADRESS", 
-                "(ID_ADRESS,\"NUMBER\", STREET, ZIPCODE,CITY, COUNTRY)",
+                "(ID_ADRESS,ADRESS_NUMBER,STREET, ZIPCODE,CITY, COUNTRY)",
                 //values
                 adress.getIdAdress(),
                 adress.getNumber(),
@@ -444,7 +455,7 @@ public class Database {
     }
     public void insertCustomer(Customers c) {
     this.insertIntoTableValuesForFields("CUSTOMERS", 
-            "(ID_TYPECUSTOMER, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
+            "(ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
             c.getAdress()!=null ? 
             c.getAdress().getIdAdress() : null,
@@ -456,7 +467,7 @@ public class Database {
     }
     public void insertAnimals(Animals animal){
         this.insertIntoTableValuesForFields("ANIMALS", 
-                "(ID_SPECIES,NUMBERBIRTHDAY,\"NAME\")",
+                "(ID_SPECIES,NUMBERBIRTHDAY,ANIMALS_NAME)",
                 //values
                 animal.getSpecies().getId(),
                 animal.getNumberBirthday(),
@@ -464,14 +475,14 @@ public class Database {
         );
     }
     public void insertCategory(Category category){
-        this.insertIntoTableValuesForFields("CATEGORY", 
-                "(\"NAME\")",
+        this.insertIntoTableValuesForFields("CATEANIMALS", 
+                "(CATE_NAME)",
                 category.getName()
         );
     }
     public void insertSpecies(Species species){
         this.insertIntoTableValuesForFields("SPECIES", 
-                "(ID_CATEGORY,SPECIES)",
+                "(ID_CATEANIMALS,SPECIES_NAME)",
                 //values
                 species.getCategory().getId(),
                 species.getName()

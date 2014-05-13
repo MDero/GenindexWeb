@@ -39,7 +39,11 @@ public class Customers {
 	  phoneNumber = phone;
           this.email = mail;
           this.typeCusto = typeCusto;
-  }
+    }
+    public Customers(String first, String last,Adress adress, String phone, String mail, int typeCusto){
+        this(first,last,phone,mail,typeCusto);
+        this.adress=adress;
+    }
     
   //MDERO
   //TO GET FROM DATABASE
