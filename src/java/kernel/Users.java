@@ -9,7 +9,6 @@ import java.util.Iterator;
  * This class manages the different users.
  */
 public class Users {
-  private static int countID = 1;
 
   private int id;
 
@@ -52,10 +51,8 @@ public class Users {
    */
   private String email;
 
-  public Users(String firstName, String lastName) {
+  private Users(String firstName, String lastName) {
     // Bouml preserved body begin 0001F403
-	  this.id = countID;
-	  countID = countID + 1;
 	  this.firstName = firstName;
 	  this.lastName=lastName;
 	  this.login = this.createLogin();
@@ -67,8 +64,19 @@ public class Users {
 
   public Users(String firstName, String lastName, String email) {
     // Bouml preserved body begin 0002DB82
-	  this.id = countID;
-	  countID = countID + 1;
+	  this.firstName = firstName;
+	  this.lastName=lastName;
+	  this.email =email;
+	  this.login = this.createLogin();
+	  this.password = this.login;
+	  this.administrativeAuthorizations=false;
+	  this.technicalAuthorizations = new HashMap<>();
+    // Bouml preserved body end 0002DB82
+  }
+  
+   protected Users(int id, String firstName, String lastName, String email) {
+    // Bouml preserved body begin 0002DB82
+	  this.id = id;
 	  this.firstName = firstName;
 	  this.lastName=lastName;
 	  this.email =email;
