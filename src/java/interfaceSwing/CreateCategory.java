@@ -22,6 +22,7 @@ public class CreateCategory extends JFrame {
         private Category category;
         private JFrame myFrame;
         private JButton valider=new JButton("Valider ");
+        private JButton annuler;
         // le label explicatif
         private JLabel nom, caracteristiques;
         // le label permettant l'écho
@@ -33,13 +34,12 @@ public class CreateCategory extends JFrame {
     
     public CreateCategory (){
         myFrame = new JFrame("Category");
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
         
         //Installation dans la fenêtre
         this.setJMenuBar(menuBar);
-        
+        this.annuler = new JButton("Annuler");
         //Construction du premier menu
         JMenu menu = new JMenu("Menu");
         menu.setMnemonic(KeyEvent.VK_M);
@@ -70,7 +70,9 @@ public class CreateCategory extends JFrame {
         champs.add(zone2);
         
         bouton = new JPanel();
+        bouton.setLayout(new GridLayout(1,2));
         bouton.add(valider);
+        bouton.add(annuler);
         
         valider.addActionListener(new ActionListener(){
 
@@ -82,7 +84,16 @@ public class CreateCategory extends JFrame {
                 }              
             }
         });
+        myFrame.setVisible(true);
         
+        annuler.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+            myFrame.dispose();
+            }
+        } );
 
   
         myFrame.setLayout(new BorderLayout());
@@ -90,8 +101,8 @@ public class CreateCategory extends JFrame {
         myFrame.add(champs, BorderLayout.CENTER);
         myFrame.add(bouton, BorderLayout.SOUTH);;
         
-         myFrame.pack();
-        myFrame.setVisible(true);
+        myFrame.pack();
+        
     }
     
         public static void main (String [] args){
