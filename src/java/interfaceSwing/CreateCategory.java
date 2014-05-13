@@ -74,8 +74,7 @@ public class CreateCategory extends JFrame {
         valider.addActionListener(new ActionListener(){
 
             @Override
-            public void actionPerformed(ActionEvent ae) {
-                new CreateCategory();   
+            public void actionPerformed(ActionEvent ae) {  
                 if (!CreateCategory.this.Cnom.getText().equals("")
                         ){
                     database.insertCategory(category);  
@@ -83,7 +82,7 @@ public class CreateCategory extends JFrame {
             }
         });
         
-        
+
   
         myFrame.setLayout(new BorderLayout());
         myFrame.add(menuBar, BorderLayout.NORTH);
