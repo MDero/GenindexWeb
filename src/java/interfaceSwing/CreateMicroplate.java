@@ -4,13 +4,13 @@
  */
 package interfaceSwing;
 
-import java.awt.event.KeyEvent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import static interfaceSwing.CreateSpecie.database;
+import java.awt.*; 
 
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import kernel.Category;
 /*
  *
  * @author Caro
@@ -20,9 +20,15 @@ public class CreateMicroplate {
     // Déclaration des variables
         private JMenuBar menuBar;
         private JFrame myFrame;
+        private JMenuItem exit;
+        private JLabel nom;
+        private JComboBox boxCategory;
+        private String[] items;
+        private String[] ech;
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
         
@@ -37,5 +43,52 @@ public class CreateMicroplate {
         menu.add(exit);
         
         // creation des widgets
-        nom = new JLabel("Nom*:");
+        nom = new JLabel("Type d'échantillon:");
+        
+         /* creation de menu déroulant */
+        String[] items;
+        ArrayList<String> typeAnalNames = new ArrayList<>();
+
+        //parcours de toutes les catégories de la base de données
+        for (TypeAnalysis typeanal: database.getCategoryList())
+            typeAnalNames.add(typeanal.getName());
+
+        //initialisation du tableau utilisable par JComboBox
+        items = new String[typeAnalNames.size()];
+
+        //transfert liste -> array
+        for (int i = 0; i<items.length;i++)
+            items[i]=typeAnalNames.get(i);
+        
+        //création effective 
+        this.boxCategory = new JComboBox(items);
+        
+        /* creation de la liste d'échantillon */
+        String[] ech;
+        ArrayList<String> sampleNames = new ArrayList<>();
+
+        //parcours de toutes les catégories de la base de données
+        for (TypeSample typesample: database.getCategoryList())
+            sampleNames.add(typesample.getName());
+
+        //initialisation du tableau utilisable par JComboBox
+        items = new String[sampleNames.size()];
+
+        //transfert liste -> array
+        for (int i = 0; i<items.length;i++)
+            items[i]=sampleNames.get(i);
+        
+        //création effective 
+        this.boxCategory = new JComboBox(items);
+        
+        
+        
+        myFrame.pack();
+        myFrame.setVisible(true);
 }
+
+    private void setJMenuBar(JMenuBar menuBar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
+
