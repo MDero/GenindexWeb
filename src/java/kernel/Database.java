@@ -331,20 +331,26 @@ public class Database {
                         );
             
             insert += ")";
+            
             System.out.println(insert);
             statement = this.connexion.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-            //s.executeQuery(insert);
-            statement.executeUpdate();
+            
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("ERROR : NO ROW AFFECTED");
+            }
+            
             System.out.println("UpdateCount : " + statement.getUpdateCount());
             generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                System.out.println("GENERATED : " + generatedKeys.getString(1));
-                idGenerated = (int)generatedKeys.getLong(1);
+            System.out.println("KEY GENEREATED");
+            while (generatedKeys.next()) {
+                System.out.println("GENERATED : " + generatedKeys.getInt(1));
+                idGenerated = (int)generatedKeys.getInt(1);
                 System.out.println("ID GENERATED : " + idGenerated);
             }
-            else {
-                System.out.println("ERROR : NO ID GENERATED");
-            }
+//            else {
+//                System.out.println("ERROR : NO ID GENERATED");
+//            }
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);
@@ -379,9 +385,9 @@ public class Database {
     }
     public void insertCustomer(Customers c) {
     this.insertIntoTableValuesForFields("CUSTOMERS", 
-            "(ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
+            "(ID_TYPECUSTOMER, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
-            c.getAdress().getIdAdress(),
+            //c.getAdress().getIdAdress(),
             c.getFirstName(),
             c.getLastName(),
             c.getPhoneNumber(),
