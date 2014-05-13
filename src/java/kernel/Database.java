@@ -79,16 +79,15 @@ public class Database {
     private static String convertDateToString(kernel.Date date) {
         return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
     }
-    private ArrayList<?> generateListOfAll(String table,String ... clauses){
+    private ArrayList<?> generateListOfAll(String table){
          ArrayList<Object> list = new ArrayList<>();
          table = table.toUpperCase();
          
         try {
             Statement request = this.connexion.createStatement();
 
-            //request all the orders from the database
-            request.execute("SELECT * FROM "+table+" "+(clauses.length>0 ? clauses[0] : ""));
-
+            //request all the objects from the database
+            request.execute("SELECT * FROM "+table);
             ResultSet results = request.getResultSet();
 
             //put the results in the list
@@ -108,6 +107,48 @@ public class Database {
                                 this.getSpeciesFromCurrentRow(results):
                         "CATEGORY".equals(table)?
                                 this.getCategoryFromCurrentRow(results):
+                        "TYPEANAL".equals(table)?
+                                this.getTypeAnalysisFromCurrentRow(results):
+                        null
+               );
+           }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    private ArrayList<?> generateListOfAllWhere(String table, String where_field, String where_value){
+                 ArrayList<Object> list = new ArrayList<>();
+         table = table.toUpperCase();
+         
+        try {
+            Statement request = this.connexion.createStatement();
+
+            //request all the objects from the database
+            request.execute("SELECT * FROM "+table+" WHERE "+where_field+" = "+where_value);
+            ResultSet results = request.getResultSet();
+
+            //put the results in the list
+           while(results.next()){
+               list.add(
+                       "ADRESS".equals(table)?
+                               this.getAdressFromCurrentRow(results):
+                       "ORDERS".equals(table) ?
+                               this.getOrderFromCurrentRow(results) : 
+                       "CUSTOMERS".equals(table)?
+                               this.getCustomerFromCurrentRow(results):
+                        "SAMPLES".equals(table)?
+                                this.getSampleFromCurrentRow(results):
+                        "ANIMALS".equals(table)?
+                                this.getAnimalFromCurrentRow(results):
+                        "SPECIES".equals(table)?
+                                this.getSpeciesFromCurrentRow(results):
+                        "CATEGORY".equals(table)?
+                                this.getCategoryFromCurrentRow(results):
+                        "TYPEANAL".equals(table)?
+                                this.getTypeAnalysisFromCurrentRow(results):
                         null
                );
            }
@@ -206,6 +247,9 @@ public class Database {
             //return Category.getOrCreateCategory(extractNumber(results,"Id_category"), extractString(results,"NAME"));
         return new Category (extractNumber(results,"Id_category"), extractString(results,"NAME"));
     }
+    private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
+        return new TypeAnalysis(extractString(results,"TYPEANAL"));
+    }
     
     //FROM IDS
     public Adress getAdress(int id) {
@@ -232,13 +276,11 @@ public class Database {
     }
     public Animals getAnimals(int id){
         ResultSet results = this.getResultSetFromIdQuery("Animals", id);
-        
         Animals animal = getAnimalFromCurrentRow(results);
         return animal;
     }
     public Samples getSamples(int id){
         ResultSet results = this.getResultSetFromIdQuery("Samples", id);
-        
         Samples sample = getSampleFromCurrentRow(results);
         return sample;
     }
@@ -252,7 +294,12 @@ public class Database {
         Category category = this.getCategoryFromCurrentRow(results);
         return category;
     }
-  
+    public TypeAnalysis getTypeAnalysis(int id){
+        ResultSet results = this.getResultSetFromIdQuery("TYPEANAL", id);
+        TypeAnalysis ta = this.getTypeAnalysisFromCurrentRow(results);
+        return ta;
+    }
+    
     //LISTS ESTABLISHMENT
     public List<Adress> getAdressList(){
         return (List<Adress>) this.generateListOfAll("ADRESS");
@@ -287,10 +334,10 @@ public class Database {
     //QUERIES
     //TODO : move to the correct class in the end
     public List<Orders> getOrdersForCustomer(Customers customer){
-        return (List<Orders>) this.generateListOfAll("ORDERS", "WHERE ID_CUSTOMERS="+customer.getID());
+        return (List<Orders>) this.generateListOfAllWhere("ORDERS", "ID_CUSTOMERS",""+customer.getID());
     }
     public List<Orders> getOrdersForCustomer(int id){
-        return (List<Orders>) this.generateListOfAll("ORDERS", "WHERE ID_CUSTOMERS="+id);
+        return (List<Orders>) this.generateListOfAllWhere("ORDERS", "ID_CUSTOMERS",""+id);
     }
     
     /* INSERTION METHODS */
@@ -331,20 +378,26 @@ public class Database {
                         );
             
             insert += ")";
+            
             System.out.println(insert);
             statement = this.connexion.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
-            //s.executeQuery(insert);
-            statement.executeUpdate();
+            
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("ERROR : NO ROW AFFECTED");
+            }
+            
             System.out.println("UpdateCount : " + statement.getUpdateCount());
             generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                System.out.println("GENERATED : " + generatedKeys.getString(1));
-                idGenerated = (int)generatedKeys.getLong(1);
+            System.out.println("KEY GENEREATED");
+            while (generatedKeys.next()) {
+                System.out.println("GENERATED : " + generatedKeys.getInt(1));
+                idGenerated = (int)generatedKeys.getInt(1);
                 System.out.println("ID GENERATED : " + idGenerated);
             }
-            else {
-                System.out.println("ERROR : NO ID GENERATED");
-            }
+//            else {
+//                System.out.println("ERROR : NO ID GENERATED");
+//            }
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);
@@ -354,8 +407,9 @@ public class Database {
     //MDERO
     public void insertAdress(Adress adress) {
         this.insertIntoTableValuesForFields("ADRESS", 
-                "(\"NUMBER\", STREET, ZIPCODE,CITY, COUNTRY)",
+                "(ID_ADRESS,\"NUMBER\", STREET, ZIPCODE,CITY, COUNTRY)",
                 //values
+                adress.getIdAdress(),
                 adress.getNumber(),
                 adress.getStreet(), 
                 adress.getZipCode(),
@@ -379,9 +433,9 @@ public class Database {
     }
     public void insertCustomer(Customers c) {
     this.insertIntoTableValuesForFields("CUSTOMERS", 
-            "(ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
+            "(ID_TYPECUSTOMER, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
-            c.getAdress().getIdAdress(),
+            //c.getAdress().getIdAdress(),
             c.getFirstName(),
             c.getLastName(),
             c.getPhoneNumber(),
