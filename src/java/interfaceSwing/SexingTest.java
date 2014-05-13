@@ -58,7 +58,15 @@ public class SexingTest extends JFrame {
             @Override
             public void actionPerformed (ActionEvent e) 
             {
-             System.exit(0);
+             JComboBox result = (JComboBox)e.getSource(); 
+            }
+        } );
+        specificite.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+             JTextField texte = (JTextField)e.getSource(); 
             }
         } );
         species.addActionListener (new ActionListener () 
