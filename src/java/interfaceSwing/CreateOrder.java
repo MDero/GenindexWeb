@@ -76,7 +76,7 @@ public class CreateOrder extends JFrame implements ActionListener{
         //Liste déroulante Category
         ArrayList<String> categorie = new ArrayList<>();
         for (Category category : database.getCategoryList()) {
-            names.add(category.getName());
+            categorie.add(category.getName());
         }
         items = new String[categorie.size()];
         for (int i = 0; i < items.length; i++) {

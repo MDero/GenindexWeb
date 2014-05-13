@@ -3,10 +3,30 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/MrCake/Documents/GitHub/GenindexWeb/src/java/interfaceSwing/CreateCustomer.java</file>
-            <file>file:/C:/Users/MrCake/Documents/GitHub/GenindexWeb/src/java/kernel/Customers.java</file>
-            <file>file:/C:/Users/MrCake/Documents/GitHub/GenindexWeb/test/kernel/DatabaseTest.java</file>
-            <file>file:/C:/Users/MrCake/Documents/GitHub/GenindexWeb/src/java/kernel/Database.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Animals.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/GestionDate.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Adress.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Date.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/TypeAnalysis.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Storage.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/nbproject/project.properties</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Database.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/nbproject/private/private.properties</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Samples.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/DatabaseTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Users.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/web/test.jsp</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/test/kernel/DatabaseBDDTest.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Invoice.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Category.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Orders.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/nbproject/genfiles.properties</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Species.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/TypeSample.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Genindex.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Analysis.java</file>
+            <file>file:/C:/Users/Maxime/Documents/GitHub/GenindexWeb/src/java/kernel/Customers.java</file>
         </group>
     </open-files>
 </project-private>
