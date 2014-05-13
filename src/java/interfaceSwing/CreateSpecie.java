@@ -42,7 +42,8 @@ public class CreateSpecie extends JFrame {
         
     
     public CreateSpecie (){
-        JFrame myFrame = new JFrame("Species");
+        myFrame = new JFrame("Species");
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
         

@@ -20,7 +20,7 @@ public class CreateCategory extends JFrame {
         private JMenuBar menuBar;
         private JMenuItem Exit;
         private Category category;
-
+        private JFrame myFrame;
         private JButton valider=new JButton("Valider ");
         // le label explicatif
         private JLabel nom, caracteristiques;
@@ -32,7 +32,8 @@ public class CreateCategory extends JFrame {
         private JPanel zone1, zone2, champs, bouton;
     
     public CreateCategory (){
-        JFrame myFrame = new JFrame("Category");
+        myFrame = new JFrame("Category");
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
         
@@ -88,7 +89,7 @@ public class CreateCategory extends JFrame {
         myFrame.add(menuBar, BorderLayout.NORTH);
         myFrame.add(champs, BorderLayout.CENTER);
         myFrame.add(bouton, BorderLayout.SOUTH);;
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
          myFrame.pack();
         myFrame.setVisible(true);
     }
