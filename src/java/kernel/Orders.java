@@ -79,7 +79,7 @@ public class Orders {
         this.report = report;
     }
 
-    protected Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
+    public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
         // Bouml preserved body begin 0001F402
         this.samples = new ArrayList<Samples>();
         this.numberSamples = num_samples;
