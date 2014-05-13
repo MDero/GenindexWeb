@@ -44,9 +44,6 @@ public Order_Explorer(){
 	JPanel panelNorth=new JPanel();
 	panelNorth.setLayout(new GridLayout(1,2));
 
-
-
-
  // Création menu déroulant
 	JLabel Select = new JLabel("Selectioner un client");
 
@@ -64,15 +61,12 @@ public Order_Explorer(){
 	panelNorth.add(Select);
 	panelNorth.add(Customers);
 
-
+// création du tableau
+        
 	JPanel panelCenter=new JPanel();
 
-	String[] columnNames = {"Id commande",
-									"Statut",
-"Nombre d'analyse"};
-		Object[][] data = {{items2,"",""}};
 
-	JTable table = new JTable(data,columnNames);
+	JTable table = new JTable(new MyTableModel());
 	JScrollPane scrollPane = new JScrollPane(table);
 	scrollPane.setColumnHeaderView(table.getTableHeader());
 	panelCenter.add(scrollPane);
@@ -96,7 +90,7 @@ public Order_Explorer(){
 
 				JComboBox cb = (JComboBox)e.getSource();
 
-				if (cb.getSelectedIndex() == 1){
+				if (cb.getSelectedIndex() == 4){
 				ArrayList<Integer> names2 = new ArrayList<>();
 				for (Orders order : database.getOrdersForCustomer(1)){
 					names2.add(order.getId());
@@ -107,7 +101,38 @@ public Order_Explorer(){
 				items2[i]=names2.get(i);
 				}
 	}
+class MyTableModel extends AbstractTableModel {
+    private String[] columnNames = {"Num commande",
+                                    "Nom commande",
+                                    "Payé","Envoyé"
+                                    };
+    private Object[][] data = {
+    {"1", "outils","en cours"},{"2", "medoc","terminé"},{"3", "produit","en cours"}
+    };
 
+    public int getColumnCount() {
+        return columnNames.length;
+    }
+
+    public int getRowCount() {
+        return data.length;
+    }
+
+    public String getColumnName(int col) {
+        return columnNames[col];
+    }
+
+    public Object getValueAt(int row, int col) {
+        return data[row][col];
+    }
+
+    public boolean isCellEditable(int row, int col) {
+            return false;
+        }
+    public boolean isCellSelected(int row, int col) {
+        return true;
+    }
+}
 	public static void main(String[] args) {
 		Order_Explorer window = new Order_Explorer ();
 	}	
