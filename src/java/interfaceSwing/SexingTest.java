@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import kernel.*;
 import java.util.ArrayList;
+import java.applet.*;
 /**
  *
  * @author Nathan
@@ -53,30 +54,36 @@ public class SexingTest extends JFrame {
         myFrame.add(topPanel, BorderLayout.NORTH);
         myFrame.add(midPanel, BorderLayout.CENTER);
         myFrame.add(botPanel, BorderLayout.SOUTH);
+        
+        
         annuler.addActionListener (new ActionListener () 
         {
             @Override
             public void actionPerformed (ActionEvent e) 
             {
-             JComboBox result = (JComboBox)e.getSource(); 
+             System.exit(0);
             }
         } );
+        
         specificite.addActionListener (new ActionListener () 
         {
             @Override
             public void actionPerformed (ActionEvent e) 
             {
-             JTextField texte = (JTextField)e.getSource(); 
+             specificite.getText();
             }
         } );
+        
         species.addActionListener (new ActionListener () 
         {
             @Override
             public void actionPerformed (ActionEvent e) 
             {
-                species = species;
+               species.getSelectedItem();
             }
         } );
+        
+        
         myFrame.pack();
         myFrame.setVisible(true);
     }
