@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package kernel;
 
 /**
@@ -11,14 +10,21 @@ package kernel;
  * @author MrCake
  */
 public class Species {
-    private int id; 
+
+    private int id;
     private Category category;
     private String name;
-    
-    public Species(int id,Category category, String name){
-        this.id=id;
-        this.category=category;
-        this.name=name;
+
+    protected Species(int id, Category category, String name) {
+        this.id = id;
+        this.category = category;
+        this.name = name;
+    }
+
+    public Species( Category category, String name) {
+        this.id = id;
+        this.category = category;
+        this.name = name;
     }
 
     public int getId() {
@@ -36,6 +42,5 @@ public class Species {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
+
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package kernel;
 
 /**
@@ -11,15 +10,17 @@ package kernel;
  * @author MrCake
  */
 public class TypeSample {
+
     private int id;
     private String typeName;
-    
-    public TypeSample(String typeName){
-        this.typeName=typeName;
+
+    public TypeSample(String typeName) {
+        this.typeName = typeName;
     }
-    protected TypeSample(int id, String typeName){
+
+    protected TypeSample(int id, String typeName) {
         this(typeName);
-        this.id=id;
+        this.id = id;
     }
 
     public int getId() {

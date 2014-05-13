@@ -32,7 +32,7 @@ public class Customers {
   private int typeCusto = 0;
   
   //MUST USE THIS ONE IN INTERFACE
-  //AUTO_ID
+  //WITHOUT ADRESS
     public Customers(String first, String last, String phone, String mail, int typeCusto) {
 	  firstName = first;
 	  lastName = last;
@@ -40,6 +40,7 @@ public class Customers {
           this.email = mail;
           this.typeCusto = typeCusto;
     }
+    //WITH ADRESS
     public Customers(String first, String last,Adress adress, String phone, String mail, int typeCusto){
         this(first,last,phone,mail,typeCusto);
         this.adress=adress;

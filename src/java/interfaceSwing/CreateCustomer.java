@@ -213,58 +213,58 @@ public class CreateCustomer extends JFrame  {
         IP.add(type_professionel, BorderLayout.EAST);
         
         IPT= new JPanel();
-        IPT.setLayout(new GridLayout(2,1));
+        IPT.setLayout(new GridLayout(3,1));
         IPT.add(type,BorderLayout.NORTH);
         IPT.add(IP,BorderLayout.SOUTH);
         
-        
-         validerp= new JPanel();
-         validerp.setLayout(new GridLayout(1,2));
-         valider= new JButton("Valider");
-         valider.addActionListener(new ActionListener(){
+        validerp= new JPanel();
+        valider= new JButton("Valider");
+        valider.addActionListener(new ActionListener(){
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //action du bouton valider
-                CreateCustomer cc = CreateCustomer.this;
-                Customers new_customer =null;
-                
-                Adress adress = null;
-                //créer l'adresse, et l'insérer
-                if (nC.getText().length()>0 && rueC.getText().length()>0 && CPC.getText().length()>0 && villeC.getText().length()>0){
-                    adress = new Adress(Integer.valueOf(nC.getText()),rueC.getText(),Integer.valueOf(CPC.getText()),villeC.getText(),paysC.getSelectedItem().toString());
-                    database.insertAdress(adress);
-                }
-                
-                new_customer = new Customers(
-                            cc.prenomT.getText(),
-                            cc.nomT.getText(),
-                            adress,
-                            cc.telT.getText(),
-                            cc.mailT.getText(),
-                            0//TODO : change default type customer
-                );
-                
-                //individuel
-                if (!cc.professionel.isEnabled()){
-                }
-                else{
-                    //professional customer 
-                    //TODO : adapt fields
-                }
-                
-                database.insertCustomer(new_customer);
-            }
-                
-            });
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               //action du bouton valider
+               CreateCustomer cc = CreateCustomer.this;
+               Customers new_customer =null;
+
+               Adress adress = null;
+               //créer l'adresse, et l'insérer
+               if (nC.getText().length()>0 && rueC.getText().length()>0 && CPC.getText().length()>0 && villeC.getText().length()>0){
+                   adress = new Adress(Integer.valueOf(nC.getText()),rueC.getText(),Integer.valueOf(CPC.getText()),villeC.getText(),paysC.getSelectedItem().toString());
+                   database.insertAdress(adress);
+               }
+
+               new_customer = new Customers(
+                           cc.prenomT.getText(),
+                           cc.nomT.getText(),
+                           adress,
+                           cc.telT.getText(),
+                           cc.mailT.getText(),
+                           0//TODO : change default type customer
+               );
+
+               //individuel
+               if (!cc.professionel.isEnabled()){
+               }
+               else{
+                   //professional customer 
+                   //TODO : adapt fields
+               }
+
+               database.insertCustomer(new_customer);
+           }
+
+           });
+        validerp.add(valider, BorderLayout.WEST);
+        validerp.add(annuler, BorderLayout.EAST);
+        
+        IPT.add(validerp);
         
          total=new JPanel();
-         total.setLayout(new GridLayout(2,1));
+         total.setLayout(new GridLayout(1,1));
       
-         validerp.add(valider, BorderLayout.WEST);
-         validerp.add(annuler, BorderLayout.EAST);
+
          total.add(IPT, BorderLayout.CENTER);
-         total.add(validerp, BorderLayout.SOUTH);
          type_individuel1.setVisible(false);
          type_professionel.setVisible(false);
          

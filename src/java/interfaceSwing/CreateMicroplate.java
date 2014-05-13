@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+ 
 package interfaceSwing;
 
 import static interfaceSwing.CreateSpecie.database;
@@ -11,13 +12,23 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import kernel.Category;
+import kernel.Database;
+import kernel.TypeAnalysis;
+import kernel.TypeSample;
+import java.util.Vector;
+import kernel.Samples;
+
 /*
  *
  * @author Caro
  */
 
-public class CreateMicroplate {
-    // Déclaration des variables
+public class CreateMicroplate extends JFrame {
+    
+        //database
+        static Database database = new Database();
+    
+        // Déclaration des variables
         private JMenuBar menuBar;
         private JFrame myFrame;
         private JMenuItem exit;
@@ -25,6 +36,9 @@ public class CreateMicroplate {
         private JComboBox boxCategory;
         private String[] items;
         private String[] ech;
+        private JList listEch;
+        private ListSelectionModel listEchSelectionModel;
+        private Vector imageList;
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
@@ -49,46 +63,49 @@ public class CreateMicroplate {
         String[] items;
         ArrayList<String> typeAnalNames = new ArrayList<>();
 
-        //parcours de toutes les catégories de la base de données
-        for (TypeAnalysis typeanal: database.getCategoryList())
-            typeAnalNames.add(typeanal.getName());
+                //parcours de toutes les type d'analyses de la base de données
+        for (TypeAnalysis typeanal: database.getTypeAnalysisList())
+            typeAnalNames.add(typeanal.getType());
 
-        //initialisation du tableau utilisable par JComboBox
-        items = new String[typeAnalNames.size()];
+                //initialisation du tableau utilisable par JComboBox
+        items = new String[typeAnalNames.size()]; 
 
-        //transfert liste -> array
+                //transfert liste -> array
         for (int i = 0; i<items.length;i++)
             items[i]=typeAnalNames.get(i);
         
-        //création effective 
+                //création effective 
         this.boxCategory = new JComboBox(items);
+        
+        
         
         /* creation de la liste d'échantillon */
         String[] ech;
         ArrayList<String> sampleNames = new ArrayList<>();
 
-        //parcours de toutes les catégories de la base de données
-        for (TypeSample typesample: database.getCategoryList())
-            sampleNames.add(typesample.getName());
+                //parcours de toutes les catégories de la base données
+        for (Samples typesample: database.getSampleList())
+            sampleNames.add(typesample.getId());
 
-        //initialisation du tableau utilisable par JComboBox
-        items = new String[sampleNames.size()];
+                //initialisation du tableau utilisable par JComboBox
+        ech = new String[sampleNames.size()];
 
-        //transfert liste -> array
-        for (int i = 0; i<items.length;i++)
-            items[i]=sampleNames.get(i);
+                //transfert liste -> array
+        for (int i = 0; i<ech.length;i++)
+            ech[i]=sampleNames.get(i);
         
-        //création effective 
-        this.boxCategory = new JComboBox(items);
+                //création effective 
+        this.boxCategory = new JComboBox(ech);
         
-        
-        
+		
         myFrame.pack();
         myFrame.setVisible(true);
 }
 
-    private void setJMenuBar(JMenuBar menuBar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+           public static void main (String [] args){
+CreateMicroplate visuel= new CreateMicroplate();
+
+           }
 }
+           
 
