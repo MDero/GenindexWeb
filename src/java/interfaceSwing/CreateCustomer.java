@@ -264,7 +264,7 @@ public class CreateCustomer extends JFrame  {
          validerp.add(valider, BorderLayout.CENTER);
          validerp.add(annuler, BorderLayout.CENTER);
          total.add(IPT, BorderLayout.NORTH);
-         total.add(validerp);
+         total.add(validerp, BorderLayout.SOUTH);
          type_individuel1.setVisible(false);
          type_professionel.setVisible(false);
          
