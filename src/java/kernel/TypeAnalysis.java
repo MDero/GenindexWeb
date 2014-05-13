@@ -13,15 +13,14 @@ public class TypeAnalysis {
   /**
    * The price of one type of analysis for one sample.
    */
-  private double price;
+  private HashMap<TypeSample,Double> priceList = new HashMap<>();
 
   /**
    * constructor of types
    */
-  public  TypeAnalysis(String name, int price) {
+  public  TypeAnalysis(String name) {
     // Bouml preserved body begin 0001FE45
 	  this.type = name;
-	  this.price = price;
     // Bouml preserved body end 0001FE45
   }
 
@@ -40,16 +39,7 @@ public class TypeAnalysis {
     // Bouml preserved body end 0001FF45
   }
 
-  public double getPrice() {
-    // Bouml preserved body begin 0001FFC5
-	  return this.price;
-    // Bouml preserved body end 0001FFC5
+  public double getPriceFor(TypeSample ts){
+      return this.priceList.get(ts);
   }
-
-  public void setPrice(int price) {
-    // Bouml preserved body begin 00020045
-	  this.price=price;
-    // Bouml preserved body end 00020045
-  }
-
 }

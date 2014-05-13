@@ -29,7 +29,7 @@ public class Customers {
   private Adress adress;
   
   //Mdero
-  private int typeCusto;
+  private int typeCusto = 0;
   
   //MUST USE THIS ONE IN INTERFACE
   //AUTO_ID
