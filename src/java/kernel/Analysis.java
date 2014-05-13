@@ -15,6 +15,48 @@ public class Analysis {
   private String report;
 
   private int ID;
+  
+  private Samples sample;
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
+
+    public Samples getSample() {
+        return sample;
+    }
+
+    public void setSample(Samples sample) {
+        this.sample = sample;
+    }
+
+    public Users getSecondReading() {
+        return secondReading;
+    }
+
+    public void setSecondReading(Users secondReading) {
+        this.secondReading = secondReading;
+    }
+
+    public Users getFirstReading() {
+        return firstReading;
+    }
+
+    public void setFirstReading(Users firstReading) {
+        this.firstReading = firstReading;
+    }
+
+    public Date getDateAnalysis() {
+        return dateAnalysis;
+    }
+
+    public void setDateAnalysis(Date dateAnalysis) {
+        this.dateAnalysis = dateAnalysis;
+    }
 
   private Users secondReading;
 
@@ -22,12 +64,16 @@ public class Analysis {
 
   private Date dateAnalysis;
 
-  private TypeAnalysis typeAnalysis;
+  private final TypeAnalysis typeAnalysis;
 
   /**
    * constructor of analysis
    */
-  public Analysis(int ID, TypeAnalysis ta, Date date) {
+  public Analysis(TypeAnalysis typeAnalysis, Date date){
+      this.typeAnalysis=typeAnalysis;
+      this.dateAnalysis=date;
+  }
+  protected Analysis(int ID, TypeAnalysis ta, Date date) {
     // Bouml preserved body begin 00040602
 	  this.ID=ID;
 	  typeAnalysis=ta;
@@ -63,7 +109,7 @@ public class Analysis {
 		  System.out.println(validate);
 		  System.out.println(report);
 	  }
-	  System.out.print(typeAnalysis.getPrice());
+	  System.out.print(typeAnalysis.getPriceFor(this.sample.getType()));
 	  System.out.println("?");
     // Bouml preserved body end 0002C102
   }

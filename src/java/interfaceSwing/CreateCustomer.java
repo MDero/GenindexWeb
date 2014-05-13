@@ -155,7 +155,7 @@ public class CreateCustomer extends JFrame  {
         paysC.addItem("Norvège");
         
         CPC=new JTextField(40);
-        CPC.setEditable(false);
+        CPC.setEditable(true);
         
    
         
@@ -192,7 +192,7 @@ public class CreateCustomer extends JFrame  {
         type_professionel=new JPanel();
         type_professionel.setLayout(new GridLayout(2,1));
         type_professionel.add(type_professionel1,BorderLayout.NORTH);
-        type_professionel.add(type_professionel2, BorderLayout.SOUTH);
+        //type_professionel.add(type_professionel2, BorderLayout.SOUTH);
         
         IP= new JPanel();
         IP.setLayout(new GridLayout(1,2));
@@ -216,34 +216,41 @@ public class CreateCustomer extends JFrame  {
                 Customers new_customer =null;
                 
                 //créer l'adresse, et l'insérer
-                Adress adress = new Adress();
+                Adress adress = new Adress(97,Integer.valueOf(nC.getText()),rueC.getText(),Integer.valueOf(CPC.getText()),villeC.getText(),paysC.getSelectedItem().toString());
+                database.insertAdress(adress);
+                //recuperer l'id de l'adresse insereee
                 
-                //individuel
-                if (!cc.professionel.isEnabled()){
-                     new_customer = new Customers(
+                new_customer = new Customers(
                             cc.prenomT.getText(),
                             cc.nomT.getText(),
                             adress,
                             cc.telT.getText(),
                             cc.mailT.getText(),
-                            0//TODO : change type customer
-                    );
+                            0//TODO : change default type customer
+                );
+                
+                //individuel
+                if (!cc.professionel.isEnabled()){
                 }
                 else{
-
+                    //professional customer 
+                    //TODO : adapt fields
                 }
-                
+                System.out.println(new_customer.getTypeCusto());
                 database.insertCustomer(new_customer);
             }
                 
             });
         
          total=new JPanel();
-         total.setLayout(new GridLayout(2,1));
-      
+         //total.setLayout(new GridLayout(2,1));
+         total.setLayout(new GridLayout(3,1));
+         
          validerp.add(valider, BorderLayout.CENTER);
         
          total.add(IPT, BorderLayout.NORTH);
+         //
+         total.add(type_professionel2);
          total.add(validerp);
          type_individuel1.setVisible(false);
          type_professionel.setVisible(false);
