@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import oracle.jdbc.OraclePreparedStatement;
 
 public class Database {
     /* *****************************************************************************************/
@@ -47,9 +46,8 @@ public class Database {
     private static String extractString(ResultSet results, String fieldName) {
         String field = "";
         try {
-            System.out.println(fieldName);
-            field = results.getString(fieldName).replaceAll("[ ]*$", "");
-            System.out.println("Field :" + field);
+            if (results.getString(fieldName)!=null)
+                field = results.getString(fieldName).replaceAll("[ ]*$", "");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,7 +56,8 @@ public class Database {
     private static Integer extractNumber(ResultSet results, String fieldName) {
         Integer field = null;
         try {
-            field = Integer.valueOf(results.getString(fieldName).replaceAll("[^0-9]*", ""));
+            if (results.getString(fieldName)!=null)
+                field = Integer.valueOf(results.getString(fieldName).replaceAll("[^0-9]*", ""));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,6 +78,39 @@ public class Database {
     private static String convertDateToString(kernel.Date date) {
         return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
     }
+    
+    //GLOBAL CODE 
+    private ResultSet getResultsOfQuery(String query, boolean callNext){
+        ResultSet results = null;
+        try {
+            Statement request = this.connexion.createStatement();
+
+            //request all the objects from the database
+            results = request.executeQuery(query);
+            
+            //count the results if any
+            int rowCount = 0;
+            while(results.next())
+                rowCount++;
+            
+            //if any : reexecute and return
+            if (rowCount>0){
+                System.out.println(rowCount+" RESULTS FOUND FOR "+query);
+                results=request.executeQuery(query);
+                if (callNext)
+                    results.next();
+            }
+            else 
+                System.out.println("NO RESULTS FOUND FOR "+query);
+        }
+        catch (SQLException ex){
+            ex.printStackTrace();
+        }
+        return results;
+    }
+    private ResultSet getResultsOfQuery(String query){
+        return getResultsOfQuery(query,false);
+    }
     private ArrayList<?> generateListOfAll(String table){
          ArrayList<Object> list = new ArrayList<>();
          table = table.toUpperCase();
@@ -87,11 +119,10 @@ public class Database {
             Statement request = this.connexion.createStatement();
 
             //request all the objects from the database
-            request.execute("SELECT * FROM "+table);
-            ResultSet results = request.getResultSet();
-
+            ResultSet results = this.getResultsOfQuery("SELECT * FROM "+table);
+            
             //put the results in the list
-            while(results.next()){
+            while(results!=null && results.next()){
                 list.add(
                         "ADRESS".equals(table)?
                                 this.getAdressFromCurrentRow(results):
@@ -120,18 +151,17 @@ public class Database {
         return list;
     }
     private ArrayList<?> generateListOfAllWhere(String table, String where_field, String where_value){
-                 ArrayList<Object> list = new ArrayList<>();
-         table = table.toUpperCase();
+        ArrayList<Object> list = new ArrayList<>();
+        table = table.toUpperCase();
          
         try {
             Statement request = this.connexion.createStatement();
 
             //request all the objects from the database
-            request.execute("SELECT * FROM "+table+" WHERE "+where_field+" = "+where_value);
-            ResultSet results = request.getResultSet();
+            ResultSet results = this.getResultsOfQuery("SELECT * FROM "+table+" WHERE "+where_field+" = "+where_value);
             
             //put the results in the list
-            while(results.next()){
+            while(results!=null&&results.next()){
                 list.add(
                         "ADRESS".equals(table)?
                                 this.getAdressFromCurrentRow(results):
@@ -162,44 +192,37 @@ public class Database {
     
     //PREPARED QUERIES
     private ResultSet getResultSetFromIdQuery(String table, int id) {
-        ResultSet results = null;
+        ResultSet results;
         table = table.toUpperCase();
-        try {
-            //OraclePreparedStatement ps = (OraclePreparedStatement) this.connexion.prepareStatement("SELECT * FROM :table WHERE ID_:table = :id");
-            //ps.setStringAtName("table", table);
-            //ps.setIntAtName("id", id);
-            
-            String request = "SELECT * FROM table WHERE field = id";
-            request=request.replace("table", table);
-            request= request.replace("field", "ID_"+table);
-            request=request.replace("id", ""+id);
-            
-            Statement statement = this.connexion.createStatement();
-            //System.out.println(request);            
-            results = statement.executeQuery(request);
-            results.next();
-            //results = ps.executeQuery();
-        } catch (SQLException e) {
-            System.out.println(table+" "+id);
-            e.printStackTrace();
-        }
+        String request = "SELECT * FROM table WHERE field = id";
+        request=request.replace("table", table);
+        request= request.replace("field", "ID_"+table);
+        request=request.replace("id", ""+id);
+        results = this.getResultsOfQuery(request,true);
         return results;
     }
 
     //FROM RESULTSET	
     private Adress getAdressFromCurrentRow(ResultSet results){
-        return  new Adress(
-                    extractNumber(results,"ID_ADRESS"), //ADD by MDERO
-                    extractNumber(results,"Adress_Number"),
-                    extractString(results, "Street"),
-                    extractNumber(results,"ZipCode"),
-                    extractString(results, "City"),
-                    extractString(results, "Country")
-            );
+        if (results!=null){
+            return  new Adress(
+                        extractNumber(results,"ID_ADRESS"), //ADD by MDERO
+                        extractNumber(results,"Adress_Number"),
+                        extractString(results, "Street"),
+                        extractNumber(results,"ZipCode"),
+                        extractString(results, "City"),
+                        extractString(results, "Country")
+                );
+        }
+        else 
+            return null;
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
-        Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
-
+        Integer idAdress = extractNumber(results,"ID_adress");
+        Adress adress = null;
+        if (idAdress!=null)
+            adress = this.getAdress(idAdress);
+        
         return new Customers(
                     extractNumber(results, "ID_CUSTOMERS"),
                     extractString(results, "FirstName_custo"),
@@ -208,8 +231,7 @@ public class Database {
                     extractString(results, "PhoneNumber_custo"),
                     extractString(results, "MAIL_CUSTO"),
                     extractNumber(results,"ID_TYPECUSTOMER")
-            );
-        
+        );
     }
     private Orders getOrderFromCurrentRow(ResultSet results) {
         return new Orders(
@@ -229,7 +251,7 @@ public class Database {
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
         return new Samples(
-                ""+extractString(results,"Id_sample"),
+                extractNumber(results,"Id_sample"),
                 new TypeSample(extractString(results,"Id_TypeSample")),
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
@@ -254,11 +276,11 @@ public class Database {
     
     //FROM IDS
     public Adress getAdress(int id) {
-        Adress adress = null;
+        Adress adress;
+        System.out.println("id adresse:"+id);
 
         ResultSet results = getResultSetFromIdQuery("Adress",id);
         adress = this.getAdressFromCurrentRow(results);
-
         return adress;
     }
     public Customers getCustomer(int id) {
@@ -360,11 +382,12 @@ public class Database {
         }
         
     }//OBSOLETE : should not be used (see rules)
-    private void insertIntoTableValuesForFields(String table, String fields, Object...values){
+    private int insertIntoTableValuesForFields(String table, String fields, Object...values){
         String insert = "";
         PreparedStatement statement = null;
         Statement getIDGenerated = null;
         ResultSet generatedID = null;
+        
         int idGene = -1;
         try {
             //Statement s = this.connexion.createStatement();
@@ -391,11 +414,14 @@ public class Database {
             }
             
             //GET THE LAST ID GENERERATED
-//            getIDGenerated = this.connexion.createStatement();
-//            insert = "SELECT MAX(ID_"+) FROM "+table.toUpperCase()+"";
-//            
-//            generatedID = getIDGenerated.executeQuery(insert);
-//            System.out.println(generatedID);
+            getIDGenerated = this.connexion.createStatement();
+            insert = "SELECT MAX(ID_" + table.toUpperCase() + ") FROM "+table.toUpperCase()+"";
+            
+            generatedID = getIDGenerated.executeQuery(insert);
+            while(generatedID.next()) {
+                idGene = generatedID.getInt(1);
+            }
+            return idGene;
             
             //TODO: Find a better way to get back the generated ID...
 //            System.out.println("UpdateCount : " + statement.getUpdateCount());
@@ -413,24 +439,24 @@ public class Database {
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);
+            return -1;
         }
     }
     
     //MDERO
     public void insertAdress(Adress adress) {
-        this.insertIntoTableValuesForFields("ADRESS", 
-                "(ID_ADRESS,ADRESS_NUMBER,STREET, ZIPCODE,CITY, COUNTRY)",
+        int id = this.insertIntoTableValuesForFields("ADRESS", 
+                "(ADRESS_NUMBER,STREET, ZIPCODE,CITY, COUNTRY)",
                 //values
-                adress.getIdAdress(),
                 adress.getNumber(),
                 adress.getStreet(), 
                 adress.getZipCode(),
                 adress.getCity(),
                 adress.getCountry());
-        //adress.setID();
+        adress.setID(id);//adress.setID();
     }
     public void insertOrder(Orders order) {
-        this.insertIntoTableValuesForFields("ORDERS", 
+        int id = this.insertIntoTableValuesForFields("ORDERS", 
                 "(ID_CUSTOMERS, PRIORITYLEVEL,NUMBERSAMPLES, DATEDEADLINE, DATEORDER, PAID, RESULTSEND, REPORT_ORDERS)",
                 //order.getId(),
                 order.getCustomerID(),
@@ -442,10 +468,11 @@ public class Database {
                 order.getResultSend(),
                 order.getReport()
         );
+        order.setIdOrder(id);
 
     }
     public void insertCustomer(Customers c) {
-    this.insertIntoTableValuesForFields("CUSTOMERS", 
+        int id = this.insertIntoTableValuesForFields("CUSTOMERS", 
             "(ID_TYPECUSTOMER, ID_ADRESS, FIRSTNAME_CUSTO, LASTNAME_CUSTO, PHONENUMBER_CUSTO, MAIL_CUSTO, CELLPHONE_CUSTO)",
             c.getTypeCusto(),
             c.getAdress()!=null ? 
@@ -455,32 +482,36 @@ public class Database {
             c.getPhoneNumber(),
             c.getEmail(),
             c.getPhone());
+        c.setID(id);
     }
     public void insertAnimals(Animals animal){
-        this.insertIntoTableValuesForFields("ANIMALS", 
+        int id = this.insertIntoTableValuesForFields("ANIMALS", 
                 "(ID_SPECIES,NUMBERBIRTHDAY,ANIMALS_NAME)",
                 //values
                 animal.getSpecies().getId(),
                 animal.getNumberBirthday(),
                 animal.getName()
         );
+        animal.setId(id);
     }
     public void insertCategory(Category category){
-        this.insertIntoTableValuesForFields("CATEANIMALS", 
+        int id = this.insertIntoTableValuesForFields("CATEANIMALS", 
                 "(CATE_NAME)",
                 category.getName()
         );
+        category.setId(id);
     }
     public void insertSpecies(Species species){
-        this.insertIntoTableValuesForFields("SPECIES", 
+        int id = this.insertIntoTableValuesForFields("SPECIES", 
                 "(ID_CATEANIMALS,SPECIES_NAME)",
                 //values
                 species.getCategory().getId(),
                 species.getName()
         );
+        species.setId(id);
     }
     public void insertSample(Samples sample){
-        this.insertIntoTableValuesForFields("SAMPLE",
+        int id = this.insertIntoTableValuesForFields("SAMPLE",
                 "(ID_TYPESAMPLE ,ID_ORDERS,ID_ANIMALS,ID_STATUTSAMPLE,ANALYSED,DATESAMPLING,DATESTORAGE)",
                 sample.getType().getId(),
                 sample.getOrder().getId(),
@@ -490,42 +521,31 @@ public class Database {
                 convertDateToString(sample.getDateSampling()),
                 convertDateToString(sample.getDateStorage())
         );
+        sample.setId(id);
     }
     
     /* DELETION METHODS */
-    public Customers delCustomer(int id) {
+    public void delCustomer(int id) {
         Customers customer = null;
         try {
             Statement request = this.connexion.createStatement();
-            request.execute("DELETE FROM CUSTOMERS WHERE Id_customers=" + id);
-            System.out.println("DEL CUSTOMER : " + request.toString());
-            ResultSet results = request.getResultSet();
-            
-
-            customer = this.getCustomerFromCurrentRow(results);
+            request.execute("DELETE FROM CUSTOMERS WHERE Id_CUSTOMERS=" + id);
+            System.out.println("DEL CUSTOMER : " + id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR IN delCustomer : " + e);
         }
-
-        return customer;
     }
     
-    public Customers delAdress(int id) {
+    public void delAdress(int id) {
         Customers customer = null;
         try {
             Statement request = this.connexion.createStatement();
             request.execute("DELETE FROM ADRESS WHERE ID_ADRESS=" + id);
-            
-            ResultSet results = request.getResultSet();
-            
-
-            customer = this.getCustomerFromCurrentRow(results);
+            System.out.println("DEL ADRESS : " + id);
         } catch (SQLException e) {
-            System.out.println("delAdress");
-            e.printStackTrace();
-        }
+            System.out.println("ERROR IN delAdress : " + e);
 
-        return customer;
+        }
     }
 }
 

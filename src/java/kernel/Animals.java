@@ -55,4 +55,8 @@ public class Animals {
     // Bouml preserved body end 00022E03
   }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+ 
 }

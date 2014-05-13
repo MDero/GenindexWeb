@@ -49,6 +49,7 @@ public Order_Explorer(){
 
 	ArrayList<String> names = new ArrayList<>();
 	for (Customers customer : database.getCustomerList()){
+                System.out.println("CUSTOMER FOUND");
 		names.add(customer.getFirstName()+" "+customer.getLastName());
 	}
 	items = new String[names.size()];

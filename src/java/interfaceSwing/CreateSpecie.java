@@ -24,6 +24,7 @@ public class CreateSpecie extends JFrame {
         private JMenuItem exit;
         private JButton valider=new JButton("Valider ");
         private JButton newCategorie=new JButton(" + ");
+        private JButton annuler;
         private JComboBox boxCategory;
         private String[] items;
         private JFrame myFrame;
@@ -43,10 +44,9 @@ public class CreateSpecie extends JFrame {
     
     public CreateSpecie (){
         myFrame = new JFrame("Species");
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
-        
+        this.annuler = new JButton("Annuler");
         //Installation dans la fenêtre
         this.setJMenuBar(menuBar);
         
@@ -127,8 +127,9 @@ public class CreateSpecie extends JFrame {
         champs.add(zone3);
         
         bouton = new JPanel();
+        bouton.setLayout(new GridLayout(1,2));
         bouton.add(valider);
-        
+        bouton.add(annuler);
         myFrame.setLayout(new BorderLayout());
         myFrame.add(menuBar, BorderLayout.NORTH);
         myFrame.add(champs, BorderLayout.CENTER);
@@ -136,6 +137,15 @@ public class CreateSpecie extends JFrame {
 
         myFrame.pack();
         myFrame.setVisible(true);
+        
+        annuler.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+             myFrame.dispose();
+            }
+        } );
     }
     
         public static void main (String [] args){

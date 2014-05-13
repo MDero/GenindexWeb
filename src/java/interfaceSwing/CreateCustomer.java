@@ -26,16 +26,15 @@ public class CreateCustomer extends JFrame  {
     private  JLabel type_client, nom, prenom, tel, mail, port, nomCon, PrenomCon,TelCon, mailCon, Faxe, Entre,adresse,n,CP,rue,ville,pays,AdresseI ;
     private final JTextField nomT, prenomT, telT, mailT, portT,nomC,prenomC,MailC,FaxeC,EntreC,adresseC,nC,rueC, telC, CPC, villeC;
     private final JComboBox paysC;
-    private final JButton valider;
+    private final JButton valider, annuler;
     private String[] item;
     private Database database;
     private ButtonGroup groupe;
-  
+    private JFrame myFrame;
     
     
     public CreateCustomer(){
-        JFrame myFrame= new JFrame ("créer client");
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        myFrame= new JFrame ("créer client");
         myFrame.setLayout(new BorderLayout());
         
         Database database = new Database();
@@ -48,7 +47,7 @@ public class CreateCustomer extends JFrame  {
         menuBar.add(menu);
         exit= new JMenuItem("Quitter", KeyEvent.VK_A);
         menu.add(exit);
-        
+        this.annuler = new JButton("Annuler");
         // partie client individuel
         type= new JPanel();
         type.setLayout(new GridLayout(1,3));
@@ -220,6 +219,7 @@ public class CreateCustomer extends JFrame  {
         
         
          validerp= new JPanel();
+         validerp.setLayout(new GridLayout(1,2));
          valider= new JButton("Valider");
          valider.addActionListener(new ActionListener(){
 
@@ -261,14 +261,21 @@ public class CreateCustomer extends JFrame  {
          total=new JPanel();
          total.setLayout(new GridLayout(2,1));
       
-         validerp.add(valider, BorderLayout.CENTER);
-        
-         total.add(IPT, BorderLayout.NORTH);
-         total.add(validerp);
+         validerp.add(valider, BorderLayout.WEST);
+         validerp.add(annuler, BorderLayout.EAST);
+         total.add(IPT, BorderLayout.CENTER);
+         total.add(validerp, BorderLayout.SOUTH);
          type_individuel1.setVisible(false);
          type_professionel.setVisible(false);
          
-         
+         annuler.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+             myFrame.dispose();
+            }
+        } );
 
         ActionListener affiche_panel = new ActionListener()
         {@Override
