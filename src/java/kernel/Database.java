@@ -503,39 +503,27 @@ public class Database {
     }
     
     /* DELETION METHODS */
-    public Customers delCustomer(int id) {
+    public void delCustomer(int id) {
         Customers customer = null;
         try {
             Statement request = this.connexion.createStatement();
-            request.execute("DELETE FROM CUSTOMERS WHERE Id_customers=" + id);
-            System.out.println("DEL CUSTOMER : " + request.toString());
-            ResultSet results = request.getResultSet();
-            
-
-            customer = this.getCustomerFromCurrentRow(results);
+            request.execute("DELETE FROM CUSTOMERS WHERE Id_CUSTOMERS=" + id);
+            System.out.println("DEL CUSTOMER : " + id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR IN delCustomer : " + e);
         }
-
-        return customer;
     }
     
-    public Customers delAdress(int id) {
+    public void delAdress(int id) {
         Customers customer = null;
         try {
             Statement request = this.connexion.createStatement();
             request.execute("DELETE FROM ADRESS WHERE ID_ADRESS=" + id);
-            
-            ResultSet results = request.getResultSet();
-            
-
-            customer = this.getCustomerFromCurrentRow(results);
+            System.out.println("DEL ADRESS : " + id);
         } catch (SQLException e) {
-            System.out.println("delAdress");
-            e.printStackTrace();
-        }
+            System.out.println("ERROR IN delAdress : " + e);
 
-        return customer;
+        }
     }
 }
 
