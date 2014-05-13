@@ -130,13 +130,13 @@ public class Database {
                                 this.getOrderFromCurrentRow(results) : 
                         "CUSTOMERS".equals(table)?
                                 this.getCustomerFromCurrentRow(results):
-                         "SAMPLES".equals(table)?
+                         "SAMPLE".equals(table)?
                                  this.getSampleFromCurrentRow(results):
                          "ANIMALS".equals(table)?
                                  this.getAnimalFromCurrentRow(results):
                          "SPECIES".equals(table)?
                                  this.getSpeciesFromCurrentRow(results):
-                         "CATEGORY".equals(table)?
+                         "CATEANIMALS".equals(table)?
                                  this.getCategoryFromCurrentRow(results):
                          "TYPEANAL".equals(table)?
                                  this.getTypeAnalysisFromCurrentRow(results):
@@ -169,13 +169,13 @@ public class Database {
                                 this.getOrderFromCurrentRow(results) : 
                         "CUSTOMERS".equals(table)?
                                 this.getCustomerFromCurrentRow(results):
-                         "SAMPLES".equals(table)?
+                         "SAMPLE".equals(table)?
                                  this.getSampleFromCurrentRow(results):
                          "ANIMALS".equals(table)?
                                  this.getAnimalFromCurrentRow(results):
                          "SPECIES".equals(table)?
                                  this.getSpeciesFromCurrentRow(results):
-                         "CATEGORY".equals(table)?
+                         "CATEANIMALS".equals(table)?
                                  this.getCategoryFromCurrentRow(results):
                          "TYPEANAL".equals(table)?
                                  this.getTypeAnalysisFromCurrentRow(results):
@@ -261,7 +261,7 @@ public class Database {
     private Species getSpeciesFromCurrentRow(ResultSet results){
         return new Species(
                 extractNumber(results,"ID_SPECIES"),
-                getCategory(extractNumber(results,"ID_CateName")),
+                getCategory(extractNumber(results,"ID_CateAnimals")),
                 extractString(results,"species_name")
         );
     }
@@ -313,7 +313,7 @@ public class Database {
         return species;
     }
     public Category getCategory(int id ){
-        ResultSet results = this.getResultSetFromIdQuery("Category", id);
+        ResultSet results = this.getResultSetFromIdQuery("CateAnimals", id);
         Category category = this.getCategoryFromCurrentRow(results);
         return category;
     }
@@ -339,13 +339,13 @@ public class Database {
         return (List<Animals>) this.generateListOfAll("ANIMALS");
     }
     public List<Samples> getSampleList(){
-        return (List<Samples>) this.generateListOfAll("SAMPLES");
+        return (List<Samples>) this.generateListOfAll("SAMPLE");
     }
     public List<Species> getSpeciesList(){
         return (List<Species>) this.generateListOfAll("SPECIES");
     }
     public List<Category> getCategoryList(){
-        return (List<Category>) this.generateListOfAll("CATEGORY");
+        return (List<Category>) this.generateListOfAll("CATEANIMALS");
     }
     public List<Invoice> getInvoiceList(){
         return (List<Invoice>) this.generateListOfAll("INVOICE");
