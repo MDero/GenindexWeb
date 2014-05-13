@@ -8,7 +8,7 @@
 <%@include file = "/header.html" %>
 
 
-<jsp:useBean id="animal1" class="genindex.Animals" scope="application"/>
+<%--<jsp:useBean id="animal1" class="genindex.Animals" scope="application"/>
 
 <%  
     animal1.setSpecie("Chien");
@@ -16,6 +16,6 @@
     
  %>
  
- <%=ani1%>
+ <%=ani1%>--%>
 
 <%@include file = "/footer.html" %>
