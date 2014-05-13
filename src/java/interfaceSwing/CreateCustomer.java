@@ -155,7 +155,7 @@ public class CreateCustomer extends JFrame  {
         paysC.addItem("Norvège");
         
         CPC=new JTextField(40);
-        CPC.setEditable(false);
+        CPC.setEditable(true);
         
    
         
@@ -232,7 +232,7 @@ public class CreateCustomer extends JFrame  {
                 Adress adress = null;
                 //créer l'adresse, et l'insérer
                 if (nC.getText().length()>0 && rueC.getText().length()>0 && CPC.getText().length()>0 && villeC.getText().length()>0){
-                    adress = new Adress(97,Integer.valueOf(nC.getText()),rueC.getText(),Integer.valueOf(CPC.getText()),villeC.getText(),paysC.getSelectedItem().toString());
+                    adress = new Adress(Integer.valueOf(nC.getText()),rueC.getText(),Integer.valueOf(CPC.getText()),villeC.getText(),paysC.getSelectedItem().toString());
                     database.insertAdress(adress);
                 }
                 
@@ -252,6 +252,7 @@ public class CreateCustomer extends JFrame  {
                     //professional customer 
                     //TODO : adapt fields
                 }
+                
                 database.insertCustomer(new_customer);
             }
                 
