@@ -39,7 +39,7 @@ public class CreateMicroplate extends JFrame {
         private JList listEch;
         private ListSelectionModel listEchSelectionModel;
         private Vector imageList;
-        private JPanel zone1;
+        private JPanel zone1, zone2, ensemble, panelWest, panelSud;
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
@@ -98,10 +98,24 @@ public class CreateMicroplate extends JFrame {
                 //création effective 
         imageList=new Vector();
         listEch = new JList(ech);
-    
-        zone1 = new JPanel();
-        zone1.add(listEch);
-		
+        
+        
+        myFrame.setLayout(new GridLayout(3,1));
+
+ 
+        zone1= new JPanel();
+        zone1.add(boxCategory);
+        
+        zone2 = new JPanel();
+        zone2.add(listEch);
+        
+        ensemble = new JPanel();
+        ensemble.add(zone1);
+        ensemble.add(zone2);
+        
+        myFrame.add(menuBar);
+        myFrame.add(ensemble);
+
         myFrame.pack();
         myFrame.setVisible(true);
 }
