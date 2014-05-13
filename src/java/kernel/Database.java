@@ -362,8 +362,9 @@ public class Database {
     private void insertIntoTableValuesForFields(String table, String fields, Object...values){
         String insert = "";
         PreparedStatement statement = null;
-        ResultSet generatedKeys = null;
-        int idGenerated = -1;
+        Statement getIDGenerated = null;
+        ResultSet generatedID = null;
+        int idGene = -1;
         try {
             //Statement s = this.connexion.createStatement();
             
@@ -380,6 +381,7 @@ public class Database {
             insert += ")";
             
             System.out.println(insert);
+            
             statement = this.connexion.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             
             int affectedRows = statement.executeUpdate();
@@ -387,17 +389,26 @@ public class Database {
                 System.out.println("ERROR : NO ROW AFFECTED");
             }
             
-            System.out.println("UpdateCount : " + statement.getUpdateCount());
-            generatedKeys = statement.getGeneratedKeys();
-            System.out.println("KEY GENEREATED");
-            while (generatedKeys.next()) {
-                System.out.println("GENERATED : " + generatedKeys.getInt(1));
-                idGenerated = (int)generatedKeys.getInt(1);
-                System.out.println("ID GENERATED : " + idGenerated);
-            }
-//            else {
-//                System.out.println("ERROR : NO ID GENERATED");
+            //GET THE LAST ID GENERERATED
+//            getIDGenerated = this.connexion.createStatement();
+//            insert = "SELECT MAX(ID_"+) FROM "+table.toUpperCase()+"";
+//            
+//            generatedID = getIDGenerated.executeQuery(insert);
+//            System.out.println(generatedID);
+            
+            //TODO: Find a better way to get back the generated ID...
+//            System.out.println("UpdateCount : " + statement.getUpdateCount());
+//            generatedKeys = statement.getGeneratedKeys();
+//            System.out.println("KEY GENERATED");
+//            int c = 0;
+//            while (generatedKeys.next()) {
+//                c++;
+//                //idGenerated = (int)generatedKeys.getInt(1);
+//                System.out.println("ID GENERATED : " + generatedKeys.getLong(c));
 //            }
+////            else {
+////                System.out.println("ERROR : NO ID GENERATED");
+////            }
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);
