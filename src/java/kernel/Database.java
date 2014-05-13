@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import oracle.jdbc.OraclePreparedStatement;
 
 public class Database {
     /* *****************************************************************************************/
@@ -120,8 +119,8 @@ public class Database {
         return list;
     }
     private ArrayList<?> generateListOfAllWhere(String table, String where_field, String where_value){
-                 ArrayList<Object> list = new ArrayList<>();
-         table = table.toUpperCase();
+        ArrayList<Object> list = new ArrayList<>();
+        table = table.toUpperCase();
          
         try {
             Statement request = this.connexion.createStatement();
@@ -177,7 +176,9 @@ public class Database {
             Statement statement = this.connexion.createStatement();
             //System.out.println(request);            
             results = statement.executeQuery(request);
-            results.next();
+            double rowCount = ((ResultSetImpl)results).getUpdateCount();
+
+            //results.next();
             //results = ps.executeQuery();
         } catch (SQLException e) {
             System.out.println(table+" "+id);
@@ -198,8 +199,12 @@ public class Database {
             );
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
-        Adress adress = this.getAdress(extractNumber(results,"ID_adress"));
-
+        //get the customers'adress if it exists
+        Integer idAdress = extractNumber(results,"ID_adress");
+        Adress adress = null;
+        if (idAdress!=null)
+            adress = this.getAdress(idAdress);
+        
         return new Customers(
                     extractNumber(results, "ID_CUSTOMERS"),
                     extractString(results, "FirstName_custo"),
@@ -208,8 +213,7 @@ public class Database {
                     extractString(results, "PhoneNumber_custo"),
                     extractString(results, "MAIL_CUSTO"),
                     extractNumber(results,"ID_TYPECUSTOMER")
-            );
-        
+        );
     }
     private Orders getOrderFromCurrentRow(ResultSet results) {
         return new Orders(
@@ -254,7 +258,7 @@ public class Database {
     
     //FROM IDS
     public Adress getAdress(int id) {
-        Adress adress = null;
+        Adress adress;
 
         ResultSet results = getResultSetFromIdQuery("Adress",id);
         adress = this.getAdressFromCurrentRow(results);
