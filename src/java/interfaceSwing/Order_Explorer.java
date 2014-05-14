@@ -56,14 +56,11 @@ public Order_Explorer(){
  // Création menu déroulant
 	JLabel Select = new JLabel("Selectioner un client");
 
-	ArrayList<String> names = new ArrayList<>();
-	for (Customers customer : database.getCustomerList()){
-                System.out.println("CUSTOMER FOUND");
-		names.add(customer.getFirstName()+" "+customer.getLastName());
-	}
-	items = new String[names.size()];
+	ArrayList<Customers> customers =  (ArrayList<Customers>) database.getCustomerList();        
+
+	items = new String[customers.size()];
 	for (int i =0; i<items.length;i++)
-		items[i]=names.get(i);
+		items[i]=customers.get(i);
 	JComboBox Customers = new JComboBox(items);
 	Customers.addActionListener(this);
 

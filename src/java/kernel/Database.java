@@ -233,7 +233,9 @@ public class Database {
     //FROM RESULTSET	
     private Adress getAdressFromCurrentRow(ResultSet results){
         if (results!=null){
-            return  new Adress(
+            Adress adress =  Adress.getAdress(extractNumber(results,"ID_ADRESS"));
+            if (adress==null){
+                adress=new Adress(
                         extractNumber(results,"ID_ADRESS"), //ADD by MDERO
                         extractNumber(results,"Adress_Number"),
                         extractString(results, "Street"),
@@ -241,9 +243,10 @@ public class Database {
                         extractString(results, "City"),
                         extractString(results, "Country")
                 );
+            } 
+            return adress;
         }
-        else 
-            return null;
+        return null;
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
         Integer idAdress = extractNumber(results,"ID_adress");
@@ -330,7 +333,6 @@ public class Database {
             ResultSet results = getResultSetFromIdQuery("CUSTOMERS",id);
             customer = this.getCustomerFromCurrentRow(results);
         }
-
         return customer;
     }
     public Orders getOrders(int id) {
@@ -386,7 +388,9 @@ public class Database {
     }
     
     //Check logins
-    public boolean getCustomerLoginCorrect(String login, String password,Integer idToUpdateIfFound){
+    public boolean getCustomerLoginCorrect(String login, String password
+//            ,Integer idToUpdateIfFound
+    ){
         ResultSet results = this.getResultsOfQuery("SELECT COUNT(*) as loginsNumber FROM IDENTIFIERS "
                 + "inner join CUSTOMERS on IDENTIFIERS.ID_CUSTOMERS = CUSTOMERS.ID_CUSTOMERS "
                 + "WHERE IDENTIFIERS.LOGIN_IDEN='"+login+"' and IDENTIFIERS.PASSWORD_IDEN='"+password+"'",true);
@@ -397,10 +401,27 @@ public class Database {
                 results = this.getResultsOfQuery("SELECT * FROM IDENTIFIERS "
                 + "inner join CUSTOMERS on IDENTIFIERS.ID_CUSTOMERS = CUSTOMERS.ID_CUSTOMERS "
                 + "WHERE IDENTIFIERS.LOGIN_IDEN='"+login+"' and IDENTIFIERS.PASSWORD_IDEN='"+password+"'",true);
-                idToUpdateIfFound =  extractNumber(results,"ID_CUSTOMERS");
+//                idToUpdateIfFound =  extractNumber(results,"ID_CUSTOMERS");
             }     
         }
         return containsResults;
+    }
+    public Integer getCustomerIdWhenLoginCorrect(String login, String password ){
+        Integer id = null;
+        ResultSet results = this.getResultsOfQuery("SELECT * FROM IDENTIFIERS "
+                + "inner join CUSTOMERS on IDENTIFIERS.ID_CUSTOMERS = CUSTOMERS.ID_CUSTOMERS "
+                + "WHERE IDENTIFIERS.LOGIN_IDEN='"+login+"' and IDENTIFIERS.PASSWORD_IDEN='"+password+"'",true);
+        if (results!=null){
+            try {
+                System.out.println(results.getFetchSize()+"");
+            } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            id =  extractNumber(results,"ID_CUSTOMERS"); 
+            System.out.println(id);
+        }
+        
+        return id;
     }
     
     //LISTS ESTABLISHMENT

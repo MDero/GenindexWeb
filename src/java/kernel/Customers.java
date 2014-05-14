@@ -42,6 +42,25 @@ public class Customers {
   
   //MUST USE THIS ONE IN INTERFACE
   //WITHOUT ADRESS
+    public Customers(){
+        
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setTypeCusto(int typeCusto) {
+        this.typeCusto = typeCusto;
+    }
     public Customers(String first, String last, String phone, String mail, int typeCusto) {
 	  firstName = first;
 	  lastName = last;
@@ -154,6 +173,9 @@ public class Customers {
           if (!customersMap.containsKey(ID))
           customersMap.put(ID, this);
     // Bouml preserved body end 00041082
+  }
+  public void setID(String ID){
+      this.setID(Integer.valueOf(ID));
   }
 
   /**
