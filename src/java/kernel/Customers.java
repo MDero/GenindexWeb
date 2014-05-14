@@ -219,4 +219,8 @@ public class Customers {
     public static Customers getCustomer(int id){
         return customersMap.get(id);
     }
+    
+    public String toString(){
+        return this.getFirstName()+" "+this.getLastName();
+    }
 }
