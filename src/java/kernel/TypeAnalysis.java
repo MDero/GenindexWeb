@@ -6,7 +6,15 @@ import java.util.HashMap;
  * This class has been created to manage the different types of analysis.
  */
 public class TypeAnalysis {
+    private int id; 
 
+    public int getId() {
+        return id;
+    }
+
+    public HashMap<TypeSample, Double> getPriceList() {
+        return priceList;
+    }
     private String type;
 
     /**

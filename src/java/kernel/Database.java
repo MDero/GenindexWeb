@@ -393,7 +393,37 @@ public class Database {
     public List<Species> getSpeciesForCategory(int idCategory){
         return getSpeciesForCategory(getCategory(idCategory));
     }
-    
+    public List<TypeAnalysis> getTypeAnalysisFromSpecies(Species species){
+        ArrayList<TypeAnalysis> typesAnalysis = new ArrayList<>();
+        ResultSet results = this.getResultsOfQuery("SELECT * FROM SPECIES NATURAL JOIN POSSEDETEST NATURAL JOIN TYPEANAL WHERE ID_SPECIES="+species.getId(), false);
+        try {
+            while(results.next()){
+                typesAnalysis.add(getTypeAnalysisFromCurrentRow(results));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return typesAnalysis;
+    }
+    public List<Samples> getSamplesToPerformAnalysisOfType(TypeAnalysis ta){
+        ArrayList<Samples> samples = new ArrayList<>();
+        ResultSet results = this.getResultsOfQuery(
+                "SELECT * FROM TYPEANAL "
+                        + "inner join CONCERNE on TYPEANAL.ID_TYPEANAL = CONCERNE.ID_TYPEANAL "
+                        + "inner join ORDERS on ORDERS.ID_ORDERS = CONCERNE.ID_ORDERS "
+                        + "inner join SAMPLE on SAMPLE.ID_ORDERS=ORDERS.ID_ORDERS "
+                        + "WHERE TYPEANAL.ID_TYPEANAL="+ta.getId()
+                        + "AND (SAMPLE.ID_STATUTSAMPLE=1 or SAMPLE.ID_STATUTSAMPLE=2)"
+                ,false);
+        try {
+            while(results.next()){
+                samples.add(getSampleFromCurrentRow(results));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return samples;
+    }
     
     /* INSERTION METHODS */
     private void insertIntoTableAllValues(String table, Object... values){
