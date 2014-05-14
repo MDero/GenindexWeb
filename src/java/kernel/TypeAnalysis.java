@@ -30,6 +30,10 @@ public class TypeAnalysis {
         this.type = name;
         // Bouml preserved body end 0001FE45
     }
+    protected TypeAnalysis(int id, String name){
+        this.id=id;
+        name=name;
+    }
 
     /**
      * accessor to name

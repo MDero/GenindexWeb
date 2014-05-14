@@ -16,7 +16,7 @@ public class Customers {
     
     
     
-  private int ID;
+  private int ID=-1;
 
   /**
    * The first name of the customer.
@@ -87,7 +87,7 @@ public class Customers {
           //Mdero
           this.typeCusto = typeCusto;
      // Bouml preserved body end 00040A82
-          if (!customersMap.containsKey(ID))
+          if (!customersMap.containsKey(ID)&&ID!=-1)
           customersMap.put(ID, this);
   }
   
@@ -170,7 +170,7 @@ public class Customers {
   public void setID(int ID) {
     // Bouml preserved body begin 00041082
 	  this.ID=ID;
-          if (!customersMap.containsKey(ID))
+          if (!customersMap.containsKey(ID)&&ID!=-1)
           customersMap.put(ID, this);
     // Bouml preserved body end 00041082
   }

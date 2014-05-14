@@ -277,6 +277,7 @@ public class Database {
     }
     private Animals getAnimalFromCurrentRow(ResultSet results){
         return new Animals(
+                extractNumber(results,"ID_ANIMALS"),
                 getSpecies(extractNumber(results,"Id_species")),
                 extractNumber(results,"NumberBirthday"),
                 extractString(results,"Animals_Name")
@@ -310,7 +311,10 @@ public class Database {
         return new Category (extractNumber(results,"Id_CateAnimals"), extractString(results,"NAME_CATE"));
     }
     private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
-        return new TypeAnalysis(extractString(results,"TYPEANAL"));
+        return new TypeAnalysis(
+                extractNumber(results,"ID_TYPEANALYSIS"),
+                extractString(results,"TYPEANAL")
+        );
     }
     private TypeSample getTypeSampleFromCurrentRow(ResultSet results){
         return new TypeSample(

@@ -9,50 +9,48 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="kernel.Customers"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="database" class="kernel.Database"></jsp:useBean>
-<jsp:useBean id="customer" class="kernel.Customers"></jsp:useBean>
+<jsp:useBean id="database" scope="session" class="kernel.Database"></jsp:useBean>
+<jsp:useBean id="customer" scope="session" class="kernel.Customers"></jsp:useBean>
 <%     
-    //boolean that states if login is OK
-    boolean logged = customer.getFirstName()!=null && customer.getLastName()!=null;
-    Integer id = null;
+    System.out.println("--------------------------------------------------------------");
+    if (session.getAttribute("login")==null)
+        session.setAttribute("login",request.getParameter("login"));
+    if (session.getAttribute("password")==null)
+        session.setAttribute("password",request.getParameter("password"));
     
-    //check login
-    if (!logged && request.getParameter("login")!=null && request.getParameter("password")!=null){
-        System.out.println("I ENTER THIS");
-        //search the database for these
-        String login=request.getParameter("login"), password=request.getParameter("password");
-        boolean isCorrect = database.getCustomerLoginCorrect(login, password);
-        Integer i=null;
-        if (isCorrect)
-            i = database.getCustomerIdWhenLoginCorrect(login, password);
+    String login = ""+session.getAttribute("login");
+    String password = ""+session.getAttribute("password");
+    
+    if (session.getAttribute("id")==null)
+        session.setAttribute("id",-1);
+    Integer id=Integer.valueOf(""+session.getAttribute("id"));
+    
+    if (login!=null && password!=null && login.length()>0 && password.length()>0){
+        System.out.println("Entered if 1");
+        //try the values
+        boolean valid = database.getCustomerLoginCorrect(login, password);
         
-//        Integer i =  database.getCustomerIdWhenLoginCorrect(identifiers.getLogin(), identifiers.getPassword());
-        id = i==null ? 1 : i;
-        if (id!=null){
-        %>
-        <jsp:setProperty name="customer" property="ID" value="<%=id%>"/>
-        <%
-        Customers thisOne = database.getCustomer(customer.getID());
-        System.out.println("AND THIS"+customer.getID()+thisOne.getFirstName()+thisOne.getLastName());
-           %>
+        if (valid){
+            System.out.println("identifiers are VALID");
+            //find information on the customer  and set the properties
+            id = database.getCustomerIdWhenLoginCorrect(login, password);
+            System.out.println("getCustomerIDWhenLoginCorrect returns "+id);
+            %>
+            <jsp:setProperty name="customer" property="ID" value="<%=id%>"/>
+            <%
+            Customers thisOne =database.getCustomer(id) ;
+            System.out.println("database found : "+thisOne.getID()+" "+thisOne.getFirstName()+" "+thisOne.getLastName());
+                %>
            <jsp:setProperty name="customer" property="firstName" value="<%=thisOne.getFirstName()%>"/>
            <jsp:setProperty name="customer" property="lastName" value="<%=thisOne.getLastName()%>"/>
            <%
+           session.setAttribute("active", "true");
         }
+        else{
+            session.setAttribute("active", "false");
+        }
+
     }
-    //logged in 
-    else{
-       if (id!=null && customer.getFirstName()==null || customer.getLastName()==null){
-           //search data in the database
-           Customers thisOne = database.getCustomer(customer.getID());
-           
-           %>
-           <jsp:setProperty name="customer" property="firstName" value="<%=thisOne.getFirstName()%>"/>
-           <jsp:setProperty name="customer" property="lastName" value="<%=thisOne.getLastName()%>"/>
-           <%
-       }
-    }
-    
 %>
 <!DOCTYPE html>
 <html class="no-js" lang="fr">
@@ -72,7 +70,8 @@
             </div>
         </div> 
         
-        <% if (!logged){
+        <% if (session.getAttribute("active")==null && !((""+session.getAttribute("active")).equals("true"))){
+            
             
         %>
         <div class="row">
@@ -100,6 +99,7 @@
         </div>
         <% }
         else {
+            System.out.println("PUTAIN DE MERDE "+session.getAttribute("active")+" session "+session.getId());
         %>
 
 
@@ -108,7 +108,7 @@
                 <div class="panel">
                     Bienvenue <br>
                     <%  
-                        if (logged){
+                        if (customer.getID()!=-1){
                             out.print(customer.getFirstName()+" "+customer.getLastName());
                         }
                     %><br>
