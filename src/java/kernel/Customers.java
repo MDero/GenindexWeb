@@ -1,5 +1,7 @@
 package kernel;
 
+import java.util.HashMap;
+
 
  
 
@@ -7,6 +9,13 @@ package kernel;
  * This class manages the customers.
  */
 public class Customers {
+    /**
+     * HASHMAP to avoid having too many queries
+     */
+    private static HashMap<Integer,Customers> customersMap = new HashMap<>();
+    
+    
+    
   private int ID;
 
   /**
@@ -59,6 +68,8 @@ public class Customers {
           //Mdero
           this.typeCusto = typeCusto;
      // Bouml preserved body end 00040A82
+          if (!customersMap.containsKey(ID))
+          customersMap.put(ID, this);
   }
   
 
@@ -140,6 +151,8 @@ public class Customers {
   public void setID(int ID) {
     // Bouml preserved body begin 00041082
 	  this.ID=ID;
+          if (!customersMap.containsKey(ID))
+          customersMap.put(ID, this);
     // Bouml preserved body end 00041082
   }
 
@@ -179,5 +192,9 @@ public class Customers {
     public int getTypeCusto() {
         return typeCusto;
     }
-  
+    
+    //VIncent
+    public static Customers getCustomer(int id){
+        return customersMap.get(id);
+    }
 }

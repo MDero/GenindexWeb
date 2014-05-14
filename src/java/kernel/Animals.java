@@ -1,7 +1,14 @@
 package kernel;
 
-public class Animals {
+import java.util.HashMap;
 
+public class Animals {
+    private static HashMap<Integer,Animals> allAnimals = new HashMap<>();
+    public static Animals getAnimals(int id){
+        return allAnimals.get(id);
+    }
+    
+    
     /**
      * The animal belongs to a specie.
      */
@@ -25,6 +32,8 @@ public class Animals {
     protected Animals(int id, Species species, int numberBirthday, String name) {
         this(species, numberBirthday, name);
         this.id = id;
+        if (!allAnimals.containsKey(id))
+            allAnimals.put(id, this);
     }
 
     public int getId() {
@@ -57,6 +66,8 @@ public class Animals {
 
     public void setId(int id) {
         this.id = id;
+        if (!allAnimals.containsKey(id))
+            allAnimals.put(id, this);
     }
 
 }

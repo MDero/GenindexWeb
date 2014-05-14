@@ -317,30 +317,37 @@ public class Database {
     
     //FROM IDS
     public Adress getAdress(int id) {
-        Adress adress;
-        System.out.println("id adresse:"+id);
-
-        ResultSet results = getResultSetFromIdQuery("Adress",id);
-        adress = this.getAdressFromCurrentRow(results);
+        Adress adress=Adress.getAdress(id);
+        if (adress==null){
+            ResultSet results = getResultSetFromIdQuery("Adress",id);
+            adress = this.getAdressFromCurrentRow(results);
+        }
         return adress;
     }
     public Customers getCustomer(int id) {
-        Customers customer = null;
-        ResultSet results = getResultSetFromIdQuery("CUSTOMERS",id);
-        customer = this.getCustomerFromCurrentRow(results);
+        Customers customer = Customers.getCustomer(id);
+        if (customer==null){
+            ResultSet results = getResultSetFromIdQuery("CUSTOMERS",id);
+            customer = this.getCustomerFromCurrentRow(results);
+        }
 
         return customer;
     }
     public Orders getOrders(int id) {
-        Orders order = null;
-        ResultSet results = this.getResultSetFromIdQuery("Orders", id);
-        order = this.getOrderFromCurrentRow(results);
+        Orders order = Orders.getOrders(id);
+        if (order==null){
+            ResultSet results = this.getResultSetFromIdQuery("Orders", id);
+            order = this.getOrderFromCurrentRow(results);
+        }
 
         return order;
     }
     public Animals getAnimals(int id){
-        ResultSet results = this.getResultSetFromIdQuery("Animals", id);
-        Animals animal = getAnimalFromCurrentRow(results);
+        Animals animal = Animals.getAnimals(id);
+        if (animal==null){
+            ResultSet results = this.getResultSetFromIdQuery("Animals", id);
+            animal = getAnimalFromCurrentRow(results);
+        }
         return animal;
     }
     public Samples getSamples(int id){
@@ -349,13 +356,19 @@ public class Database {
         return sample;
     }
     public Species getSpecies(int id){
-        ResultSet results = this.getResultSetFromIdQuery("Species", id);
-        Species species = getSpeciesFromCurrentRow(results);
+        Species species = Species.getSpecies(id);
+        if (species==null){
+            ResultSet results = this.getResultSetFromIdQuery("Species", id);
+            species = getSpeciesFromCurrentRow(results);
+        }
         return species;
     }
     public Category getCategory(int id ){
-        ResultSet results = this.getResultSetFromIdQuery("CateAnimals", id);
-        Category category = this.getCategoryFromCurrentRow(results);
+        Category category = Category.getCategory(id);
+        if (category==null){
+            ResultSet results = this.getResultSetFromIdQuery("CateAnimals", id);
+            category = this.getCategoryFromCurrentRow(results);
+        }
         return category;
     }
     public TypeAnalysis getTypeAnalysis(int id){
@@ -364,8 +377,12 @@ public class Database {
         return ta;
     }
     public TypeSample getTypeSample(int id){
-        ResultSet results = this.getResultSetFromIdQuery("TYPESAMPLE", id);
-        return this.getTypeSampleFromCurrentRow(results);
+        TypeSample typeSample = TypeSample.getTypeSample(id);
+        if (typeSample==null){
+            ResultSet results = this.getResultSetFromIdQuery("TYPESAMPLE", id);
+            typeSample = this.getTypeSampleFromCurrentRow(results);
+        }
+        return typeSample;
     }
     
     //Check logins

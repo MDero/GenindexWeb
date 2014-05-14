@@ -1,8 +1,15 @@
 package kernel;
 
 //classe adresse
-public class Adress {
 
+import java.util.HashMap;
+
+public class Adress {
+    private static HashMap<Integer,Adress> adressMap = new HashMap<>();
+    public static Adress getAdress(int id){
+        return adressMap.get(id);
+    }
+    
     /**
      * The number is the number of the street.
      */
@@ -48,6 +55,8 @@ public class Adress {
         this.city = city;
         this.country = country;
         // Bouml preserved body end 0002C182
+        
+        
     }
 //Mdero add idAdress
 
@@ -60,6 +69,8 @@ public class Adress {
         this.country = country;
         this.idAdress = id;
         // Bouml preserved body end 0002C182
+        if (!Adress.adressMap.containsKey(id))
+            Adress.adressMap.put(id, this);
     }
 
     public int getNumber() {
@@ -127,8 +138,10 @@ public class Adress {
         return idAdress;
     }
 
-    public void setID(int i) {
-        this.idAdress = i;
+    public void setID(int id) {
+        this.idAdress = id;
+        if (!Adress.adressMap.containsKey(id))
+            Adress.adressMap.put(id, this);
     }
 
 }

@@ -1,9 +1,15 @@
 package kernel;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Orders {
+    private static HashMap<Integer,Orders> allOrders = new HashMap<>();
+    public static Orders getOrders(int id){
+        return allOrders.get(id);
+    }
+    
     
     private static int countId = 1;
 
@@ -104,6 +110,9 @@ public class Orders {
         this.results_send = false;
         this.idOrder = id;
         // Bouml preserved body end 0001F402
+        
+        if (!allOrders.containsKey(id))
+            allOrders.put(id, this);
     }
 
     public int getId() {
@@ -260,6 +269,10 @@ public class Orders {
 
     public void setIdOrder(int idOrder) {
         this.idOrder = idOrder;
+        if (!allOrders.containsKey(idOrder))
+            allOrders.put(idOrder, this);
     }
-
+    public void setId(int id){
+        setIdOrder(id);
+    }
 }

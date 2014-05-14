@@ -129,21 +129,20 @@
                     <table>
                         <%
                         //Create order table
-                        ArrayList<Orders> yourOrders = database.getOrdersForCustomer(id);
+                        ArrayList<Orders> yourOrders = 
+                                //(ArrayList<Orders>)database.getOrdersForCustomer(id)
+                                (ArrayList<Orders>)database.getOrderList()
+                                ;
                         
+//                        for (Orders order : yourOrders)
+//                            out.print("<tr>"
+//                                    +"<td>"+order.getId()+"</td>"
+//                                    +"<td>"+order.getCustomer().getFirstName()+" "+order.getCustomer().getLastName()+"</td>"
+//                                    +"<td>"+order.getDateOrder()+"</td>"
+//                                    +"<td>"+order.getDateDeadline()+"</td>"
+//                                    +"<td>"+order.getPriorityLevel()+"</td>"
+//                                    + "</tr>");
                         %>
-                        <tr>
-                            <td>Info </td>
-                            <td>Info </td>
-                            <td>Info </td>
-                            <td>Info </td>
-                        </tr>
-                        <tr>
-                            <td>Info </td>
-                            <td>Info </td>
-                            <td>Info </td>
-                            <td>Info </td>
-                        </tr>
                     </table>
 
                 </div>

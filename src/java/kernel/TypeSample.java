@@ -5,12 +5,18 @@
  */
 package kernel;
 
+import java.util.HashMap;
+
 /**
  *
  * @author MrCake
  */
 public class TypeSample {
-
+    private static HashMap<Integer,TypeSample> allTypeSample = new HashMap<>();
+    public static TypeSample getTypeSample(int id){
+        return allTypeSample.get(id);
+    }
+    
     private int id;
     private String typeName;
 
@@ -21,6 +27,19 @@ public class TypeSample {
     protected TypeSample(int id, String typeName) {
         this(typeName);
         this.id = id;
+        
+        if (!allTypeSample.containsKey(id))
+            allTypeSample.put(id, this);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+        if (!allTypeSample.containsKey(id))
+            allTypeSample.put(id, this);
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public int getId() {

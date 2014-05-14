@@ -50,9 +50,14 @@ public class Category {
             return new Category(id, name);
         }
     }
+    public static Category getCategory(int id){
+        return Category.allCategories.get(id);
+    }
 
     public void setId(int id) {
         this.id = id;
+        if (!Category.allCategories.containsKey(id))
+            Category.allCategories.put(id, this);
     }
     
     @Override
