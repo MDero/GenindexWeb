@@ -614,7 +614,7 @@ public class Database {
     }
     public void insertCategory(Category category){
         int id = this.insertIntoTableValuesForFields("CATEANIMALS", 
-                "(CATE_NAME)",
+                "(NAME_CATE)",
                 category.getName()
         );
         category.setId(id);
