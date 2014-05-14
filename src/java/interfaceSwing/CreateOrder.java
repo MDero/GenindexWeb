@@ -16,16 +16,18 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import kernel.Database;
 import kernel.*;
+import java.applet.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
-
-public class CreateOrder extends JFrame implements ActionListener{
+public class CreateOrder extends JFrame{
     // instance variables - replace the example below with your own
 
     private JButton buttonValidate, buttonCancel;
     private JPanel panelInfo, panelCSAS, panelValidate;
-    private JLabel category, species, analysis, samples, date, customer;
-    private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxCustomer;
-    private JTextField dateText;
+    private JLabel category, species, analysis, samples, date1, date2, customer, priority;
+    private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxCustomer, boxPriority;
+    private JTextField dateText, dateDeadline;
     private JFrame myFrame;
     private String[] items;
     static Database database = new Database();
@@ -41,36 +43,51 @@ public class CreateOrder extends JFrame implements ActionListener{
 
 
         this.panelInfo = new JPanel();
-        panelInfo.setLayout(new GridLayout(2, 2));
+        panelInfo.setLayout(new GridLayout(3, 2));
         
-        this.date = new JLabel("Enter date dd/mm/yy : ");
+
+ 
+        java.util.Date maDate;
+        SimpleDateFormat maDateLongue;
+        maDate= new java.util.Date();
+        maDateLongue= new SimpleDateFormat("dd/MM/yyyy");
+
+
+        this.date1 = new JLabel("Enter date dd/mm/yy : ");
         this.dateText = new JTextField();
+        this.dateText.setText(maDateLongue.format(maDate));
+        
+        
+        this.date2 = new JLabel("Enter date deadline dd/mm/yy : ");
+        this.dateDeadline = new JTextField();
+        this.dateDeadline.setText(maDateLongue.format(maDate));
         this.customer = new JLabel("Choose Customer : ");
 
         this.panelCSAS = new JPanel();
-        panelCSAS.setLayout(new GridLayout(4, 2));
+        panelCSAS.setLayout(new GridLayout(5, 2));
         this.category = new JLabel("Category : ");
         this.species = new JLabel("Species : ");
         this.analysis = new JLabel("Analysis : ");
-        this.samples = new JLabel("Samples : ");
+        this.samples = new JLabel("Samples Number : ");
+        this.priority = new JLabel("Priority : ");
 
 
         this.panelValidate = new JPanel();
         panelValidate.setLayout(new GridLayout(1, 2));
         buttonValidate = new JButton("Validate");
-        buttonValidate.addActionListener(this);
+        
             
         
         // Liste déroulante Customers
-        ArrayList<String> names = new ArrayList<>();
+        final ArrayList<Customers> names = new ArrayList<Customers>();
         for (Customers customer : database.getCustomerList()) {
-            names.add(customer.getFirstName()+ " "+ customer.getLastName());
+            names.add(customer);
         }
-        items = new String[names.size()];
-        for (int i = 0; i < items.length; i++) 
-            items[i] = names.get(i);
+        String[] CItems = new String[names.size()];
+        for (int i = 0; i < CItems.length; i++) 
+            CItems[i] = names.get(i).getFirstName() + " " + names.get(i).getLastName();
         
-        this.boxCustomer = new JComboBox(items);
+        this.boxCustomer = new JComboBox(CItems);
         
 
         //Liste déroulante Category
@@ -110,16 +127,21 @@ public class CreateOrder extends JFrame implements ActionListener{
         
         
         // Liste déroulante Sample
-        ArrayList<String> echantillon = new ArrayList<>();
-        for (Samples sample : database.getSampleList()) {
-            echantillon.add(String.valueOf(sample.getCount()));
-        }
-        items = new String[echantillon.size()];
-        for (int i = 0; i < items.length; i++) {
-            items[i] = echantillon.get(i);
-        }
-        this.boxSamples = new JComboBox(items);
+     
+       this.boxSamples = new JComboBox();
+       boxSamples.addItem("1");
+       boxSamples.addItem("2");
+       boxSamples.addItem("3");
+
+       // Liste déroulante Priority
        
+       this.boxPriority = new JComboBox();
+       boxPriority.addItem("1");
+       boxPriority.addItem("2");
+       boxPriority.addItem("3");
+       boxPriority.addItem("4");
+       boxPriority.addItem("5");
+
         
         this.buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener (new ActionListener () 
@@ -131,18 +153,50 @@ public class CreateOrder extends JFrame implements ActionListener{
             }
         } );
         
+        buttonValidate.addActionListener(new ActionListener ()
+        {
+             @Override
+             public void actionPerformed(ActionEvent ae) 
+             {
+            // if (ae.getSource()==buttonValidate)
+             
+             
+             CreateOrder co = CreateOrder.this;
+             Orders new_orders = null;
+             
+//                 System.out.println(co.boxCustomer.getSelectedItem() );
+//                 System.out.println(co.boxCustomer.getSelectedIndex());
+//                 System.out.println(names.get(co.boxCustomer.getSelectedIndex()).getFirstName());
+ //   public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
+             new_orders = new Orders(    
+                     (int)Integer.valueOf((String)co.boxSamples.getSelectedItem()),
+                     new kernel.Date (co.dateText.getText()),
+                     new kernel.Date (co.dateDeadline.getText()),
+                     (int)Integer.valueOf((String)co.boxPriority.getSelectedItem()),
+                     names.get(co.boxCustomer.getSelectedIndex())
+                     );
+             
+//             database.getSpeciesForCategory(null);
+             database.insertOrder(new_orders);
+        }});
         
-        panelInfo.add(date);
+        
+        
+        panelInfo.add(date1);
         panelInfo.add(dateText);
+        panelInfo.add(date2);
+        panelInfo.add(dateDeadline);
         panelInfo.add(customer);
         panelInfo.add(boxCustomer);
         
         panelCSAS.add(category);
         panelCSAS.add(boxCategory);
-        panelCSAS.add(analysis);
-        panelCSAS.add(boxAnalysis);
         panelCSAS.add(species);
         panelCSAS.add(boxSpecies);
+        panelCSAS.add(analysis);
+        panelCSAS.add(boxAnalysis);
+        panelCSAS.add(priority);
+        panelCSAS.add(boxPriority);
         panelCSAS.add(samples);
         panelCSAS.add(boxSamples);
         
@@ -152,20 +206,13 @@ public class CreateOrder extends JFrame implements ActionListener{
         
         myFrame.add(panelInfo, BorderLayout.NORTH);
         myFrame.add(panelCSAS, BorderLayout.CENTER);
-        myFrame.add(panelValidate, BorderLayout.SOUTH);
+        myFrame.add(panelValidate, BorderLayout.SOUTH); 
         
         myFrame.pack();
         myFrame.setVisible(true);
+    
+        
     }
-    
- 
-    
-        @Override
-         public void actionPerformed(ActionEvent ae) {
-         if (ae.getSource()==buttonValidate){
-             database.insertOrder(null);
-           }
-}
     /**
      * An example of a method - replace this comment with your own
      *
@@ -174,9 +221,7 @@ public class CreateOrder extends JFrame implements ActionListener{
     public static void main(String[] args) {
         // put your code here
         CreateOrder windows = new CreateOrder();
-    }
-
-    
+    }   
 }
 
 

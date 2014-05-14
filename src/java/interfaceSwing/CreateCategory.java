@@ -21,7 +21,7 @@ public class CreateCategory extends JFrame {
         private JMenuItem Exit;
         private Category category;
         private JFrame myFrame;
-        private JButton valider=new JButton("Valider ");
+        private JButton valider=new JButton("Valider");
         private JButton annuler;
         // le label explicatif
         private JLabel nom, caracteristiques;
@@ -78,9 +78,12 @@ public class CreateCategory extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent ae) {  
-                if (!CreateCategory.this.Cnom.getText().equals("")
-                        ){
-                    database.insertCategory(category);  
+                String categoryName = CreateCategory.this.Cnom.getText();
+                if (categoryName.length()>0){
+                    Category nCategory = new Category(categoryName);
+                    database.insertCategory(nCategory);  
+                PopUp popUp = new PopUp();
+                myFrame.dispose();    
                 }              
             }
         });
@@ -105,9 +108,6 @@ public class CreateCategory extends JFrame {
         
     }
     
-        public static void main (String [] args){
-CreateCategory visuel= new CreateCategory();
-}
 }
     
 

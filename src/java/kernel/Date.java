@@ -17,6 +17,13 @@ public class Date {
 	  this.year=year;
     // Bouml preserved body end 00020E03
   }
+  
+  public Date(String date) {
+      String[] str = date.split("/");
+      this.day = Integer.valueOf(str[0]);
+      this.month = Integer.valueOf(str[1]);
+      this.year = Integer.valueOf(str[2]);
+  }
 
   /**
    * This function permits to check if the date in parameter is before or after this date.
