@@ -424,6 +424,9 @@ public class Database {
         }
         return samples;
     }
+    public List<Samples> getSamplesToPerformAnalysisOfType(int idTa){
+        return getSamplesToPerformAnalysisOfType(this.getTypeAnalysis(idTa));
+    }
     
     /* INSERTION METHODS */
     private void insertIntoTableAllValues(String table, Object... values){
