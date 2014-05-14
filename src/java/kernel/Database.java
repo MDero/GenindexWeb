@@ -589,7 +589,7 @@ public class Database {
                 sample.getOrder().getId(),
                 sample.getAnimal().getId(),
                 sample.getStatusId(),
-                sample.analyzed,
+                0,
                 convertDateToString(sample.getDateSampling()),
                 convertDateToString(sample.getDateStorage())
         );
@@ -618,6 +618,10 @@ public class Database {
             System.out.println("ERROR IN delAdress : " + e);
 
         }
+    }
+    
+    public void close() throws SQLException{
+        connexion.close();
     }
 }
 
