@@ -22,7 +22,7 @@ public class PopUp extends JFrame {
     public PopUp(){
     
         myFrame = new JFrame();
-        myLabel = new JLabel("Opération effectué", JLabel.CENTER);
+        myLabel = new JLabel("Opération effectuée", JLabel.CENTER);
         myButton = new JButton ("OK");
         myPanel = new JPanel ();
         myPanel.setLayout(new GridLayout(2,1));

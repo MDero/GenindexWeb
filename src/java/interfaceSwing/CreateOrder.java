@@ -210,7 +210,8 @@ public class CreateOrder extends JFrame{
              }
              
              
-             
+                PopUp popUp = new PopUp();
+                myFrame.dispose(); 
 //             database.getSpeciesForCategory(null);
              
         }});
@@ -249,23 +250,18 @@ public class CreateOrder extends JFrame{
         
         myFrame.pack();
         myFrame.setVisible(true);
-        try {
-            database.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            database.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CreateOrder.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
-    }
+    }}
     /**
      * An example of a method - replace this comment with your own
      *
      * @return the sum of x and y
      */
-    public static void main(String[] args) {
-           // put your code here
-            CreateOrder windows = new CreateOrder();
 
-    }   
-}
 
 
