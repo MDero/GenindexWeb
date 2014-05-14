@@ -90,10 +90,10 @@ public class GenindexMainInterface extends JFrame {
     Order_Explorer order_Explorer = new Order_Explorer();
    }});
    
-    //bou4.addActionListener(new ActionListener(){
-    //@Override
-    //public void actionPerformed(ActionEvent ae) {
-    //new CreateMicroplate();   }});
+    bou4.addActionListener(new ActionListener(){
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+    CreateMicroplate microplate = new CreateMicroplate();   }});
    
     bou5.addActionListener(new ActionListener(){
     @Override
