@@ -18,17 +18,23 @@ public class Order_Explorer extends JFrame implements ActionListener{
 	private JMenuItem menuItem;
 	private String[] items;
 	private Integer[] items2;
-	private JPanel panelCenter;
+	private JPanel panelCenter,panelQuitter;
 	private JTable tableOrders, tableSamples;
-            private int lastSelectedIndex,lastOrderEmptyRow=0, lastSampleEmptyRow=0;
+        private int lastSelectedIndex,lastOrderEmptyRow=0, lastSampleEmptyRow=0;
 	private JScrollPane scrollPane;
+        private JButton quitter;
+        private JFrame myFrame;
 
 public Order_Explorer(){
 
-	JFrame myFrame = new JFrame("Explore Order");
-	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	myFrame = new JFrame("Explore Order");
 	myFrame.setSize(2000, 650);
 
+// Creation du boutton pour quitter        
+        quitter = new JButton("Quitter");
+        panelQuitter = new JPanel();
+        panelQuitter.add(quitter);
+        
 // Creation of the menu bar
 	menuBar = new JMenuBar();
 	myFrame.setJMenuBar(menuBar);
@@ -97,12 +103,21 @@ public Order_Explorer(){
 	general.setLayout(new BorderLayout());
 	general.add(panelNorth,BorderLayout.NORTH);
 	general.add(panelCenter,BorderLayout.CENTER);
-
+        general.add(panelQuitter,BorderLayout.SOUTH);
 	myFrame.add(general);
+
 	myFrame.pack();
         //myFrame.setResizable(false);
 	myFrame.setVisible(true);
-
+        
+        quitter.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+             myFrame.dispose();
+            }
+        } );
 
 }
 
@@ -220,8 +235,6 @@ public Order_Explorer(){
 //        return true;
 //    }
 //}
-	public static void main(String[] args) {
-		new Order_Explorer ();
-	}	
+
 }
 
