@@ -70,21 +70,17 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         
          /* creation de menu déroulant */
         
-        String[] items;
-        ArrayList<String> typeAnalNames = new ArrayList<>();
+        TypeAnalysis[] items;
+        ArrayList<TypeAnalysis> typeAnal = (ArrayList<TypeAnalysis>) database.getTypeAnalysisList();
 
-                //parcours de toutes les type d'analyses de la base de données
-        for (TypeAnalysis typeanal: database.getTypeAnalysisList())
-            typeAnalNames.add(typeanal.getType());
+        //initialisation du tableau utilisable par JComboBox
+        items = new TypeAnalysis[typeAnal.size()]; 
 
-                //initialisation du tableau utilisable par JComboBox
-        items = new String[typeAnalNames.size()]; 
-
-                //transfert liste -> array
+        //transfert liste -> array
         for (int i = 0; i<items.length;i++)
-            items[i]=typeAnalNames.get(i);
+            items[i]=typeAnal.get(i);
         
-                //création effective 
+        //création effective 
         this.boxAnalyse = new JComboBox(items);
         boxAnalyse.addActionListener(this);
         
@@ -172,11 +168,12 @@ public class CreateMicroplate extends JFrame implements ActionListener {
 
                             JComboBox cb = (JComboBox)e.getSource();
                                 
-                                //check if customer changed
+                            //check if selection changed
+                            TypeAnalysis ta = (TypeAnalysis) cb.getSelectedItem();
                             if (cb.getSelectedIndex()!=this.lastSelectedIndex){
                                  lastSelectedIndex = cb.getSelectedIndex();
                                 
-                                ArrayList<Samples> samples = (ArrayList<Samples>) database.getSamplesToPerformAnalysisOfType(cb.getSelectedIndex());
+                                ArrayList<Samples> samples = (ArrayList<Samples>) database.getSamplesToPerformAnalysisOfType(ta);
                                 ArrayList<Samples> samplesToAnalyze = new ArrayList<>();
                                 ArrayList<Samples> samplesPriority = new ArrayList<>();
                                 for (Samples sample : samples){

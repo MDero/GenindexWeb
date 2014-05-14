@@ -312,7 +312,7 @@ public class Database {
     }
     private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
         return new TypeAnalysis(
-                extractNumber(results,"ID_TYPEANALYSIS"),
+                extractNumber(results,"ID_TYPEANAL"),
                 extractString(results,"TYPEANAL")
         );
     }

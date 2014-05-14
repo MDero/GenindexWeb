@@ -32,7 +32,7 @@ public class TypeAnalysis {
     }
     protected TypeAnalysis(int id, String name){
         this.id=id;
-        name=name;
+        this.type=name;
     }
 
     /**
@@ -52,5 +52,9 @@ public class TypeAnalysis {
 
     public double getPriceFor(TypeSample ts) {
         return this.priceList.get(ts);
+    }
+    
+    public String toString(){
+        return this.type;
     }
 }
