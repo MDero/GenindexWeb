@@ -135,6 +135,8 @@ public class CreateSpecie extends JFrame {
                     if (category!=null && category.getId()>-1){
                         Species nSpecies = new Species(category,speciesname);
                         database.insertSpecies(nSpecies);
+                PopUp popUp = new PopUp();
+                myFrame.dispose();
                     }
                 }
             }
@@ -158,10 +160,7 @@ public class CreateSpecie extends JFrame {
             }
         } );
     }
-    
-        public static void main (String [] args){
-CreateSpecie visuel= new CreateSpecie();
-}
+
 }
 
         
