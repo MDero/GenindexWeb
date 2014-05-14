@@ -16,7 +16,7 @@ public class Order_Explorer extends JFrame implements ActionListener{
 	private JMenuBar menuBar;
 	private JMenu menu;
 	private JMenuItem menuItem;
-	private String[] items;
+	private Customers[] items;
 	private Integer[] items2;
 	private JPanel panelCenter,panelQuitter;
 	private JTable tableOrders, tableSamples;
@@ -58,7 +58,7 @@ public Order_Explorer(){
 
 	ArrayList<Customers> customers =  (ArrayList<Customers>) database.getCustomerList();        
 
-	items = new String[customers.size()];
+	items = new Customers[customers.size()];
 	for (int i =0; i<items.length;i++)
 		items[i]=customers.get(i);
 	JComboBox Customers = new JComboBox(items);
@@ -123,26 +123,27 @@ public Order_Explorer(){
             JComboBox cb = (JComboBox)e.getSource();
             
             //check if customer changed
-            if (cb.getSelectedIndex()!=this.lastSelectedIndex){
-                lastSelectedIndex = cb.getSelectedIndex();
+            int index = ((Customers)cb.getSelectedItem()).getID();
+            if (index!=this.lastSelectedIndex){
+                lastSelectedIndex = index;
                 
-                ArrayList<Orders> orders = (ArrayList<Orders>) database.getOrdersForCustomer(cb.getSelectedIndex());
+                ArrayList<Orders> orders = (ArrayList<Orders>) database.getOrdersForCustomer(index);
+                
                 //clear screen
-                for (int i = 0 ; i<Order_Explorer.this.lastOrderEmptyRow;i++)
+                for (int i = 0 ; i<lastOrderEmptyRow;i++)
                      ((DefaultTableModel)Order_Explorer.this.tableOrders.getModel()).removeRow(0);
-                Order_Explorer.this.lastOrderEmptyRow=0;
+                lastOrderEmptyRow=0;
                 for (int i = 0 ; i<lastSampleEmptyRow;i++)
                      ((DefaultTableModel)tableSamples.getModel()).removeRow(0);
-                this.lastSampleEmptyRow=0;
+                lastSampleEmptyRow=0;
                 
                 //add new rows
                 if (orders.size()>0){
                     for (Orders order : orders){
-                        ((DefaultTableModel)tableOrders.getModel()).addRow(new Object[]{order.getId(),order.getResultSend()? "envoyé":"en cours",order.getPaid()? "payé" : "non payé",order.getNumberSamples()});    
+                        ((DefaultTableModel)tableOrders.getModel()).addRow(new Object[]{order.getIdOrder(),order.getResultSend()? "envoyé":"en cours",order.getPaid()? "payé" : "non payé",order.getNumberSamples()});    
                         tableOrders.addMouseListener(new MouseListener(){
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                System.out.println("clicked");
                                 int row = tableOrders.getSelectedRow();
                 
                                 if (row != -1){
@@ -159,7 +160,6 @@ public Order_Explorer(){
 
                                     //add new rows
                                     if (samples.size()>0){
-                                        System.out.println("HYEAH");
                                         for (Samples sample : samples){
                                             ((DefaultTableModel)tableSamples.getModel()).addRow(new Object[]{sample.getId(),sample.getType().getTypeName(),sample.getDateSampling().toString(),sample.getDateStorage().toString(),sample.getAnalysisCount()>0 ? "analysé "+sample.getAnalysisCount()+" fois":"non analysé"});
                                             lastSampleEmptyRow++;

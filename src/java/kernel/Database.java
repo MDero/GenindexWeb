@@ -267,6 +267,7 @@ public class Database {
     }
     private Orders getOrderFromCurrentRow(ResultSet results) {
         return new Orders(
+                extractNumber(results,"ID_ORDERS"),
                 (int) extractNumber(results, "NumberSamples"),
                 extractDate(results, "DateOrder"),
                 extractDate(results, "DateDeadline"),
