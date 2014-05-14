@@ -4,6 +4,8 @@
     Author     : Maxime
 --%>
 
+<%@page import="kernel.Orders"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="kernel.Customers"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="database" scope="session" class="kernel.Database"></jsp:useBean>
@@ -127,7 +129,7 @@
                     <table>
                         <%
                         //Create order table
-                        
+                        ArrayList<Orders> yourOrders = database.getOrdersForCustomer(id);
                         
                         %>
                         <tr>

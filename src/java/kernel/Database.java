@@ -246,10 +246,10 @@ public class Database {
             return null;
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
-//        Integer idAdress = extractNumber(results,"ID_adress");
-//        Adress adress = null;
-//        if (idAdress!=null)
-//            adress = this.getAdress(idAdress);
+        Integer idAdress = extractNumber(results,"ID_adress");
+        Adress adress = null;
+        if (idAdress!=null)
+            adress = this.getAdress(idAdress);
         
         return new Customers(
                     extractNumber(results, "ID_CUSTOMERS"),
@@ -615,7 +615,7 @@ public class Database {
     }
     public void insertCategory(Category category){
         int id = this.insertIntoTableValuesForFields("CATEANIMALS", 
-                "(CATE_NAME)",
+                "(NAME_CATE)",
                 category.getName()
         );
         category.setId(id);
