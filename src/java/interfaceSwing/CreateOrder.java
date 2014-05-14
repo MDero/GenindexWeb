@@ -210,7 +210,8 @@ public class CreateOrder extends JFrame{
              }
              
              
-             
+                PopUp popUp = new PopUp();
+                myFrame.dispose(); 
 //             database.getSpeciesForCategory(null);
              
         }});
