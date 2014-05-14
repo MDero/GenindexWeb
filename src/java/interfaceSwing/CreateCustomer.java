@@ -153,8 +153,8 @@ public class CreateCustomer extends JFrame  {
         paysC=new JComboBox();
         //paysC.setEditable(false);
         
-        paysC.addItem("Sénégal");
         paysC.addItem("France");
+        paysC.addItem("Sénégal");
         paysC.addItem("Angleterre");
         paysC.addItem("Chine");
         paysC.addItem("Inde");

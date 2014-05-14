@@ -100,17 +100,7 @@ public class CreateSpecie extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-                new CreateCategory();   
-                if (!(CreateSpecie.this.Ccategorie.getText().equals("")
-                       && CreateSpecie.this.Cnom.getText().equals(""))
-                        ){
-                    database.insertSpecies(specie);
-                /**label.setText("Vous avez saisie: " + textField.getText());
-                // reinitialise le champs de texte
-                textField.setText("");
-                // on redonne le foscus au textField
-                textField.setFocusable(true);**/
-                }              
+                new CreateCategory();            
             }
         });
             
