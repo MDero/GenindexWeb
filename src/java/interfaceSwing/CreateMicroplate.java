@@ -109,9 +109,31 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         imageList=new Vector();
         listEch = new JList(ech);
         */
+        //table = new JTable(new DefaultTableModel(new Object[]{"Numéro","Client","Priorité"},10));
+        //lastEmptyRow=10;//de base on a 10 lignes pour le swag
+        
+        Object[][] data = {};
+        String[] columnNames = {"A analyser","Numéro","Client","Priorité"};
+
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames)
+
+        {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+        return column==0;
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex)
+        {
+        if(columnIndex==0)
+        return Boolean.class;
+        return super.getColumnClass(columnIndex);
+        }
+        };
+        table = new JTable(tableModel);
         //TABLE D ORDERS
-        table = new JTable(new DefaultTableModel(new Object[]{"Numéro","Client","Priorité"},10));
-        lastEmptyRow=10;//de base on a 10 lignes pour le swag
+        
         
         zone2 = new JPanel();
         zone2.setLayout(new BorderLayout());
@@ -178,8 +200,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                         //find the customer
                                         Orders order = sample.getOrder();
                                         Customers customer = order.getCustomer();
-                                        
-                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
+                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{false,sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
                                         lastEmptyRow++;
                                     }
                                 }
