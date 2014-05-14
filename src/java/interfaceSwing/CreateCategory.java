@@ -82,6 +82,8 @@ public class CreateCategory extends JFrame {
                 if (categoryName.length()>0){
                     Category nCategory = new Category(categoryName);
                     database.insertCategory(nCategory);  
+                PopUp popUp = new PopUp();
+                myFrame.dispose();    
                 }              
             }
         });
@@ -106,9 +108,6 @@ public class CreateCategory extends JFrame {
         
     }
     
-        public static void main (String [] args){
-CreateCategory visuel= new CreateCategory();
-}
 }
     
 
