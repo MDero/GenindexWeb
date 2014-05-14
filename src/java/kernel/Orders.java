@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Orders {
-
+    
     private static int countId = 1;
 
     private int idOrder;
@@ -132,9 +132,19 @@ public class Orders {
     }
 
     public List<Samples> getSamples() {
-        // Bouml preserved body begin 00042C82
-        return (this.samples);
-        // Bouml preserved body end 00042C82
+        //if id created
+        if (this.idOrder>-1){
+            //create a list
+            ArrayList<Samples> allSamples = (ArrayList<Samples>) (new Database()).getSampleList(); //TODO : replace by a variable
+            
+            if (allSamples.size()>0)for (Samples sample : allSamples){
+                if (sample.getOrder()!=null && sample.getOrder().getIdOrder()==this.idOrder){
+                    this.samples.add(sample);
+                }
+            }
+        }
+        
+        return this.samples;
     }
 
     public Invoice getInvoice() {

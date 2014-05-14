@@ -55,7 +55,9 @@ public class Samples {
     }
 
     public Orders getOrder() {
-        return order;
+        if (this.order==null)
+            this.order= new Database().getOrders(this.order.getIdOrder());
+        return this.order;
     }
 
     public void setOrder(Orders order) {
@@ -97,9 +99,10 @@ public class Samples {
      * (string). - the date of creation of this sample (date). - the date of the
      * storage of this sample (date).
      */
-    protected Samples(int Identifier, TypeSample Type_sample, Date D_sampling, Date D_storage, Animals anim) {
+    protected Samples(int Identifier, Orders order,TypeSample Type_sample, Date D_sampling, Date D_storage, Animals anim) {
         // Bouml preserved body begin 0002A282
         this.id = Identifier;
+        this.order=order;
         this.type = Type_sample;
         this.dateSampling = D_sampling;
         this.dateStorage = D_storage;
@@ -108,9 +111,10 @@ public class Samples {
         this.analyses = new ArrayList<Analysis>();
         // Bouml preserved body end 0002A282
     }
-    public Samples(TypeSample Type_sample, Date D_sampling, Date D_storage, Animals anim) {
+    public Samples(TypeSample Type_sample,  Orders order,Date D_sampling, Date D_storage, Animals anim) {
         // Bouml preserved body begin 0002A282
         this.type = Type_sample;
+        this.order=order;
         this.dateSampling = D_sampling;
         this.dateStorage = D_storage;
         this.animal = anim;

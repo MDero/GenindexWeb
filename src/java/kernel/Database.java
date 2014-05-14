@@ -252,7 +252,8 @@ public class Database {
     private Samples getSampleFromCurrentRow(ResultSet results){
         Samples sample = new Samples(
                 extractNumber(results,"Id_sample"),
-                new TypeSample(extractString(results,"Id_TypeSample")),
+                getOrders(extractNumber(results,"ID_ORDERS")),
+                getTypeSample(extractNumber(results,"Id_Typesample")),
                 extractDate(results,"DateSampling"),
                 extractDate(results,"DateStorage"),
                 this.getAnimals(extractNumber(results,"Id_animals"))
@@ -277,6 +278,12 @@ public class Database {
     }
     private TypeAnalysis getTypeAnalysisFromCurrentRow(ResultSet results){
         return new TypeAnalysis(extractString(results,"TYPEANAL"));
+    }
+    private TypeSample getTypeSampleFromCurrentRow(ResultSet results){
+        return new TypeSample(
+                extractNumber(results,"ID_TYPESAMPLE"),
+                extractString(results,"TYPESAMPLE")
+        );
     }
     
     //FROM IDS
@@ -326,6 +333,10 @@ public class Database {
         ResultSet results = this.getResultSetFromIdQuery("TYPEANAL", id);
         TypeAnalysis ta = this.getTypeAnalysisFromCurrentRow(results);
         return ta;
+    }
+    public TypeSample getTypeSample(int id){
+        ResultSet results = this.getResultSetFromIdQuery("TYPESAMPLE", id);
+        return this.getTypeSampleFromCurrentRow(results);
     }
     
     //LISTS ESTABLISHMENT
