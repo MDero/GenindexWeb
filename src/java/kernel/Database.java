@@ -76,7 +76,7 @@ public class Database {
         return date;
     }
     private static String convertDateToString(kernel.Date date) {
-        return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+        return date.getDay() + "/" + date.getMonth() + "/" + date.getYear();
     }
     
     //GLOBAL CODE 
@@ -496,8 +496,8 @@ public class Database {
                 order.getSamples().size(),
                 convertDateToString(order.getDeadLine()),
                 convertDateToString(order.getDateOrder()),
-                order.getPaid(),
-                order.getResultSend(),
+                0,
+                0,
                 order.getReport()
         );
         order.setIdOrder(id);
