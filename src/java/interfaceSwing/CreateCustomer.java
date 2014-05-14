@@ -45,6 +45,17 @@ public class CreateCustomer extends JFrame  {
         menuBar.add(menu);
         exit= new JMenuItem("Quitter", KeyEvent.VK_A);
         menu.add(exit);
+        
+        
+          exit.addActionListener (new ActionListener () 
+        {
+            @Override
+            public void actionPerformed (ActionEvent e) 
+            {
+             myFrame.dispose();
+            }
+        } );
+          
         this.annuler = new JButton("Annuler");
         // partie client individuel
         type= new JPanel();
