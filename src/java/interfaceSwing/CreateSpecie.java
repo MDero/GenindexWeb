@@ -63,24 +63,19 @@ public class CreateSpecie extends JFrame {
         categorie = new JLabel("Catégorie*:");
         
         /* creation de menu déroulant */
-        String[] items;
-        ArrayList<String> categoryNames = new ArrayList<>();
-
-        //parcours de toutes les catégories de la base de données
+        
+        /** TENTATIVE DEBUG **/
+        ArrayList<Category> categories = new ArrayList<>();
         for (Category category : database.getCategoryList())
-            categoryNames.add(category.getName());
-
-        //initialisation du tableau utilisable par JComboBox
-        items = new String[categoryNames.size()];
-
-        //transfert liste -> array
-        for (int i = 0; i<items.length;i++)
-            items[i]=categoryNames.get(i);
+            categories.add(category);
+        Category[] items = new Category[categories.size()];
+        for (int i =0; i<items .length;i++)
+            items [i]=categories.get(i);
         
         //création effective 
+        //this.boxCategory = new JComboBox(items);
         this.boxCategory = new JComboBox(items);
                 
-        
         Cnom = new JTextField(20);
         Ccaracteristiques = new JTextField(20);
         Ccategorie = new JTextField(10);
@@ -129,6 +124,22 @@ public class CreateSpecie extends JFrame {
         bouton = new JPanel();
         bouton.setLayout(new GridLayout(1,2));
         bouton.add(valider);
+            valider.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //if there is something
+                String speciesname= CreateSpecie.this.Cnom.getText();
+                if (speciesname.length()>0){
+                    Category category = (Category) boxCategory.getSelectedItem();
+                    if (category!=null && category.getId()>-1){
+                        Species nSpecies = new Species(category,speciesname);
+                        database.insertSpecies(nSpecies);
+                    }
+                }
+            }
+                
+            });
         bouton.add(annuler);
         myFrame.setLayout(new BorderLayout());
         myFrame.add(menuBar, BorderLayout.NORTH);
