@@ -12,10 +12,12 @@ import java.applet.*;
 public class GenindexMainInterface extends JFrame {
     
     private JFrame myFrame;
-    private JPanel titre, boutons;
+    private JPanel titre, boutons,quitter;
     private JLabel titrePage, nomLogi;
     private JLabel info1, info2, info3 ,info4 ,info5, info6, info7;
     private JButton bou1, bou2, bou3, bou4, bou5, bou6, bou7;
+    private JButton exit;
+    
     public GenindexMainInterface () {
     
     myFrame = new JFrame("Genindex");
@@ -27,8 +29,7 @@ public class GenindexMainInterface extends JFrame {
     titrePage = new JLabel("Menu principale", JLabel.CENTER);
     titre.add(nomLogi);
     titre.add(titrePage);
-    titre.setSize(new Dimension(500, 500));
-    myFrame.add(titre);
+    myFrame.add(titre,BorderLayout.NORTH);
     /////////////////////////////////////////////////////////////
     boutons = new JPanel(); 
     // ajouter une ligne pour chaque item à ajouter
@@ -64,9 +65,13 @@ public class GenindexMainInterface extends JFrame {
     boutons.add(bou6);
     boutons.add(info7);
     boutons.add(bou7);
-    myFrame.add(boutons,BorderLayout.SOUTH);
+    myFrame.add(boutons,BorderLayout.CENTER);
     /////////////////////////////////////////////////////////////
-    
+    quitter = new JPanel();
+    exit = new JButton("Quitter");
+    quitter.add(exit);
+    myFrame.add(quitter,BorderLayout.SOUTH);
+    /////////////////////////////////////////////////////////////
     bou1.addActionListener(new ActionListener(){
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -110,7 +115,19 @@ public class GenindexMainInterface extends JFrame {
        
     myFrame.pack();
     myFrame.setVisible(true);
+    
+    exit.addActionListener (new ActionListener () 
+    {
+    @Override
+    public void actionPerformed (ActionEvent e) 
+    {
+    System.exit(0);
     }
+    } );
+    }
+    
+    
+    
     public static void main(String[] args) {
         GenindexMainInterface windows = new GenindexMainInterface();
         
