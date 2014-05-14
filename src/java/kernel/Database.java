@@ -140,6 +140,8 @@ public class Database {
                                  this.getCategoryFromCurrentRow(results):
                          "TYPEANAL".equals(table)?
                                  this.getTypeAnalysisFromCurrentRow(results):
+                         "TYPESAMPLE".equals(table)?
+                                 this.getTypeSampleFromCurrentRow(results):
                          null
                 );
             }
@@ -179,6 +181,8 @@ public class Database {
                                  this.getCategoryFromCurrentRow(results):
                          "TYPEANAL".equals(table)?
                                  this.getTypeAnalysisFromCurrentRow(results):
+                         "TYPESAMPLE".equals(table)?
+                                 this.getTypeSampleFromCurrentRow(results):
                          null
                 );
             }
@@ -369,6 +373,9 @@ public class Database {
     public List<TypeAnalysis> getTypeAnalysisList(){
         return  (List<TypeAnalysis>) this.generateListOfAll("TYPEANAL");
     } 
+    public List<TypeSample> getTypeSampleList(){
+        return (List<TypeSample>) this.generateListOfAll("TYPESAMPLE");
+    }
     
     //QUERIES
     //TODO : move to the correct class in the end
