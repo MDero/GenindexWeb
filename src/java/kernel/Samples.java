@@ -15,7 +15,11 @@ public class Samples {
      * identifiant is unique.
      */
     private int id;
-    private int statusId = 0;//TODO : default value;
+    private int statusId = 1;//TODO : default value;
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
     /**
      * It is the type of the sample (blood, DNA...)
      */

@@ -150,9 +150,12 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                 ArrayList<Samples> samplesToAnalyze = new ArrayList<>();
                                 ArrayList<Samples> samplesPriority = new ArrayList<>();
                                 for (Samples sample : samples){
+                                     System.out.println("samples : ");
+                                        System.out.println(sample.getStatusId());
                                     //0 is analysed 1 is to analyse 2 is analysed but need to re analyse 
                                     if(sample.getStatusId()==2){
                                         samplesPriority.add(sample);
+                                       
                                         
                                     }
                                     else if(sample.getStatusId()==1){

@@ -250,7 +250,7 @@ public class Database {
         );
     }
     private Samples getSampleFromCurrentRow(ResultSet results){
-        return new Samples(
+        Samples sample = new Samples(
                 extractNumber(results,"Id_sample"),
                 getOrders(extractNumber(results,"ID_ORDERS")),
                 getTypeSample(extractNumber(results,"Id_Typesample")),
@@ -258,6 +258,11 @@ public class Database {
                 extractDate(results,"DateStorage"),
                 this.getAnimals(extractNumber(results,"Id_animals"))
         );
+        Integer statusId = extractNumber(results,"ID_STATUTSAMPLE");
+        if (statusId!=null)
+            sample.setStatusId(statusId);
+        
+        return sample;
     }
     private Species getSpeciesFromCurrentRow(ResultSet results){
         return new Species(
