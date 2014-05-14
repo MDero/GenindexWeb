@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import kernel.Database;
 import kernel.*;
 import java.applet.*;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class CreateOrder extends JFrame{
     // instance variables - replace the example below with your own
@@ -44,10 +45,22 @@ public class CreateOrder extends JFrame{
         this.panelInfo = new JPanel();
         panelInfo.setLayout(new GridLayout(3, 2));
         
+
+ 
+        java.util.Date maDate;
+        SimpleDateFormat maDateLongue;
+        maDate= new java.util.Date();
+        maDateLongue= new SimpleDateFormat("dd/MM/yyyy");
+
+
         this.date1 = new JLabel("Enter date dd/mm/yy : ");
         this.dateText = new JTextField();
+        this.dateText.setText(maDateLongue.format(maDate));
+        
+        
         this.date2 = new JLabel("Enter date deadline dd/mm/yy : ");
         this.dateDeadline = new JTextField();
+        this.dateDeadline.setText(maDateLongue.format(maDate));
         this.customer = new JLabel("Choose Customer : ");
 
         this.panelCSAS = new JPanel();
@@ -157,8 +170,8 @@ public class CreateOrder extends JFrame{
  //   public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
              new_orders = new Orders(    
                      (int)Integer.valueOf((String)co.boxSamples.getSelectedItem()),
-                     new Date (co.dateText.getText()),
-                     new Date (co.dateDeadline.getText()),
+                     new kernel.Date (co.dateText.getText()),
+                     new kernel.Date (co.dateDeadline.getText()),
                      (int)Integer.valueOf((String)co.boxPriority.getSelectedItem()),
                      names.get(co.boxCustomer.getSelectedIndex())
                      );

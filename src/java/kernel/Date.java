@@ -19,9 +19,10 @@ public class Date {
   }
   
   public Date(String date) {
-      this.day=30;
-      this.month=10;
-      this.year=1992;
+      String[] str = date.split("/");
+      this.day = Integer.valueOf(str[0]);
+      this.month = Integer.valueOf(str[1]);
+      this.year = Integer.valueOf(str[2]);
   }
 
   /**
