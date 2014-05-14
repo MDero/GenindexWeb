@@ -205,7 +205,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                         //find the customer
                                         Orders order = sample.getOrder();
                                         Customers customer = order.getCustomer();
-                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{false,sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
+                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{true,sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
                                         lastEmptyRow++;
                                     }
                                 }
@@ -215,7 +215,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                         Orders order = sample.getOrder();
                                         Customers customer = order.getCustomer();
                                         
-                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),""});
+                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{false,sample.getId(),customer.getFirstName()+" "+customer.getLastName(),""});
                                         lastEmptyRow++;
                                     }
                                 }
