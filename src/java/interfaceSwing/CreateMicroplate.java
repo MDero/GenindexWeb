@@ -51,7 +51,6 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Création de la barre de menu
         menuBar = new JMenuBar();
         
@@ -223,9 +222,6 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                             }
                             
         }
-           public static void main (String [] args){
-CreateMicroplate visuel= new CreateMicroplate();
-           }
 }
            
 
