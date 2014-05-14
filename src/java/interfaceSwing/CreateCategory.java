@@ -81,10 +81,10 @@ public class CreateCategory extends JFrame {
                 String categoryName = CreateCategory.this.Cnom.getText();
                 if (categoryName.length()>0){
                     Category nCategory = new Category(categoryName);
-                    database.insertCategory(nCategory);  
+                    database.insertCategory(nCategory);     
+                }  
                 PopUp popUp = new PopUp();
-                myFrame.dispose();    
-                }              
+                myFrame.dispose(); 
             }
         });
         myFrame.setVisible(true);
