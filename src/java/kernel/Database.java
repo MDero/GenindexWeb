@@ -378,6 +378,22 @@ public class Database {
     public List<Orders> getOrdersForCustomer(int id){
         return (List<Orders>) this.generateListOfAllWhere("ORDERS", "ID_CUSTOMERS",""+id);
     }
+    public List<Species> getSpeciesForCategory(Category category){
+        ArrayList<Species> species = new ArrayList<>();
+        ResultSet results = this.getResultsOfQuery("SELECT * FROM SPECIES natural join CATEANIMALS WHERE ID_CATEANIMALS="+category.getId(), false);
+        try {
+            while(results.next()){
+                species.add(getSpeciesFromCurrentRow(results));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return species;
+    }
+    public List<Species> getSpeciesForCategory(int idCategory){
+        return getSpeciesForCategory(getCategory(idCategory));
+    }
+    
     
     /* INSERTION METHODS */
     private void insertIntoTableAllValues(String table, Object... values){
