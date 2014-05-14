@@ -17,17 +17,21 @@ import java.util.ArrayList;
 import kernel.Database;
 import kernel.*;
 import java.applet.*;
+import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class CreateOrder extends JFrame{
     // instance variables - replace the example below with your own
 
     private JButton buttonValidate, buttonCancel;
     private JPanel panelInfo, panelCSAS, panelValidate;
-    private JLabel category, species, analysis, samples, date1, date2, customer, priority;
-    private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxCustomer, boxPriority;
-    private JTextField dateText, dateDeadline;
+    private JLabel category, species, analysis, samples, date1, date2, customer, priority,tSample,animals;
+    private JComboBox boxCategory, boxSpecies, boxAnalysis, boxSamples, boxCustomer, boxPriority,boxTSample,boxAnimals;
+    private JTextField dateText, dateDeadline, nbSamples;
     private JFrame myFrame;
     private String[] items;
     static Database database = new Database();
@@ -40,13 +44,10 @@ public class CreateOrder extends JFrame{
         // initialise instance variables
         this.myFrame = new JFrame("CREATE AN ORDER");
         //myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+        
         this.panelInfo = new JPanel();
         panelInfo.setLayout(new GridLayout(3, 2));
         
-
- 
         java.util.Date maDate;
         SimpleDateFormat maDateLongue;
         maDate= new java.util.Date();
@@ -64,12 +65,15 @@ public class CreateOrder extends JFrame{
         this.customer = new JLabel("Choose Customer : ");
 
         this.panelCSAS = new JPanel();
-        panelCSAS.setLayout(new GridLayout(5, 2));
+        panelCSAS.setLayout(new GridLayout(7, 2));
         this.category = new JLabel("Category : ");
         this.species = new JLabel("Species : ");
         this.analysis = new JLabel("Analysis : ");
         this.samples = new JLabel("Samples Number : ");
         this.priority = new JLabel("Priority : ");
+        this.animals = new JLabel("Animal : ");
+        this.tSample = new JLabel("Type sample : ");
+        
 
 
         this.panelValidate = new JPanel();
@@ -113,6 +117,28 @@ public class CreateOrder extends JFrame{
         }
         this.boxSpecies = new JComboBox(items);
         
+        // Liste déroulante Type Sample
+        final ArrayList<TypeSample> typeSample = new ArrayList<>();
+        for (TypeSample TSample : database.getTypeSampleList()) {
+             typeSample.add(TSample);
+        }
+        items = new String[typeSample.size()];
+        for (int i = 0; i < items.length; i++) {
+            items[i] = typeSample.get(i).getTypeName();
+        }
+        this.boxTSample = new JComboBox(items);
+        
+        // Liste déroulante Animals
+        final ArrayList<Animals> animals = new ArrayList<>();
+        for (Animals ani: database.getAnimalList()) {
+             animals.add(ani);
+        }
+        items = new String[animals.size()];
+        for (int i = 0; i < items.length; i++) {
+            items[i] = animals.get(i).getName();
+        }
+        this.boxAnimals = new JComboBox(items);
+        
        
         // Liste déroulante Analysis
         ArrayList<String> analyse = new ArrayList<>();
@@ -123,15 +149,8 @@ public class CreateOrder extends JFrame{
         for (int i = 0; i < items.length; i++) {
             items[i] = analyse.get(i);
         }
-        this.boxAnalysis = new JComboBox(items);
-        
-        
-        // Liste déroulante Sample
-     
-       this.boxSamples = new JComboBox();
-       boxSamples.addItem("1");
-       boxSamples.addItem("2");
-       boxSamples.addItem("3");
+        this.boxAnalysis = new JComboBox(items);       
+       
 
        // Liste déroulante Priority
        
@@ -142,6 +161,8 @@ public class CreateOrder extends JFrame{
        boxPriority.addItem("4");
        boxPriority.addItem("5");
 
+       this.nbSamples = new JTextField();
+       this.nbSamples.setText("1");
         
         this.buttonCancel = new JButton("Cancel");
         buttonCancel.addActionListener (new ActionListener () 
@@ -169,20 +190,30 @@ public class CreateOrder extends JFrame{
 //                 System.out.println(names.get(co.boxCustomer.getSelectedIndex()).getFirstName());
  //   public Orders(int num_samples, Date date_order, Date date_deadline, int priority, Customers customer) {
              new_orders = new Orders(    
-                     (int)Integer.valueOf((String)co.boxSamples.getSelectedItem()),
+                      (int)Integer.valueOf(nbSamples.getText()),
                      new kernel.Date (co.dateText.getText()),
                      new kernel.Date (co.dateDeadline.getText()),
                      (int)Integer.valueOf((String)co.boxPriority.getSelectedItem()),
                      names.get(co.boxCustomer.getSelectedIndex())
                      );
              
-//             database.getSpeciesForCategory(null);
              database.insertOrder(new_orders);
              
-                PopUp popUp = new PopUp();
-                myFrame.dispose();
+             //public Samples(TypeSample Type_sample,  Orders order,Date D_sampling, Date D_storage, Animals anim) {
+             for (int i = 0; i < new_orders.getNumberSamples(); i++) {
+                 Samples s = new Samples(typeSample.get(co.boxTSample.getSelectedIndex()), 
+                         new_orders,
+                         new_orders.getDateOrder(),
+                         new_orders.getDateOrder(),
+                         animals.get(co.boxAnimals.getSelectedIndex()));
+                 database.insertSample(s);
+             }
+             
+             
+             
+//             database.getSpeciesForCategory(null);
+             
         }});
-        
         
         
         panelInfo.add(date1);
@@ -196,12 +227,17 @@ public class CreateOrder extends JFrame{
         panelCSAS.add(boxCategory);
         panelCSAS.add(species);
         panelCSAS.add(boxSpecies);
+        panelCSAS.add(this.animals);
+        panelCSAS.add(boxAnimals);
+        panelCSAS.add(this.tSample);
+        panelCSAS.add(this.boxTSample);
         panelCSAS.add(analysis);
         panelCSAS.add(boxAnalysis);
         panelCSAS.add(priority);
         panelCSAS.add(boxPriority);
         panelCSAS.add(samples);
-        panelCSAS.add(boxSamples);
+        panelCSAS.add(nbSamples);
+        
         
         panelValidate.add(buttonCancel);
         panelValidate.add(buttonValidate);
@@ -213,15 +249,18 @@ public class CreateOrder extends JFrame{
         
         myFrame.pack();
         myFrame.setVisible(true);
-    
+//        try {
+//            database.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CreateOrder.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
-    }
+    }}
     /**
      * An example of a method - replace this comment with your own
      *
      * @return the sum of x and y
      */
 
-}
 
 
