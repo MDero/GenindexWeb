@@ -26,7 +26,7 @@ public class GenindexMainInterface extends JFrame {
     titre = new JPanel();    
     titre.setLayout(new GridLayout(2,1)); 
     nomLogi = new JLabel("GENINDEX", JLabel.CENTER);
-    titrePage = new JLabel("Menu principale", JLabel.CENTER);
+    titrePage = new JLabel("Menu principal", JLabel.CENTER);
     titre.add(nomLogi);
     titre.add(titrePage);
     myFrame.add(titre,BorderLayout.NORTH);
