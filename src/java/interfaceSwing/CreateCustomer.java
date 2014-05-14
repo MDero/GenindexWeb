@@ -321,9 +321,6 @@ public class CreateCustomer extends JFrame  {
         
                 }
     
-    public static void main (String [] args){
-CreateCustomer visuel= new CreateCustomer();
-}
 }
 
 
