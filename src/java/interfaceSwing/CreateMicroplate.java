@@ -45,7 +45,8 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         private Vector imageList;
         private JPanel zone1, zone2,zone3;
         private JTable table;
-        private int lastEmptyRow=0;
+        private int lastSelectedIndex, lastEmptyRow=0;
+        
         
         public CreateMicroplate (){
         JFrame myFrame = new JFrame("Create microplate");
@@ -143,15 +144,17 @@ public class CreateMicroplate extends JFrame implements ActionListener {
 
 		// TODO Auto-generated method stub
 
-				JComboBox cb = (JComboBox)e.getSource();
-                                //String[] items;
+                            JComboBox cb = (JComboBox)e.getSource();
                                 
-                                ArrayList<Samples> samples = (ArrayList<Samples>) database.getSampleList();
+                                //check if customer changed
+                            if (cb.getSelectedIndex()!=this.lastSelectedIndex){
+                                 lastSelectedIndex = cb.getSelectedIndex();
+                                
+                                ArrayList<Samples> samples = (ArrayList<Samples>) database.getSamplesToPerformAnalysisOfType(cb.getSelectedIndex());
                                 ArrayList<Samples> samplesToAnalyze = new ArrayList<>();
                                 ArrayList<Samples> samplesPriority = new ArrayList<>();
                                 for (Samples sample : samples){
-                                     System.out.println("samples : ");
-                                        System.out.println(sample.getStatusId());
+
                                     //0 is analysed 1 is to analyse 2 is analysed but need to re analyse 
                                     if(sample.getStatusId()==2){
                                         samplesPriority.add(sample);
@@ -165,9 +168,10 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                 }
                                 
                                 //clear screen
-                                for (int i = 0 ; i<CreateMicroplate.this.lastEmptyRow;i++)
-                                     ((DefaultTableModel)CreateMicroplate.this.table.getModel()).removeRow(0);
-                                CreateMicroplate.this.lastEmptyRow=0;
+                                for (int i = 0 ; i<lastEmptyRow;i++)
+                                     ((DefaultTableModel)table.getModel()).removeRow(0);
+                                lastEmptyRow=0;
+                                
                                 //add new rows
                                 if (samplesPriority.size()>0){
                                     for (Samples sample : samplesPriority){
@@ -175,8 +179,8 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                         Orders order = sample.getOrder();
                                         Customers customer = order.getCustomer();
                                         
-                                        ((DefaultTableModel)CreateMicroplate.this.table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
-                                        CreateMicroplate.this.lastEmptyRow++;
+                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),"PRIORITAIRE"});
+                                        lastEmptyRow++;
                                     }
                                 }
                                 if (samplesToAnalyze.size()>0){
@@ -185,13 +189,14 @@ public class CreateMicroplate extends JFrame implements ActionListener {
                                         Orders order = sample.getOrder();
                                         Customers customer = order.getCustomer();
                                         
-                                        ((DefaultTableModel)CreateMicroplate.this.table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),""});
+                                        ((DefaultTableModel)table.getModel()).addRow(new Object[]{sample.getId(),customer.getFirstName()+" "+customer.getLastName(),""});
                                         lastEmptyRow++;
                                     }
                                 }
                                 
-                                
-	}
+                            }
+                            
+        }
            public static void main (String [] args){
 CreateMicroplate visuel= new CreateMicroplate();
            }
