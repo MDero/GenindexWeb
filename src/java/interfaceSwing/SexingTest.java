@@ -86,11 +86,5 @@ public class SexingTest extends JFrame {
         
         myFrame.pack();
         myFrame.setVisible(true);
-    }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        SexingTest windows = new SexingTest ();
-    }
-}
+    }}
+
