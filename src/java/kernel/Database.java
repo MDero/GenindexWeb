@@ -246,16 +246,17 @@ public class Database {
             return null;
     }
     private Customers getCustomerFromCurrentRow(ResultSet results){
-        Integer idAdress = extractNumber(results,"ID_adress");
-        Adress adress = null;
-        if (idAdress!=null)
-            adress = this.getAdress(idAdress);
+//        Integer idAdress = extractNumber(results,"ID_adress");
+//        Adress adress = null;
+//        if (idAdress!=null)
+//            adress = this.getAdress(idAdress);
         
         return new Customers(
                     extractNumber(results, "ID_CUSTOMERS"),
                     extractString(results, "FirstName_custo"),
                     extractString(results, "LastName_custo"),
-                    adress,
+                    //adress,
+                null,
                     extractString(results, "PhoneNumber_custo"),
                     extractString(results, "MAIL_CUSTO"),
                     extractNumber(results,"ID_TYPECUSTOMER")

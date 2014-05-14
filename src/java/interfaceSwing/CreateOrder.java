@@ -249,11 +249,11 @@ public class CreateOrder extends JFrame{
         
         myFrame.pack();
         myFrame.setVisible(true);
-        try {
-            database.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateOrder.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            database.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CreateOrder.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
     }
     /**
