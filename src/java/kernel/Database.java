@@ -140,6 +140,8 @@ public class Database {
                                  this.getCategoryFromCurrentRow(results):
                          "TYPEANAL".equals(table)?
                                  this.getTypeAnalysisFromCurrentRow(results):
+                         "TYPESAMPLE".equals(table)?
+                                 this.getTypeSampleFromCurrentRow(results):
                          null
                 );
             }
@@ -179,6 +181,8 @@ public class Database {
                                  this.getCategoryFromCurrentRow(results):
                          "TYPEANAL".equals(table)?
                                  this.getTypeAnalysisFromCurrentRow(results):
+                         "TYPESAMPLE".equals(table)?
+                                 this.getTypeSampleFromCurrentRow(results):
                          null
                 );
             }
