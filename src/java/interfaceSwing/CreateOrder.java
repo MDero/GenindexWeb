@@ -178,6 +178,9 @@ public class CreateOrder extends JFrame{
              
 //             database.getSpeciesForCategory(null);
              database.insertOrder(new_orders);
+             
+                PopUp popUp = new PopUp();
+                myFrame.dispose();
         }});
         
         
@@ -218,10 +221,7 @@ public class CreateOrder extends JFrame{
      *
      * @return the sum of x and y
      */
-    public static void main(String[] args) {
-        // put your code here
-        CreateOrder windows = new CreateOrder();
-    }   
+
 }
 
 
