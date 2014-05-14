@@ -46,6 +46,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         private JPanel zone1, zone2,zone3;
         private JTable table;
         private int lastSelectedIndex, lastEmptyRow=0;
+        private JButton valider=new JButton("Valider");
         
         
         public CreateMicroplate (){
@@ -55,7 +56,7 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         menuBar = new JMenuBar();
         
         //Installation dans la fenêtre
-        this.setJMenuBar(menuBar);
+        myFrame.setJMenuBar(menuBar);
         
         //Construction du premier menu
         JMenu menu = new JMenu("Menu");
@@ -139,10 +140,13 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         zone2.setLayout(new BorderLayout());
         zone2.add(table);
         
+
+        
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(800,100));
 	scrollPane.setColumnHeaderView(table.getTableHeader());
 	zone2.add(scrollPane);
+        
 
 
         zone1= new JPanel();
@@ -150,11 +154,12 @@ public class CreateMicroplate extends JFrame implements ActionListener {
         zone1.add(tanal);
         zone1.add(boxAnalyse);
         
+        zone3 = new JPanel();
+        zone3.add(valider);
         
-
-        myFrame.add(menuBar, BorderLayout.NORTH);
-        myFrame.add(zone1, BorderLayout.WEST);
-        myFrame.add(zone2, BorderLayout. SOUTH);
+        myFrame.add(zone1, BorderLayout.NORTH);
+        myFrame.add(zone2, BorderLayout.CENTER);
+        myFrame.add(zone3, BorderLayout. SOUTH);
 
         myFrame.pack();
         myFrame.setVisible(true);
