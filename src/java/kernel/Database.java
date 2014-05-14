@@ -16,7 +16,9 @@ public class Database {
     /* *****************************************************************************************/
 
     //Constructor
-    Connection connexion;
+    private Connection connexion;
+
+
     
     //Default connection MDERO
     public Database() {
@@ -41,6 +43,14 @@ public class Database {
     }
 
     /* *****************************************************************************************/
+    /* JSP GETTERS AND SETTERS */ 
+    public Connection getConnexion() {
+        return connexion;
+    }
+    public void setConnexion(Connection connexion) {
+        this.connexion = connexion;
+    }
+    
     /* CONVERSION METHODS */
     //FORMAT CONVERTER
     private static String extractString(ResultSet results, String fieldName) {
@@ -80,10 +90,21 @@ public class Database {
     }
     
     //GLOBAL CODE 
+    private int getResultsCount(ResultSet results){
+        int rowCount = 0;
+        try {
+            while(results.next())
+                rowCount++;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rowCount;
+    }
     private ResultSet getResultsOfQuery(String query, boolean callNext){
         ResultSet results = null;
         try {
-            Statement request = this.connexion.createStatement();
+            //Statement request = this.connexion.createStatement();
+            Statement request = this.getConnexion().createStatement();
 
             //request all the objects from the database
             results = request.executeQuery(query);
@@ -102,6 +123,8 @@ public class Database {
             }
             else 
                 System.out.println("NO RESULTS FOUND FOR "+query);
+            
+            request.closeOnCompletion();
         }
         catch (SQLException ex){
             ex.printStackTrace();
@@ -145,7 +168,7 @@ public class Database {
                          null
                 );
             }
-
+            request.closeOnCompletion();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -186,7 +209,8 @@ public class Database {
                          null
                 );
             }
-
+            
+            request.closeOnCompletion();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -343,6 +367,24 @@ public class Database {
         return this.getTypeSampleFromCurrentRow(results);
     }
     
+    //Check logins
+    public boolean getCustomerLoginCorrect(String login, String password,Integer idToUpdateIfFound){
+        ResultSet results = this.getResultsOfQuery("SELECT COUNT(*) as loginsNumber FROM IDENTIFIERS "
+                + "inner join CUSTOMERS on IDENTIFIERS.ID_CUSTOMERS = CUSTOMERS.ID_CUSTOMERS "
+                + "WHERE IDENTIFIERS.LOGIN_IDEN='"+login+"' and IDENTIFIERS.PASSWORD_IDEN='"+password+"'",true);
+        boolean containsResults = false;
+        if (results!=null){
+            containsResults = extractNumber(results,"loginsNumber")>0;
+            if (containsResults){
+                results = this.getResultsOfQuery("SELECT * FROM IDENTIFIERS "
+                + "inner join CUSTOMERS on IDENTIFIERS.ID_CUSTOMERS = CUSTOMERS.ID_CUSTOMERS "
+                + "WHERE IDENTIFIERS.LOGIN_IDEN='"+login+"' and IDENTIFIERS.PASSWORD_IDEN='"+password+"'",true);
+                idToUpdateIfFound =  extractNumber(results,"ID_CUSTOMERS");
+            }     
+        }
+        return containsResults;
+    }
+    
     //LISTS ESTABLISHMENT
     public List<Adress> getAdressList(){
         return (List<Adress>) this.generateListOfAll("ADRESS");
@@ -449,6 +491,7 @@ public class Database {
             insert += ");";
             
             s.executeQuery(insert);
+            s.closeOnCompletion();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -493,6 +536,8 @@ public class Database {
             while(generatedID.next()) {
                 idGene = generatedID.getInt(1);
             }
+            
+            statement.closeOnCompletion();
             return idGene;
             
             //TODO: Find a better way to get back the generated ID...
@@ -508,6 +553,7 @@ public class Database {
 ////            else {
 ////                System.out.println("ERROR : NO ID GENERATED");
 ////            }
+            
         } catch (SQLException ex) {
             System.out.println("ERROR ON : " + insert);
             System.out.println(ex);

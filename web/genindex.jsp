@@ -4,7 +4,31 @@
     Author     : Maxime
 --%>
 
+<%@page import="kernel.Customers"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="database" scope="session" class="kernel.Database"></jsp:useBean>
+<% 
+    //define fields
+    String login = request.getParameter("login"),
+           password = request.getParameter("password"),
+            firstName = null ,lastName = null;
+    
+    //boolean that states if login is OK
+    boolean logged = false;
+    Integer id = null ;
+    
+    //check login
+    if (login!=null && login.length()>0 ){
+        logged = database.getCustomerLoginCorrect(login, password, id);
+        if (id!=null){
+            //search for names 
+            Customers customer = database.getCustomer(id);
+            firstName=customer.getFirstName();
+            lastName=customer.getLastName();
+        }
+    }
+    
+%>
 <!DOCTYPE html>
 <html class="no-js" lang="fr">
     <head>
@@ -22,10 +46,14 @@
                 <h1>Genindex</h1>
             </div>
         </div> 
+        
+        <% if (!logged){
+            
+        %>
         <div class="row">
             <div class="large-12 medium-12 columns">   
                 <div class="panel">
-                    <form> 
+                    <form action="genindex.jsp" method="post"> 
                         <table>
                             <tr>
                                 <td>
@@ -45,15 +73,21 @@
                 </div>
             </div>
         </div>
-
+        <% }
+        else {
+        %>
 
 
         <div class="row">
             <div class="large-2 medium-2 columns">
                 <div class="panel">
-                    Bienvenue ! <br>
-                    Nom <br>
-                    Prénom <br>
+                    Bienvenue <br>
+                    <%  
+                        if (logged && firstName!=null && lastName!=null){
+                            out.print(firstName+ " "+lastName);
+                        }
+                    %><br>
+                    
                     <input type="submit" name ="deconnect" value="Se déconnecter" />
                 </div>
             </div>
@@ -80,6 +114,8 @@
             </div>
 
         </div> 
+        
+       
 
         <div class="row">
             <div class="large-2 medium-2 columns">
@@ -89,6 +125,11 @@
                 <div class="panel">
                     <h2>Sample : </h2>
                     <table>
+                        <%
+                        //Create order table
+                        
+                        
+                        %>
                         <tr>
                             <td>Info </td>
                             <td>Info </td>
@@ -107,5 +148,6 @@
             </div>
 
         </div> 
+        <% } %>
     </body>
 </html>
